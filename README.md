@@ -1,1 +1,48 @@
-# SW_S66_BuildGuard_AI_Kalvium-Community
+# BuildGuard AI
+
+AI project setup with [uv](https://docs.astral.sh/uv/) as the Python package manager.
+
+## Workspace layout
+
+| Path        | Purpose                              |
+| ----------- | ------------------------------------ |
+| `data/`     | Input documents (git-ignored)        |
+| `src/`      | Source code                          |
+| `prompts/`  | Prompt templates                     |
+| `outputs/`  | Generated results (git-ignored)      |
+
+## Setup
+
+1. **Create the environment and install dependencies** (uses `pyproject.toml` + `uv.lock`):
+
+   ```bash
+   uv sync
+   ```
+
+2. **Configure your keys** — copy the template and fill in real values (`.env` is git-ignored):
+
+   ```bash
+   copy .env.example .env    # Windows
+   cp .env.example .env      # macOS / Linux
+   ```
+
+3. **Run** (once source code is added under `src/`):
+
+   ```bash
+   uv run python src/<your-entrypoint>.py
+   ```
+
+## Required keys
+
+See `.env.example`:
+
+- `API_BASE_URL` — API base URL
+- `API_KEY` — API key
+- `CHAT_MODEL` — chat model name
+- `EMBEDDING_MODEL` — embedding model name
+
+## Clean-run confirmation
+
+Verified on a fresh setup: `.venv` was deleted and rebuilt from scratch with `uv sync`
+(88 packages resolved from `uv.lock`, installed successfully), and `.env.example` copies
+cleanly to `.env`. Re-run `uv sync` after cloning to reproduce this environment.
