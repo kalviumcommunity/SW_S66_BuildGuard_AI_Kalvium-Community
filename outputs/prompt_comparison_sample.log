@@ -1,0 +1,19 @@
+Prompt comparison sample (illustrative; no live credentials or secrets)
+
+User question:
+What should I do if I cannot find the information I need in the staff handbook?
+
+Variation A: Vague prompt
+System: Answer the staff member's question helpfully.
+Response: You should ask your manager or HR for help finding the information.
+
+Variation B: Constrained prompt
+System: You are a staff-support assistant. Answer questions about workplace procedures using only information provided in the conversation or retrieved context. Do not invent policies, deadlines, contacts, or facts. Respond in a professional, clear tone in no more than three short sentences. If the information is not available, say: "I don't have enough information to answer that reliably."
+Response: I don't have enough information to answer that reliably.
+
+Token usage:
+Variation A: prompt_tokens=24, completion_tokens=12, total_tokens=36
+Variation B: prompt_tokens=77, completion_tokens=12, total_tokens=89
+
+Comparison:
+The vague prompt produces a plausible but unsupported recommendation. The constrained prompt is more explicit about role, scope, tone, length, and evidence, so it safely uses the fallback when no handbook context is available. The constrained prompt was selected for future RAG use because it is more reliable and less likely to invent workplace policies.

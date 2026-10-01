@@ -1,0 +1,36 @@
+Tokenizer: cl100k_base
+Input rate: $0.15 per 1M tokens
+Output rate: $0.60 per 1M tokens
+
+[short question]
+  input characters: 35
+  input words: 6
+  input tokens: 7
+  output tokens: 10
+  tokens per character: 0.2000
+
+[prompt paragraph]
+  input characters: 597
+  input words: 87
+  input tokens: 109
+  output tokens: 11
+  tokens per character: 0.1826
+
+[full project README]
+  input characters: 3020
+  input words: 404
+  input tokens: 672
+  output tokens: 16
+  tokens per character: 0.2225
+
+[total estimate]
+  input tokens: 788
+  output tokens: 37
+  estimated input cost: $0.00011820
+  estimated output cost: $0.00002220
+  estimated total cost: $0.00014040
+
+[length-token relationship]
+Character and token counts generally increase together, but they are not
+proportional: whitespace, punctuation, long words, and code can tokenize
+differently even when strings have similar character lengths.

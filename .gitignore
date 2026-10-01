@@ -16,6 +16,8 @@ data/*
 # Generated outputs (keep the committed example)
 outputs/*
 !outputs/chat_completion_sample.log
+!outputs/prompt_comparison_sample.log
+!outputs/token_cost_estimate_sample.log
 
 # Python
 __pycache__/

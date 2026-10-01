@@ -38,6 +38,12 @@ AI project setup with [uv](https://docs.astral.sh/uv/) as the Python package man
    uv run python src/prompt_comparison.py
    ```
 
+5. **Measure tokens and estimate cost**:
+
+   ```bash
+   uv run python src/token_cost_estimate.py
+   ```
+
 The prompt comparison sends the same staff question with a vague system prompt
 and a clearer, constrained system prompt. It prints both responses and logs the
 request messages, response payloads, and token usage without logging the API key.
@@ -64,6 +70,16 @@ A representative comparison is committed at
 `outputs/prompt_comparison_sample.log`. It includes the shared input, both
 system prompts, illustrative outputs, token usage, and the selection rationale.
 The original chat client sample remains at `outputs/chat_completion_sample.log`.
+
+## Token and cost analysis
+
+`src/token_cost_estimate.py` counts local project text with the `cl100k_base`
+tokenizer and reports character, word, and token counts for a short question, the
+staff prompt, and the full README. It estimates input and output cost separately
+using the rates defined at the top of the script. These are configurable example
+rates, not a billing statement; use rates appropriate for the target model.
+
+The committed sample is at `outputs/token_cost_estimate_sample.log`.
 
 ## Clean-run confirmation
 
