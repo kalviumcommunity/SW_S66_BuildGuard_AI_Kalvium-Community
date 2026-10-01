@@ -9,7 +9,7 @@ AI project setup with [uv](https://docs.astral.sh/uv/) as the Python package man
 | `data/`     | Input documents (git-ignored)        |
 | `src/`      | Source code                          |
 | `prompts/`  | Prompt templates                     |
-| `outputs/`  | Generated results (git-ignored)      |
+| `outputs/`  | Generated results; sample log is tracked |
 
 ## Setup
 
@@ -26,11 +26,16 @@ AI project setup with [uv](https://docs.astral.sh/uv/) as the Python package man
    cp .env.example .env      # macOS / Linux
    ```
 
-3. **Run** (once source code is added under `src/`):
+3. **Run the chat completion client**:
 
    ```bash
-   uv run python src/<your-entrypoint>.py
+   uv run python src/chat_completion.py
    ```
+
+The client logs the request messages, response payload, and token usage without
+logging the API key. Its assistant response is printed to standard output.
+Configuration and API failures are reported without a raw traceback, and failed
+requests return a nonzero exit code.
 
 ## Required keys
 
@@ -39,7 +44,12 @@ See `.env.example`:
 - `API_BASE_URL` — API base URL
 - `API_KEY` — API key
 - `CHAT_MODEL` — chat model name
-- `EMBEDDING_MODEL` — embedding model name
+- `EMBEDDING_MODEL` — embedding model name (used by other project components, if configured)
+
+## Sample output
+
+A representative response is committed at `outputs/chat_completion_sample.log`.
+It contains placeholder response metadata and no real credentials.
 
 ## Clean-run confirmation
 
