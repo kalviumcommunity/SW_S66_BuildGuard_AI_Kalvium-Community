@@ -4,20 +4,19 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 import sys
 from typing import Any
 
-from dotenv import load_dotenv
 from openai import (
     APIConnectionError,
     APIError,
     APIStatusError,
     AuthenticationError,
-    OpenAI,
     RateLimitError,
 )
 from openai.types.chat import ChatCompletionMessageParam
+
+from api_client import get_chat_client, get_chat_model
 
 
 logger = logging.getLogger("chat_completion")
@@ -29,20 +28,6 @@ USER_MESSAGE = "Explain in one sentence why software tests are valuable."
 def configure_logging() -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-
-def required_settings() -> tuple[str, str, str]:
-    load_dotenv()
-    values = {
-        "API_BASE_URL": os.getenv("API_BASE_URL", "").strip(),
-        "API_KEY": os.getenv("API_KEY", "").strip(),
-        "CHAT_MODEL": os.getenv("CHAT_MODEL", "").strip(),
-    }
-    missing = [name for name, value in values.items() if not value]
-    if missing:
-        raise ValueError(
-            "Missing required environment variable(s): " + ", ".join(missing)
-        )
-    return values["API_BASE_URL"], values["API_KEY"], values["CHAT_MODEL"]
 
 
 def response_payload(response: Any) -> str:
@@ -59,14 +44,14 @@ def response_payload(response: Any) -> str:
 def main() -> int:
     configure_logging()
     try:
-        base_url, api_key, model = required_settings()
+        model = get_chat_model()
         messages: list[ChatCompletionMessageParam] = [
             {"role": "system", "content": SYSTEM_MESSAGE},
             {"role": "user", "content": USER_MESSAGE},
         ]
         logger.info("Outgoing messages: %s", json.dumps(messages, ensure_ascii=False))
 
-        client = OpenAI(base_url=base_url, api_key=api_key)
+        client = get_chat_client()
         response = client.chat.completions.create(model=model, messages=messages)
 
         logger.info("Incoming response payload: %s", response_payload(response))

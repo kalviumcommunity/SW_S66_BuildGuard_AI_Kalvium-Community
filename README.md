@@ -32,8 +32,15 @@ AI project setup with [uv](https://docs.astral.sh/uv/) as the Python package man
    uv run python src/chat_completion.py
    ```
 
-The client logs the request messages, response payload, and token usage without
-logging the API key. Its assistant response is printed to standard output.
+4. **Compare prompt variations**:
+
+   ```bash
+   uv run python src/prompt_comparison.py
+   ```
+
+The prompt comparison sends the same staff question with a vague system prompt
+and a clearer, constrained system prompt. It prints both responses and logs the
+request messages, response payloads, and token usage without logging the API key.
 Configuration and API failures are reported without a raw traceback, and failed
 requests return a nonzero exit code.
 
@@ -46,10 +53,17 @@ See `.env.example`:
 - `CHAT_MODEL` — chat model name
 - `EMBEDDING_MODEL` — embedding model name (used by other project components, if configured)
 
-## Sample output
+## Prompt comparison
 
-A representative response is committed at `outputs/chat_completion_sample.log`.
-It contains placeholder response metadata and no real credentials.
+The selected staff-support system prompt is stored in
+`prompts/staff_assistant_system.txt`. It defines the assistant's role, limits
+answers to available evidence, prevents invented policies, and specifies a
+professional three-sentence limit with a safe fallback.
+
+A representative comparison is committed at
+`outputs/prompt_comparison_sample.log`. It includes the shared input, both
+system prompts, illustrative outputs, token usage, and the selection rationale.
+The original chat client sample remains at `outputs/chat_completion_sample.log`.
 
 ## Clean-run confirmation
 
