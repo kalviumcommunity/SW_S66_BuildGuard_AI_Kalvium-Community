@@ -1,0 +1,4 @@
+INFO: Outgoing messages: [{"role": "system", "content": "You are a helpful assistant. Answer clearly and concisely."}, {"role": "user", "content": "Explain in one sentence why software tests are valuable."}]
+INFO: Incoming response payload: {"id": "chatcmpl-example", "object": "chat.completion", "choices": [{"index": 0, "message": {"role": "assistant", "content": "Software tests catch regressions early, making changes safer and more reliable."}, "finish_reason": "stop"}], "usage": {"prompt_tokens": 26, "completion_tokens": 13, "total_tokens": 39}}
+INFO: Token usage: CompletionUsage(completion_tokens=13, prompt_tokens=26, total_tokens=39)
+Software tests catch regressions early, making changes safer and more reliable.
