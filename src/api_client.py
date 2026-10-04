@@ -7,7 +7,6 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-
 _REQUIRED_SETTINGS = ("API_BASE_URL", "API_KEY", "CHAT_MODEL")
 
 
