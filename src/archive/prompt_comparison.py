@@ -17,11 +17,13 @@ from openai import (
 from openai.types.chat import ChatCompletionMessageParam
 
 from api_client import get_chat_client, get_chat_model
-
+from prompt_templates import render_staff_question
 
 logger = logging.getLogger("prompt_comparison")
 
-USER_QUESTION = "What should I do if I cannot find the information I need in the staff handbook?"
+USER_QUESTION = (
+    "What should I do if I cannot find the information I need in the staff handbook?"
+)
 VAGUE_SYSTEM_PROMPT = "Answer the staff member's question helpfully."
 CONSTRAINED_SYSTEM_PROMPT = (
     "You are a staff-support assistant. Answer questions about workplace procedures "
@@ -49,7 +51,13 @@ def response_payload(response: Any) -> str:
 def request_completion(client: Any, model: str, system_prompt: str) -> Any:
     messages: list[ChatCompletionMessageParam] = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": USER_QUESTION},
+        {
+            "role": "user",
+            "content": render_staff_question(
+                context=system_prompt,
+                question=USER_QUESTION,
+            ),
+        },
     ]
     logger.info("Outgoing messages: %s", json.dumps(messages, ensure_ascii=False))
     response = client.chat.completions.create(model=model, messages=messages)
@@ -79,13 +87,19 @@ def main() -> int:
     except ValueError as error:
         logger.error("Configuration error: %s", error)
     except AuthenticationError:
-        logger.error("Authentication failed (HTTP 401). Check API_KEY and its permissions.")
+        logger.error(
+            "Authentication failed (HTTP 401). Check API_KEY and its permissions."
+        )
     except RateLimitError:
         logger.error("Rate limit exceeded (HTTP 429). Please wait and try again.")
     except APIConnectionError:
-        logger.error("Could not connect to the API. Check API_BASE_URL and network access.")
+        logger.error(
+            "Could not connect to the API. Check API_BASE_URL and network access."
+        )
     except APIStatusError as error:
-        logger.error("API request failed (HTTP %s): %s", error.status_code, error.message)
+        logger.error(
+            "API request failed (HTTP %s): %s", error.status_code, error.message
+        )
     except APIError as error:
         logger.error("API error: %s", error)
     except (IndexError, KeyError, TypeError) as error:
