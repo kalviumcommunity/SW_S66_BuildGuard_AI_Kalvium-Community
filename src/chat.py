@@ -6,7 +6,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 from openai import (
     APIConnectionError,
@@ -15,10 +15,13 @@ from openai import (
     AuthenticationError,
     RateLimitError,
 )
-from openai.types.chat import ChatCompletionMessageParam
 
 from api_client import get_chat_client, get_chat_model
 from conversation import ConversationHistory
+from structured_output import (
+    StructuredOutputError,
+    request_assistant_response,
+)
 
 logger = logging.getLogger("conversation_chat")
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -84,7 +87,8 @@ def main() -> int:
     configure_logging()
     logger.info("Starting conversation history demo")
     try:
-        history = ConversationHistory(load_system_prompt())
+        system_prompt = load_system_prompt()
+        history = ConversationHistory(system_prompt)
         client = get_chat_client()
         model = get_chat_model()
 
@@ -123,16 +127,19 @@ def main() -> int:
                 "Outgoing messages: %s",
                 json.dumps(history.messages, ensure_ascii=False),
             )
-            response = client.chat.completions.create(
+            result = request_assistant_response(
+                question,
+                system_prompt=system_prompt,
+                history=history.messages,
+                client=client,
                 model=model,
-                messages=cast(list[ChatCompletionMessageParam], history.messages),
             )
-            logger.info("Incoming response payload: %s", response_payload(response))
+            logger.info("Validated response payload: %s", result.model_dump_json())
 
-            content = response.choices[0].message.content or ""
-            history.add_message("assistant", content)
+            assistant_content = result.model_dump_json()
+            history.add_message("assistant", assistant_content)
             print("LLM request: SUCCESS")
-            print(f"Assistant: {content}")
+            print(f"Assistant: {assistant_content}")
             logger.info("Turn %s LLM request succeeded", turn)
 
     except ValueError as error:
@@ -152,6 +159,9 @@ def main() -> int:
         return 1
     except APIError as error:
         logger.error("API error: %s", error)
+        return 1
+    except StructuredOutputError as error:
+        logger.error("Structured response validation failed: %s", error)
         return 1
     except (IndexError, KeyError, TypeError) as error:
         logger.error("Unexpected response format: %s", error)

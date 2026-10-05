@@ -18,7 +18,6 @@ from openai.types.chat import ChatCompletionMessageParam
 
 from api_client import get_chat_client, get_chat_model
 
-
 logger = logging.getLogger("chat_completion")
 
 SYSTEM_MESSAGE = "You are a helpful assistant. Answer clearly and concisely."
