@@ -1,0 +1,17 @@
+[
+  {
+    "source": "contact_process.html",
+    "text_length": 126,
+    "sample": "Contact process For procedural questions, use the documented staff support contact and include the relevant dates and records."
+  },
+  {
+    "source": "leave_procedure.txt",
+    "text_length": 138,
+    "sample": "Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process."
+  },
+  {
+    "source": "safety_guidance.md",
+    "text_length": 150,
+    "sample": "# Safety guidance Report observable hazards promptly and include the location, time, and factual details that can help the organization investigate."
+  }
+]
