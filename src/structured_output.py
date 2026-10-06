@@ -10,9 +10,9 @@ from typing import Any, cast
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from api_client import get_chat_client, get_chat_model
+from prompt_templates import render_staff_question
 
 SYSTEM_PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "staff_assistant_system.txt"
-JSON_INSTRUCTION = 'Return exactly {"answer":"...","source":"..."} as valid JSON and no other text.'
 
 
 class AssistantResponse(BaseModel):
@@ -83,19 +83,24 @@ def request_assistant_response(
     model: str | None = None,
 ) -> AssistantResponse:
     """Request and validate one structured assistant response."""
+    effective_system_prompt = system_prompt or load_system_prompt()
+    rendered_prompt = render_staff_question(
+        context=effective_system_prompt,
+        question=question,
+    )
     messages = [
         dict(message)
         for message in (history or [])
         if message.get("role") != "system"
     ]
     if messages:
-        messages[-1]["content"] = f"{messages[-1]['content']}\n\n{JSON_INSTRUCTION}"
+        messages[-1]["content"] = rendered_prompt
     else:
-        messages = [{"role": "user", "content": f"{question}\n\n{JSON_INSTRUCTION}"}]
+        messages = [{"role": "user", "content": rendered_prompt}]
 
     response = (client or get_chat_client()).responses.create(
         model=model or get_chat_model(),
-        instructions=system_prompt or load_system_prompt(),
+        instructions=effective_system_prompt,
         input=cast(Any, messages),
         text={"format": {"type": "json_object"}},
     )

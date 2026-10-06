@@ -32,6 +32,7 @@ MAX_TOKENS = 1000
 SAFETY_MARGIN = 100
 TARGET_TOKENS = MAX_TOKENS - SAFETY_MARGIN
 
+
 QUESTIONS = [
     "How do I request leave when I need several consecutive working days away from the office, what information should I include in the request, who should review it, and what should I do if the planned dates are urgent or overlap with an important team responsibility?",
     "Where should I submit a leave request for manager review, how can I confirm that it was received, what details should I retain for my records, and how should I follow up if the responsible person is unavailable or does not respond?",
@@ -42,17 +43,7 @@ QUESTIONS = [
     "How can I report a workplace concern while keeping the report factual, separating observations from assumptions, protecting unnecessary personal information, recording the relevant time and location, and identifying the safest next step when the urgency is uncertain?",
     "What information should I provide when asking for clarification about a procedure, including the current situation, relevant dates, people or teams involved, supporting records, decisions already made, and the specific outcome I am requesting?",
     "How should I handle a workplace question involving an unconfirmed deadline, contact person, approval requirement, exception, or consequence when the available conversation does not provide enough evidence to verify the policy?",
-    "What is the safest response when the available guidance does not answer my question, and how can I explain the evidence limitation, suggest a useful next step, avoid inventing a policy, and remain professional and concise?",
-    "How should an employee prepare before contacting a manager about a workplace process, including the relevant dates, previous messages, current status, specific question, desired outcome, and any supporting records that can be shared appropriately?",
-    "What should a staff member do after noticing that a workplace form is missing a required field, contains unclear instructions, or appears to use an older process, and how can they request correction without guessing what belongs in the field?",
-    "How can someone distinguish between a routine workplace question and an urgent safety concern, what observable facts should they record, and how should they seek immediate help when the available procedure does not state an escalation route?",
-    "If a request involves another team, how should the employee identify the handoff, summarize what has already happened, provide the relevant reference details, and avoid promising a response time that is not documented?",
-    "What is a professional way to ask whether a workplace procedure has changed, including how to refer to the version being used, identify the uncertain section, request the current source, and communicate the impact of the uncertainty?",
-    "How should an employee respond when a colleague offers informal advice that differs from the available official guidance, and what should be checked before treating either explanation as an authoritative instruction?",
-    "What details are useful in a concise workplace follow-up message when a request has been submitted, the expected next step is unclear, and the employee needs help without implying that silence proves approval or rejection?",
-    "How should sensitive workplace information be handled in a request for procedural clarification, including what is necessary to share, what should be omitted, and how to ask for an appropriate confidential channel when one is not specified?",
-    "What should a staff-support assistant say when asked to name a contact, deadline, approval authority, or exception that is not present in the system prompt or earlier conversation, and why is a confident guess unsafe?",
-    "H  ow can a workplace response remain useful and concise when the available evidence is incomplete, by summarizing what is known, stating what cannot be verified, suggesting a safe verification step, and avoiding invented procedural details?",
+
 ]
 
 
@@ -81,6 +72,7 @@ def response_payload(response: Any) -> str:
     else:
         payload = response
     return json.dumps(payload, ensure_ascii=False, default=str)
+
 
 
 def main() -> int:
@@ -139,7 +131,7 @@ def main() -> int:
             assistant_content = result.model_dump_json()
             history.add_message("assistant", assistant_content)
             print("LLM request: SUCCESS")
-            print(f"Assistant: {assistant_content}")
+            print(assistant_content)
             logger.info("Turn %s LLM request succeeded", turn)
 
     except ValueError as error:

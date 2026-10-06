@@ -1,0 +1,10 @@
+Use the following workplace context to answer the question.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Return only valid JSON with exactly this structure:
+{{"answer": "...", "source": "..."}}
