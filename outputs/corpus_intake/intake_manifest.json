@@ -6,12 +6,17 @@
   },
   {
     "source": "leave_procedure.txt",
-    "text_length": 138,
+    "text_length": 137,
     "sample": "Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process."
   },
   {
+    "source": "noisy_handbook.txt",
+    "text_length": 237,
+    "sample": "café service requests should include the requested dates and manager details. Please submit the form through the documented review process before the planned le"
+  },
+  {
     "source": "safety_guidance.md",
-    "text_length": 150,
+    "text_length": 149,
     "sample": "# Safety guidance Report observable hazards promptly and include the location, time, and factual details that can help the organization investigate."
   }
 ]

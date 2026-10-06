@@ -22,7 +22,7 @@ def test_html_becomes_plain_text(tmp_path: Path) -> None:
 
     assert document is not None
     assert document.source == "nested/page.html"
-    assert document.text == "Title Hello staff ."
+    assert document.text == "Title Hello staff."
 
 
 def test_source_identity_includes_nested_relative_path(tmp_path: Path) -> None:
