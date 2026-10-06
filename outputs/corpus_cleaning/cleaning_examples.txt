@@ -1,0 +1,15 @@
+Source: contact_process.html
+Before (126 characters): Contact process For procedural questions, use the documented staff support contact and include the relevant dates and records.
+After (126 characters): Contact process For procedural questions, use the documented staff support contact and include the relevant dates and records.
+
+Source: leave_procedure.txt
+Before (138 characters): Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process.
+After (137 characters): Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process.
+
+Source: noisy_handbook.txt
+Before (316 characters): STAFF HANDBOOK cafÃ© service requests should include the requested dates and manager details. Please submit the form through the documented review process befor
+After (237 characters): café service requests should include the requested dates and manager details. Please submit the form through the documented review process before the planned le
+
+Source: safety_guidance.md
+Before (150 characters): # Safety guidance Report observable hazards promptly and include the location, time, and factual details that can help the organization investigate.
+After (149 characters): # Safety guidance Report observable hazards promptly and include the location, time, and factual details that can help the organization investigate.

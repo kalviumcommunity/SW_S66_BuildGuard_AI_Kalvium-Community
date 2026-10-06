@@ -5,6 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "openai>=1.0.0",
     "pypdf>=5.0.0",
+    "ftfy>=6.0.0",
     "pydantic>=2.0.0",
     "chromadb>=1.0.0",
     "python-dotenv>=1.0.0",
