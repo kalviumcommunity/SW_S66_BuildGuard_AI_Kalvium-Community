@@ -1,0 +1,9 @@
+Recursive strategy
+Configuration: chunk_size=500, chunk_overlap=75
+Stats: {'count': 9, 'average_length': 286.8888888888889, 'min_length': 126, 'max_length': 405}
+
+Fixed strategy
+Configuration: separator=' ', chunk_size=500, chunk_overlap=0
+Stats: {'count': 8, 'average_length': 315.125, 'min_length': 125, 'max_length': 498}
+
+Chosen strategy: recursive for better boundary preservation and controlled overlap.

@@ -1,0 +1,38 @@
+[
+  {
+    "strategy": "recursive",
+    "source": "contact_process.html",
+    "chunk_id": 0,
+    "text": "Contact process For procedural questions, use the documented staff support contact and include the relevant dates and records."
+  },
+  {
+    "strategy": "recursive",
+    "source": "leave_procedure.txt",
+    "chunk_id": 0,
+    "text": "Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process."
+  },
+  {
+    "strategy": "recursive",
+    "source": "noisy_handbook.txt",
+    "chunk_id": 0,
+    "text": "café service requests should include the requested dates and manager details.\nPlease submit the form through the documented review process before the planned leave dates.\n\nSafety concerns should include the location and observable facts."
+  },
+  {
+    "strategy": "fixed",
+    "source": "contact_process.html",
+    "chunk_id": 0,
+    "text": "Contact process For procedural questions, use the documented staff support contact and include the relevant dates and records."
+  },
+  {
+    "strategy": "fixed",
+    "source": "leave_procedure.txt",
+    "chunk_id": 0,
+    "text": "Leave requests should include the requested dates and relevant details. Submit the request through the documented manager review process."
+  },
+  {
+    "strategy": "fixed",
+    "source": "noisy_handbook.txt",
+    "chunk_id": 0,
+    "text": "café service requests should include the requested dates and manager details.\nPlease submit the form through the documented review process before the planned leave dates.\n\nSafety concerns should include the location and observable facts.\n\nLeave requests should identify the first and last working day away, explain any urgent timing, and include a reliable way for the reviewing manager to follow up. Staff should keep a copy of the submitted request and any later clarification so that the current"
+  }
+]
