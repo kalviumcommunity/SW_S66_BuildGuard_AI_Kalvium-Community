@@ -1,0 +1,12 @@
+Corpus: examples\sample_corpus
+Total sources: 4
+Ingested: 4
+Skipped/failed: 0
+Total chunks: 5
+Completeness check: PASS
+
+Source statuses:
+- contact_process.html: ingested (1 chunks)
+- leave_procedure.txt: ingested (1 chunks)
+- noisy_handbook.txt: ingested (2 chunks)
+- safety_guidance.md: ingested (1 chunks)
