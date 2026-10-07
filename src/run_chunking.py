@@ -1,5 +1,4 @@
-"""Clean the sample corpus and compare two chunking strategies."""
-
+"""Clean the sample corpus and compare two metadata-aware chunking strategies."""
 
 import json
 from pathlib import Path
@@ -11,6 +10,7 @@ from chunk_documents import (
     RECURSIVE_CHUNK_SIZE,
     chunk_documents,
     chunk_stats,
+    to_langchain_documents,
 )
 from document_loader import load_corpus
 from text_cleaner import clean_document
@@ -20,6 +20,19 @@ CORPUS_PATH = PROJECT_ROOT / "examples" / "sample_corpus"
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "chunking"
 STATS_PATH = OUTPUT_DIR / "chunk_stats.txt"
 SAMPLES_PATH = OUTPUT_DIR / "sample_chunks.json"
+
+
+def _sample_entries(strategy: str, chunks) -> list[dict[str, object]]:
+    langchain_documents = to_langchain_documents(chunks)
+    return [
+        {
+            "strategy": strategy,
+            "text": chunk.text,
+            "page_content": document.page_content,
+            "metadata": document.metadata,
+        }
+        for chunk, document in zip(chunks[:3], langchain_documents[:3])
+    ]
 
 
 def main() -> int:
@@ -42,6 +55,17 @@ def main() -> int:
         f"fixed uses {FIXED_CHUNK_SIZE}-character chunks with {FIXED_CHUNK_OVERLAP} overlap."
     )
 
+    trace_documents = to_langchain_documents(recursive)
+    if trace_documents:
+        trace = trace_documents[0]
+        metadata = trace.metadata
+        print(
+            "Trace sample: "
+            f"source={metadata['source']}, section={metadata['section']}, "
+            f"page={metadata['page']}, chunk_index={metadata['chunk_index']}, "
+            f"range={metadata['start_char']}:{metadata['end_char']}"
+        )
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     stats_text = (
         "Recursive strategy\n"
@@ -56,11 +80,7 @@ def main() -> int:
     )
     STATS_PATH.write_text(stats_text, encoding="utf-8")
 
-    samples = [
-        {"strategy": "recursive", **chunk.__dict__} for chunk in recursive[:3]
-    ] + [
-        {"strategy": "fixed", **chunk.__dict__} for chunk in fixed[:3]
-    ]
+    samples = _sample_entries("recursive", recursive) + _sample_entries("fixed", fixed)
     SAMPLES_PATH.write_text(json.dumps(samples, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Stats: {STATS_PATH}")
     print(f"Samples: {SAMPLES_PATH}")
