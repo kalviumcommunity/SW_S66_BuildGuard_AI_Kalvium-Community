@@ -1,0 +1,14 @@
+Deterministic boundary demonstration
+Boundary phrase: urgent leave approval
+Candidate text: context context context context context context context context context context urgent leave approval followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup followup
+
+No-overlap full phrase in one chunk: False
+No-overlap chunks: ['context context context context context context context context context context urgent leave', ' approval followup followup followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup']
+
+Overlap full phrase in one chunk: True
+Overlap chunks: ['context context context context context context context context context context urgent leave', ' context context urgent leave approval followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup followup followup followup follow', 'up followup followup']
+
+Exact repeated token overlap (4 IDs): True
+Previous chunk final IDs: [2317, 2317, 34771, 5387]
+Next chunk initial IDs: [2317, 2317, 34771, 5387]
+Tokenizer encoding: cl100k_base
