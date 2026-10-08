@@ -1,0 +1,6 @@
+Local chunk embedding verification
+Model: sentence-transformers/multi-qa-MiniLM-L6-dot-v1
+Chunks embedded: 5
+Vector dimension: 384
+Sample vector values: [-0.30021578073501587, 0.18176192045211792, -0.12401996552944183, 0.16886669397354126, -0.05429184064269066]
+Provider: LangChain HuggingFaceEmbeddings (local; no API call)
