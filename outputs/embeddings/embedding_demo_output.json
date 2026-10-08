@@ -1,0 +1,50 @@
+{
+  "status": "success",
+  "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+  "expected_vector_dimension": 384,
+  "vector_dimension": 384,
+  "same_length": true,
+  "texts": [
+    {
+      "id": 0,
+      "text": "How do I request leave for several consecutive working days?",
+      "vector_length": 384,
+      "vector_preview": [
+        -0.1802707016468048,
+        0.1579415649175644,
+        0.03438472002744675,
+        0.01711539924144745,
+        0.02388022653758526
+      ]
+    },
+    {
+      "id": 1,
+      "text": "What is the process for submitting a multi-day leave request?",
+      "vector_length": 384,
+      "vector_preview": [
+        -0.24964651465415955,
+        0.2957780957221985,
+        -0.16219550371170044,
+        0.037568241357803345,
+        -0.015384461730718613
+      ]
+    },
+    {
+      "id": 2,
+      "text": "The cafeteria menu is updated every Thursday afternoon.",
+      "vector_length": 384,
+      "vector_preview": [
+        -0.04548560082912445,
+        0.1654599905014038,
+        -0.14533165097236633,
+        -0.24508264660835266,
+        0.42619597911834717
+      ]
+    }
+  ],
+  "similarity_similar_leave_pair": 45.82563823971805,
+  "similarity_unrelated_pair": 30.337550452976245,
+  "similarity_metric": "dot_product",
+  "similar_score_higher": true,
+  "comparison_result": "PASS"
+}
