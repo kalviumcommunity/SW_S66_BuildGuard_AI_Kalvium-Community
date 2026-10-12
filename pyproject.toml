@@ -13,4 +13,5 @@ dependencies = [
     "chromadb>=1.0.0",
     "python-dotenv>=1.0.0",
     "tiktoken>=0.8.0",
+    "pymupdf>=1.28.2",
 ]
