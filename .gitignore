@@ -12,6 +12,12 @@ node_modules/
 # Local data (keep directory placeholder tracked)
 data/*
 !data/.gitkeep
+outputs/chunks/
+outputs/cleaned_chunks/
+outputs/chunk_review/
+outputs/embeddings/
+outputs/images/
+outputs/vector_db/
 
 
 # Python

@@ -1,4 +1,4 @@
-Use the following workplace context to answer the question.
+Answer the question using the retrieved National Building Code of India (NBC) chunks below. Cite each factual NBC claim in the answer with its volume and PDF page number as provided in the chunk metadata. Do not infer missing page numbers or use uncited outside knowledge. If the context does not answer the question, use the fallback specified in the system instructions.
 
 Context:
 {context}
@@ -8,3 +8,5 @@ Question:
 
 Return only valid JSON with exactly this structure:
 {{"answer": "...", "source": "..."}}
+
+In "source", list the cited volume and PDF page number(s), for example: "Volume 1, PDF p. 42". If the context does not support an answer, set "source" to an empty string.
