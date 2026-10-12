@@ -1,7 +1,8 @@
 """Embed reviewed text chunks and store them in a persistent Chroma collection.
 
-The source JSONL is never modified. Re-running the command upserts the same
-chunk IDs, so an unchanged input can be indexed again without duplicates.
+The source JSONL is never modified. Re-runs skip chunks whose ID, text, and
+stored vector are already present. Changed text is embedded and replaces the
+old record under the same ID.
 """
 
 from __future__ import annotations
@@ -12,9 +13,10 @@ import logging
 import math
 import re
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, TypeVar
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = ROOT / "outputs" / "chunk_review" / "text_chunks.headings_rebuilt.jsonl"
@@ -23,6 +25,10 @@ RUN_DIR = ROOT / "outputs" / "embeddings"
 DEFAULT_MODEL = "sentence-transformers/multi-qa-MiniLM-L6-dot-v1"
 DEFAULT_COLLECTION = "nbc_v1_multi_qa_minilm_l6_dot_v1"
 DEFAULT_BATCH_SIZE = 64
+DEFAULT_MAX_RETRIES = 3
+DEFAULT_RETRY_BASE_SECONDS = 1.0
+DEFAULT_COST_PER_MILLION_TOKENS_USD = 0.0
+T = TypeVar("T")
 
 
 def _safe_collection_name(value: str) -> str:
@@ -103,6 +109,71 @@ def _configure_logging() -> Path:
     return log_path
 
 
+def _is_transient_error(exc: Exception) -> bool:
+    """Identify common rate-limit and temporary service/storage failures."""
+    if isinstance(exc, (TimeoutError, ConnectionError)):
+        return True
+    status = getattr(exc, "status_code", getattr(exc, "status", None))
+    try:
+        if int(status) in {408, 425, 429} or int(status) >= 500:
+            return True
+    except (TypeError, ValueError):
+        pass
+    name = type(exc).__name__.lower()
+    message = str(exc).lower()
+    transient_markers = (
+        "rate limit",
+        "ratelimit",
+        "temporarily unavailable",
+        "temporary failure",
+        "connection reset",
+        "connection aborted",
+        "timed out",
+        "timeout",
+        "database is locked",
+        "service unavailable",
+    )
+    return any(marker in name or marker in message for marker in transient_markers)
+
+
+def _retry_call(
+    action: Callable[[], T],
+    *,
+    label: str,
+    max_retries: int,
+    base_delay_seconds: float,
+    counters: dict[str, int],
+) -> T:
+    """Retry transient failures with capped exponential backoff."""
+    for attempt in range(max_retries + 1):
+        try:
+            return action()
+        except Exception as exc:
+            if attempt >= max_retries or not _is_transient_error(exc):
+                raise
+            delay = min(base_delay_seconds * (2**attempt), 30.0)
+            counters["retry_attempts"] += 1
+            logging.warning(
+                "%s failed transiently (%s). Retry %d/%d in %.1f seconds",
+                label,
+                exc,
+                attempt + 1,
+                max_retries,
+                delay,
+            )
+            time.sleep(delay)
+
+    raise RuntimeError(f"Retry loop ended unexpectedly for {label}")
+
+
+def _estimated_tokens(record: dict[str, Any]) -> int:
+    """Use chunk token metadata, with a whitespace estimate as fallback."""
+    token_count = (record.get("metadata") or {}).get("token_count")
+    if isinstance(token_count, int) and token_count >= 0:
+        return token_count
+    return len(record["text"].split())
+
+
 def run(
     *,
     input_path: Path,
@@ -112,6 +183,9 @@ def run(
     batch_size: int,
     device: str | None,
     limit: int | None = None,
+    max_retries: int = DEFAULT_MAX_RETRIES,
+    retry_base_seconds: float = DEFAULT_RETRY_BASE_SECONDS,
+    cost_per_million_tokens_usd: float = DEFAULT_COST_PER_MILLION_TOKENS_USD,
 ) -> dict[str, Any]:
     started_at = datetime.now().astimezone().isoformat(timespec="seconds")
     log_path = _configure_logging()
@@ -121,8 +195,16 @@ def run(
         raise ValueError("Batch size must be at least 1")
     if limit is not None and limit < 1:
         raise ValueError("Limit must be at least 1")
+    if max_retries < 0:
+        raise ValueError("Maximum retries cannot be negative")
+    if retry_base_seconds < 0 or not math.isfinite(retry_base_seconds):
+        raise ValueError("Retry base delay must be a finite nonnegative number")
+    if cost_per_million_tokens_usd < 0 or not math.isfinite(cost_per_million_tokens_usd):
+        raise ValueError("Cost rate must be a finite nonnegative number")
 
-    records = _read_records(input_path)
+    source_records = _read_records(input_path)
+    source_total = len(source_records)
+    records = source_records
     if limit is not None:
         records = records[:limit]
     collection_name = _safe_collection_name(collection_name)
@@ -149,28 +231,88 @@ def run(
             "choose a different --collection for another model"
         )
 
-    total = len(records)
-    for start in range(0, total, batch_size):
-        batch = records[start : start + batch_size]
-        vectors = model.encode(
-            [record["text"] for record in batch],
-            batch_size=min(batch_size, len(batch)),
-            show_progress_bar=False,
-            normalize_embeddings=True,
-            convert_to_numpy=True,
+    existing = collection.get(include=["documents", "embeddings"])
+    existing_documents = existing.get("documents")
+    existing_vectors = existing.get("embeddings")
+    existing_by_id = {
+        record_id: (
+            existing_documents[index] if existing_documents is not None else None,
+            existing_vectors[index] if existing_vectors is not None else None,
         )
-        collection.upsert(
-            ids=[record["id"] for record in batch],
-            documents=[record["text"] for record in batch],
-            metadatas=[_chroma_metadata(record) for record in batch],
-            embeddings=vectors.tolist(),
-        )
-        logging.info("Indexed %d/%d chunks", min(start + len(batch), total), total)
+        for index, record_id in enumerate(existing["ids"])
+    }
+    pending = []
+    for record in records:
+        stored_document, stored_vector = existing_by_id.get(record["id"], (None, None))
+        has_embedding = stored_vector is not None and len(stored_vector) > 0
+        if stored_document == record["text"] and has_embedding:
+            continue
+        pending.append(record)
+    skipped_chunks = len(records) - len(pending)
+    counters = {"retry_attempts": 0}
+    failures: list[dict[str, Any]] = []
+    embeddings_generated = 0
+    chunks_stored = 0
+    tokens_embedded = 0
+    batch_total = math.ceil(len(pending) / batch_size)
+    logging.info(
+        "Input chunks: %d; unchanged chunks skipped: %d; batches to process: %d",
+        len(records),
+        skipped_chunks,
+        batch_total,
+    )
+
+    for batch_number, start in enumerate(range(0, len(pending), batch_size), start=1):
+        batch = pending[start : start + batch_size]
+        batch_ids = [record["id"] for record in batch]
+        logging.info("Embedding batch %d/%d (%d chunks)", batch_number, batch_total, len(batch))
+        try:
+            vectors = _retry_call(
+                lambda: model.encode(
+                    [record["text"] for record in batch],
+                    batch_size=min(batch_size, len(batch)),
+                    show_progress_bar=False,
+                    normalize_embeddings=True,
+                    convert_to_numpy=True,
+                ),
+                label=f"Embedding batch {batch_number}/{batch_total}",
+                max_retries=max_retries,
+                base_delay_seconds=retry_base_seconds,
+                counters=counters,
+            )
+        except Exception as exc:
+            logging.exception("Embedding batch %d/%d failed", batch_number, batch_total)
+            failures.append({"batch": batch_number, "stage": "embedding", "ids": batch_ids, "error": str(exc)})
+            continue
+
+        embeddings_generated += len(batch)
+        tokens_embedded += sum(_estimated_tokens(record) for record in batch)
+        try:
+            _retry_call(
+                lambda: collection.upsert(
+                    ids=batch_ids,
+                    documents=[record["text"] for record in batch],
+                    metadatas=[_chroma_metadata(record) for record in batch],
+                    embeddings=vectors.tolist(),
+                ),
+                label=f"Saving batch {batch_number}/{batch_total} to Chroma",
+                max_retries=max_retries,
+                base_delay_seconds=retry_base_seconds,
+                counters=counters,
+            )
+            chunks_stored += len(batch)
+            logging.info("Saved batch %d/%d; indexed %d/%d pending chunks", batch_number, batch_total, chunks_stored, len(pending))
+        except Exception as exc:
+            logging.exception("Saving batch %d/%d failed", batch_number, batch_total)
+            failures.append({"batch": batch_number, "stage": "storage", "ids": batch_ids, "error": str(exc)})
+
+    estimated_cost = (tokens_embedded / 1_000_000) * cost_per_million_tokens_usd
+    failed_chunks = sum(len(failure["ids"]) for failure in failures)
 
     report = {
         "pipeline": "embed_chunks",
-        "version": "1.0",
-        "status": "completed",
+        "version": "2.0",
+        "status": "completed_with_failures" if failed_chunks else "completed",
         "started_at": started_at,
         "input": str(input_path),
         "persist_dir": str(persist_dir),
@@ -179,10 +321,29 @@ def run(
         "embedding_dimensions": dimensions,
         "distance_metric": "cosine",
         "batch_size": batch_size,
-        "chunks_indexed_this_run": total,
+        "batches_attempted": batch_total,
+        "total_chunks": source_total,
+        "selected_chunks": len(records),
+        "unselected_chunks_due_to_limit": source_total - len(records),
+        "embeddings_generated": embeddings_generated,
+        "chunks_stored": chunks_stored,
+        "skipped_chunks": skipped_chunks,
+        "failed_chunks": failed_chunks,
+        "failed_batches": failures,
+        "retry_attempts": counters["retry_attempts"],
+        "estimated_input_tokens": tokens_embedded,
+        "estimated_token_count_basis": (
+            "Chunk metadata token_count; whitespace count is used only when metadata is missing."
+        ),
+        "cost_rate_per_million_tokens_usd": cost_per_million_tokens_usd,
+        "estimated_embedding_cost_usd": round(estimated_cost, 8),
+        "cost_estimate_basis": (
+            "Local Sentence Transformers inference has no per-token API charge. "
+            "A nonzero configured rate is a user-supplied estimate for a comparable hosted embedding service."
+        ),
         "collection_count_after_run": collection.count(),
         "log": str(log_path),
-        "note": "Text and metadata are stored in Chroma; embeddings are generated locally.",
+        "note": "Chunks are embedded locally in batches and unchanged IDs/text are skipped.",
     }
     report_path = RUN_DIR / "embedding_report.json"
     report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -292,6 +453,14 @@ def main() -> int:
     parser.add_argument("--collection", default=DEFAULT_COLLECTION, help="Chroma collection name")
     parser.add_argument("--model", default=DEFAULT_MODEL, help="Sentence Transformers model name")
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
+    parser.add_argument("--max-retries", type=int, default=DEFAULT_MAX_RETRIES, help="Retries for transient batch failures")
+    parser.add_argument("--retry-base-seconds", type=float, default=DEFAULT_RETRY_BASE_SECONDS, help="Initial exponential backoff delay")
+    parser.add_argument(
+        "--cost-per-million-tokens-usd",
+        type=float,
+        default=DEFAULT_COST_PER_MILLION_TOKENS_USD,
+        help="Optional user-supplied hosted embedding rate; defaults to $0 for local inference",
+    )
     parser.add_argument("--device", help="Optional Sentence Transformers device, for example cpu or cuda")
     parser.add_argument("--limit", type=int, help="Optional maximum number of chunks (useful for a small initial run)")
     parser.add_argument("--query", help="Search the existing collection instead of embedding chunks")
@@ -316,7 +485,7 @@ def main() -> int:
                     f"{result['text'][:700]}"
                 )
         else:
-            run(
+            report = run(
                 input_path=args.input.resolve(),
                 persist_dir=args.persist_dir.resolve(),
                 collection_name=args.collection,
@@ -324,7 +493,20 @@ def main() -> int:
                 batch_size=args.batch_size,
                 device=args.device,
                 limit=args.limit,
+                max_retries=args.max_retries,
+                retry_base_seconds=args.retry_base_seconds,
+                cost_per_million_tokens_usd=args.cost_per_million_tokens_usd,
             )
+            print(
+                "Run summary: "
+                f"selected={report['selected_chunks']}/{report['total_chunks']}, "
+                f"generated={report['embeddings_generated']}, "
+                f"skipped={report['skipped_chunks']}, failed={report['failed_chunks']}, "
+                f"retries={report['retry_attempts']}, "
+                f"estimated_cost=${report['estimated_embedding_cost_usd']:.8f}"
+            )
+            if report["failed_chunks"]:
+                return 2
     except Exception as exc:
         logging.exception("Embedding run failed: %s", exc)
         return 1
