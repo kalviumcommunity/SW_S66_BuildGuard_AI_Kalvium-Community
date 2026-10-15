@@ -1,4 +1,4 @@
-"""Embed reviewed text chunks and store them in a persistent Chroma collection.
+"""Embed final text chunks and store them in a persistent Chroma collection.
 
 The source JSONL is never modified. Re-runs skip chunks whose ID, text, and
 stored vector are already present. Changed text is embedded and replaces the
@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Callable, TypeVar
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT = ROOT / "outputs" / "chunk_review" / "text_chunks.headings_rebuilt.jsonl"
+DEFAULT_INPUT = ROOT / "outputs" / "chunks" / "text_chunks_volume_1.jsonl"
 DEFAULT_PERSIST_DIR = ROOT / "outputs" / "vector_db"
 RUN_DIR = ROOT / "outputs" / "embeddings"
 DEFAULT_MODEL = "sentence-transformers/multi-qa-MiniLM-L6-dot-v1"
@@ -183,6 +183,7 @@ def run(
     batch_size: int,
     device: str | None,
     limit: int | None = None,
+    sync_volume: int | None = None,
     max_retries: int = DEFAULT_MAX_RETRIES,
     retry_base_seconds: float = DEFAULT_RETRY_BASE_SECONDS,
     cost_per_million_tokens_usd: float = DEFAULT_COST_PER_MILLION_TOKENS_USD,
@@ -195,6 +196,9 @@ def run(
         raise ValueError("Batch size must be at least 1")
     if limit is not None and limit < 1:
         raise ValueError("Limit must be at least 1")
+    if sync_volume is not None:
+        if limit is not None:
+            raise ValueError("--sync-volume cannot be used with --limit")
     if max_retries < 0:
         raise ValueError("Maximum retries cannot be negative")
     if retry_base_seconds < 0 or not math.isfinite(retry_base_seconds):
@@ -203,6 +207,12 @@ def run(
         raise ValueError("Cost rate must be a finite nonnegative number")
 
     source_records = _read_records(input_path)
+    if sync_volume is not None:
+        input_volumes = {(record.get("metadata") or {}).get("volume") for record in source_records}
+        if input_volumes != {sync_volume}:
+            raise ValueError(
+                f"--sync-volume {sync_volume} requires input records from only that volume; found {sorted(input_volumes, key=str)}"
+            )
     source_total = len(source_records)
     records = source_records
     if limit is not None:
@@ -308,6 +318,26 @@ def run(
 
     estimated_cost = (tokens_embedded / 1_000_000) * cost_per_million_tokens_usd
     failed_chunks = sum(len(failure["ids"]) for failure in failures)
+    stale_volume_records_deleted = 0
+    if sync_volume is not None and not failed_chunks:
+        current_ids = {record["id"] for record in records}
+        stored_for_volume = collection.get(where={"volume": sync_volume}, include=[]).get("ids", [])
+        stale_ids = [record_id for record_id in stored_for_volume if record_id not in current_ids]
+        for start in range(0, len(stale_ids), 500):
+            batch_ids = stale_ids[start : start + 500]
+            try:
+                _retry_call(
+                    lambda ids=batch_ids: collection.delete(ids=ids),
+                    label=f"Deleting {len(batch_ids)} stale volume {sync_volume} chunks",
+                    max_retries=max_retries,
+                    base_delay_seconds=retry_base_seconds,
+                    counters=counters,
+                )
+                stale_volume_records_deleted += len(batch_ids)
+            except Exception as exc:
+                logging.exception("Deleting stale volume %s chunks failed", sync_volume)
+                failures.append({"batch": None, "stage": "sync_delete", "ids": batch_ids, "error": str(exc)})
+        failed_chunks = sum(len(failure["ids"]) for failure in failures)
 
     report = {
         "pipeline": "embed_chunks",
@@ -325,6 +355,8 @@ def run(
         "total_chunks": source_total,
         "selected_chunks": len(records),
         "unselected_chunks_due_to_limit": source_total - len(records),
+        "sync_volume": sync_volume,
+        "stale_volume_records_deleted": stale_volume_records_deleted,
         "embeddings_generated": embeddings_generated,
         "chunks_stored": chunks_stored,
         "skipped_chunks": skipped_chunks,
@@ -343,7 +375,7 @@ def run(
         ),
         "collection_count_after_run": collection.count(),
         "log": str(log_path),
-        "note": "Chunks are embedded locally in batches and unchanged IDs/text are skipped.",
+        "note": "Chunks are embedded locally in batches and unchanged IDs/text are skipped. When sync_volume is set, stale IDs from that volume are removed only after embedding succeeds.",
     }
     report_path = RUN_DIR / "embedding_report.json"
     report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -463,6 +495,7 @@ def main() -> int:
     )
     parser.add_argument("--device", help="Optional Sentence Transformers device, for example cpu or cuda")
     parser.add_argument("--limit", type=int, help="Optional maximum number of chunks (useful for a small initial run)")
+    parser.add_argument("--sync-volume", type=int, help="After a successful run, remove stale text IDs for this volume only")
     parser.add_argument("--query", help="Search the existing collection instead of embedding chunks")
     parser.add_argument("--top-k", type=int, default=5, help="Number of matches to return with --query")
     args = parser.parse_args()
@@ -493,6 +526,7 @@ def main() -> int:
                 batch_size=args.batch_size,
                 device=args.device,
                 limit=args.limit,
+                sync_volume=args.sync_volume,
                 max_retries=args.max_retries,
                 retry_base_seconds=args.retry_base_seconds,
                 cost_per_million_tokens_usd=args.cost_per_million_tokens_usd,
