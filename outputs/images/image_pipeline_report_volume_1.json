@@ -1,0 +1,25 @@
+{
+  "pipeline": "clean_validate_images",
+  "volume": "volume_1",
+  "source_pdf": "C:\\Users\\aryaa\\Documents\\class-work\\SW_S66_BuildGuard_AI_Kalvium-Community\\data\\nationalbuilding01.pdf",
+  "unique_image_groups": 1885,
+  "accepted_images": 981,
+  "image_chunks": "C:\\Users\\aryaa\\Documents\\class-work\\SW_S66_BuildGuard_AI_Kalvium-Community\\outputs\\images\\image_chunks_volume_1.jsonl",
+  "groups_by_status": {
+    "accepted": 981,
+    "exclude_off_page_component": 41,
+    "exclude_reused_component": 86,
+    "exclude_thin_fragment": 22,
+    "exclude_tiny": 622,
+    "exclude_unreadable_crop": 133
+  },
+  "gallery": "C:\\Users\\aryaa\\Documents\\class-work\\SW_S66_BuildGuard_AI_Kalvium-Community\\outputs\\images\\image_gallery_volume_1.html",
+  "saved_page_directory": "C:\\Users\\aryaa\\Documents\\class-work\\SW_S66_BuildGuard_AI_Kalvium-Community\\outputs\\images\\volume_1",
+  "validation": {
+    "minimum_raw_short_edge_px": 16,
+    "maximum_aspect_ratio": 20.0,
+    "minimum_rendered_crop_edge_px": 96,
+    "minimum_rendered_crop_contrast": 8.0,
+    "render_dpi": 300
+  }
+}

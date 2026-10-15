@@ -1,4 +1,4 @@
-"""Clean, validate, classify, and render previews for extracted image chunks."""
+"""Extract, clean, and validate usable visuals directly from NBC PDFs."""
 from __future__ import annotations
 
 import argparse
@@ -18,16 +18,17 @@ import pymupdf
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PDF = ROOT / "data" / "nationalbuilding01.pdf"
 OUTPUT_DIR = ROOT / "outputs" / "images"
-DEFAULT_INPUT = OUTPUT_DIR / "image_chunks.jsonl"
 LOG_PATH = OUTPUT_DIR / "image_pipeline.log"
 TINY_THRESHOLD = 16
 MIN_EFFECTIVE_DPI = 150
 REUSED_OCCURRENCE_THRESHOLD = 8
 MIN_LOW_RESOLUTION_SIDE = 64
 RENDER_DPI = 300
-RENDER_PADDING_POINTS = 4
 MAX_ANNOTATED_OBJECTS_PER_PAGE = 12
-
+MAX_ASPECT_RATIO = 20.0
+MIN_RENDERED_CROP_EDGE = 96
+MIN_CROP_CONTRAST = 8.0
+    
 
 def _resolve_from_root(value: Path) -> Path:
     return value if value.is_absolute() else ROOT / value
@@ -61,6 +62,8 @@ def _classify(group: dict[str, Any]) -> tuple[str, str]:
         return "exclude_reused_component", f"same_asset_occurs_at_least_{REUSED_OCCURRENCE_THRESHOLD}_times"
     if min(width, height) < TINY_THRESHOLD:
         return "exclude_tiny", f"shorter_dimension_below_{TINY_THRESHOLD}px"
+    if max(width, height) / min(width, height) > MAX_ASPECT_RATIO:
+        return "exclude_thin_fragment", f"aspect_ratio_above_{MAX_ASPECT_RATIO:g}"
     if min(width, height) < MIN_LOW_RESOLUTION_SIDE:
         return "low_resolution", f"shorter_dimension_below_{MIN_LOW_RESOLUTION_SIDE}px"
     dpis = [
@@ -103,22 +106,21 @@ def _mark_visible_placements(groups: list[dict[str, Any]], pdf_paths: list[Path]
                     placement["visible_on_page"] = visible.width > 0 and visible.height > 0
 
 
-def _validate_group(group: dict[str, Any]) -> None:
-    file_path = OUTPUT_DIR / group["path"]
-    try:
-        data = file_path.read_bytes()
-        digest = hashlib.sha256(data).hexdigest()
-        if digest != group.get("sha256"):
-            group["file_status"] = "hash_mismatch"
-            return
-        width, height = _read_image_dimensions(file_path)
-        group["width"], group["height"] = width, height
-        group["file_size_bytes"] = len(data)
-        group["file_status"] = "valid"
-    except Exception as exc:
-        group["file_status"] = f"image_read_or_decode_error: {type(exc).__name__}: {exc}"
-        group["file_size_bytes"] = file_path.stat().st_size if file_path.exists() else None
+def _validate_group(group: dict[str, Any], pdf_by_name: dict[str, Path]) -> None:
+    """Validate dimensions and placements after source bytes were scanned once."""
+    occurrence = next(iter(group.get("occurrences", [])), None)
+    source = pdf_by_name.get(str(occurrence.get("source", ""))) if occurrence else None
+    if not source:
+        group["file_status"] = "source_pdf_not_available"
         return
+    # _extract_groups_from_pdf has already extracted these bytes from the open
+    # source PDF and computed sha256. Reopening the whole PDF for every group
+    # is unnecessary and makes a volume take far longer than it should.
+    width, height = int(group.get("width", 0)), int(group.get("height", 0))
+    if width <= 0 or height <= 0:
+        group["file_status"] = "invalid_image_dimensions"
+        return
+    group["file_status"] = "valid"
 
     for occurrence in group.get("occurrences", []):
         for placement in occurrence.get("placements", []):
@@ -159,7 +161,6 @@ def _write_gallery(path: Path, groups: list[dict[str, Any]]) -> None:
                 "height": group.get("height"),
                 "reason": group.get("reason"),
                 "placements": [p for p in occurrence.get("placements", []) if p.get("visible_on_page")],
-                "crops": occurrence.get("high_res_regions", []),
             })
 
     lines = [
@@ -180,7 +181,7 @@ def _write_gallery(path: Path, groups: list[dict[str, Any]]) -> None:
         selected = [g for g in groups if g.get("status") == status]
         lines.append(f"<h2>{html.escape(title)} ({len(selected)})</h2><div class='grid'>")
         for group in selected:
-            src = html.escape(group["path"], quote=True)
+            src = html.escape(str(group.get("page_image_path", "")), quote=True)
             refs = "; ".join(
                 f"p{o['page']} / xref{o['image_index']}"
                 for o in group.get("occurrences", [])[:30]
@@ -189,7 +190,7 @@ def _write_gallery(path: Path, groups: list[dict[str, Any]]) -> None:
                 refs += f" … (+{len(group['occurrences']) - 30})"
             lines.extend([
                 "<article class='card'>",
-                f"<a href='{src}' target='_blank' rel='noopener'><img loading='lazy' src='{src}' alt='Asset {html.escape(group['asset_group_id'])}'></a>",
+                (f"<a href='{src}' target='_blank' rel='noopener'><img loading='lazy' src='{src}' alt='Asset {html.escape(group['asset_group_id'])}'></a>" if src else "<div class='meta'><p>No retained page: excluded during validation.</p></div>"),
                 "<div class='meta'>",
                 f"<p><b>Group:</b> {html.escape(group['asset_group_id'])}</p>",
                 f"<p><b>Status:</b> {html.escape(str(group.get('status')))} — {html.escape(str(group.get('reason')))}</p>",
@@ -199,7 +200,7 @@ def _write_gallery(path: Path, groups: list[dict[str, Any]]) -> None:
             ])
         lines.append("</div>")
 
-    append_group_cards("candidate", "Candidates")
+    append_group_cards("accepted", "Accepted visuals")
     lines.append(f"<h2>Low-resolution pages ({len(low_pages)})</h2><div class='grid'>")
     for (_source, _page), record in sorted(low_pages.items()):
         src = html.escape(record["preview"], quote=True)
@@ -224,70 +225,97 @@ def _write_gallery(path: Path, groups: list[dict[str, Any]]) -> None:
             "</div></article>",
         ])
     lines.append("</div>")
-    append_group_cards("invalid", "Files needing repair")
+    for status in ("exclude_tiny", "exclude_thin_fragment", "exclude_reused_component", "exclude_off_page_component", "exclude_unreadable_crop", "invalid"):
+        append_group_cards(status, status.replace("_", " ").title())
     lines.append("</body></html>")
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
-def _render_low_resolution(groups: list[dict[str, Any]], pdf_paths: list[Path]) -> None:
+def _crop_quality(page: pymupdf.Page, bbox: list[float]) -> tuple[str | None, dict[str, float | int]]:
+    """Inspect a 300-DPI crop without writing a crop image to disk."""
+    clip = pymupdf.Rect(bbox) & page.rect
+    if clip.is_empty or clip.is_infinite:
+        return "crop_outside_page", {}
+    pix = page.get_pixmap(matrix=pymupdf.Matrix(RENDER_DPI / 72, RENDER_DPI / 72), clip=clip, alpha=False)
+    short_edge, long_edge = sorted((pix.width, pix.height))
+    if short_edge < MIN_RENDERED_CROP_EDGE:
+        return f"rendered_crop_shorter_side_below_{MIN_RENDERED_CROP_EDGE}px", {"width": pix.width, "height": pix.height}
+    if long_edge / short_edge > MAX_ASPECT_RATIO:
+        return f"rendered_crop_aspect_ratio_above_{MAX_ASPECT_RATIO:g}", {"width": pix.width, "height": pix.height}
+
+    # Sample greyscale brightness to reject blank or near-uniform crops. This
+    # is deliberately lightweight: it evaluates the temporary in-memory crop,
+    # then lets the embedding model receive only meaningful visuals.
+    samples = pix.samples
+    pixel_count = pix.width * pix.height
+    stride = max(1, pixel_count // 2500)
+    values: list[float] = []
+    for pixel in range(0, pixel_count, stride):
+        offset = pixel * pix.n
+        values.append((samples[offset] + samples[offset + 1] + samples[offset + 2]) / 3)
+    mean = sum(values) / len(values)
+    contrast = (sum((value - mean) ** 2 for value in values) / len(values)) ** 0.5
+    metrics: dict[str, float | int] = {"width": pix.width, "height": pix.height, "contrast": round(contrast, 2)}
+    if contrast < MIN_CROP_CONTRAST:
+        return f"rendered_crop_contrast_below_{MIN_CROP_CONTRAST:g}", metrics
+    return None, metrics
+
+
+def _render_accepted_pages(groups: list[dict[str, Any]], pdf_paths: list[Path]) -> None:
+    """Keep only readable source pages; all candidate crops stay in memory."""
     pdf_by_name = {path.name: path for path in pdf_paths}
-    source_items: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = defaultdict(list)
-    for group in groups:
-        if group["status"] != "low_resolution":
-            continue
-        for occurrence in group.get("occurrences", []):
-            source_items[occurrence["source"]].append((group, occurrence))
-    for source_name, items in source_items.items():
-        source_pdf = pdf_by_name.get(source_name)
-        if source_pdf is None or not source_pdf.is_file():
-            logging.warning("Source PDF %s is unavailable; skipping high-resolution previews", source_name)
-            continue
-        with pymupdf.open(source_pdf) as document:
-            page_items: dict[int, list[tuple[dict[str, Any], dict[str, Any]]]] = defaultdict(list)
-            for group, occurrence in items:
-                page_items[occurrence["page"]].append((group, occurrence))
-                occurrence["high_res_regions"] = []
-                page = document[occurrence["page"] - 1]
-                for placement_index, placement in enumerate(occurrence.get("placements", []), 1):
+    documents = {name: pymupdf.open(path) for name, path in pdf_by_name.items()}
+    try:
+        for group in groups:
+            if group.get("status") not in {"candidate", "low_resolution"}:
+                continue
+            selected: tuple[dict[str, Any], dict[str, Any], pymupdf.Page, dict[str, float | int]] | None = None
+            for occurrence in group.get("occurrences", []):
+                document = documents.get(occurrence.get("source", ""))
+                page_number = int(occurrence.get("page", 0))
+                if document is None or not 1 <= page_number <= document.page_count:
+                    continue
+                page = document[page_number - 1]
+                for placement in occurrence.get("placements", []):
                     if not placement.get("visible_on_page"):
                         continue
-                    clip = pymupdf.Rect(placement["bbox_pdf_points"])
-                    clip.x0 -= RENDER_PADDING_POINTS
-                    clip.y0 -= RENDER_PADDING_POINTS
-                    clip.x1 += RENDER_PADDING_POINTS
-                    clip.y1 += RENDER_PADDING_POINTS
-                    clip &= page.rect
-                    if clip.is_empty or clip.is_infinite:
-                        continue
-                    region_dir = OUTPUT_DIR / "high_res_regions"
-                    region_dir.mkdir(parents=True, exist_ok=True)
-                    name = f"v{occurrence['volume']}_p{occurrence['page']}_xref{occurrence['image_index']}_{group['sha256'][:12]}_placement{placement_index}_{RENDER_DPI}dpi.png"
-                    pix = page.get_pixmap(matrix=pymupdf.Matrix(RENDER_DPI / 72, RENDER_DPI / 72), clip=clip, alpha=False)
-                    pix.save(region_dir / name)
-                    occurrence["high_res_regions"].append({"path": f"high_res_regions/{name}", "dpi": RENDER_DPI, "width": pix.width, "height": pix.height, "placement_index": placement_index})
-            page_dir = OUTPUT_DIR / "high_res_pages"
+                    reason, metrics = _crop_quality(page, placement["bbox_pdf_points"])
+                    if reason is None:
+                        selected = (occurrence, placement, page, metrics)
+                        break
+                if selected:
+                    break
+            if not selected:
+                group["status"] = "exclude_unreadable_crop"
+                group["reason"] = "rendered_pdf_crop_is_too_small_thin_blank_or_unreadable"
+                continue
+
+            occurrence, placement, page, metrics = selected
+            volume = str(group.get("volume") or occurrence.get("volume"))
+            page_dir = OUTPUT_DIR / volume
             page_dir.mkdir(parents=True, exist_ok=True)
-            for page_number, page_occurrences in page_items.items():
-                page = document[page_number - 1]
-                # Dense pages become unreadable when every PDF image fragment
-                # gets a label. Keep these previews clean and list XREFs in HTML.
-                if len(page_occurrences) <= MAX_ANNOTATED_OBJECTS_PER_PAGE:
-                    for group, occurrence in page_occurrences:
-                        seed = int(group["sha256"][:6], 16)
-                        color = (((seed >> 16) & 255) / 255, ((seed >> 8) & 255) / 255, (seed & 255) / 255)
-                        for index, placement in enumerate(occurrence.get("placements", []), 1):
-                            if not placement.get("visible_on_page"):
-                                continue
-                            rect = pymupdf.Rect(placement["bbox_pdf_points"])
-                            page.draw_rect(rect, color=color, width=1.5, overlay=True)
-                            page.insert_text(pymupdf.Point(rect.x0, max(10, rect.y0 - 3)), f"xref {occurrence['image_index']} / {index}", fontsize=7, color=color, overlay=True)
-                name = f"v{page_occurrences[0][1]['volume']}_p{page_number}_{RENDER_DPI}dpi.png"
-                pix = page.get_pixmap(matrix=pymupdf.Matrix(RENDER_DPI / 72, RENDER_DPI / 72), alpha=False)
-                pix.save(page_dir / name)
-                relative = f"high_res_pages/{name}"
-                for _group, occurrence in page_occurrences:
-                    occurrence["high_res_page_preview"] = relative
-                logging.info("Rendered 300-DPI source page preview %s", page_dir / name)
+            page_file = page_dir / f"page_{int(occurrence['page']):04d}.png"
+            if not page_file.exists():
+                page.get_pixmap(matrix=pymupdf.Matrix(RENDER_DPI / 72, RENDER_DPI / 72), alpha=False).save(page_file)
+            relative_path = f"{volume}/{page_file.name}"
+            group.update({
+                "status": "accepted",
+                "reason": "rendered_pdf_crop_passed_readability_checks",
+                "page_number": int(occurrence["page"]),
+                "page_image_path": relative_path,
+                "high_res_page_path": relative_path,
+                "bbox_pdf_points": placement["bbox_pdf_points"],
+                "render_dpi": RENDER_DPI,
+                "render_scale": RENDER_DPI / 72,
+                "rendered_crop_metrics": metrics,
+            })
+            occurrence["page_image_path"] = relative_path
+            occurrence["high_res_page_path"] = relative_path
+            occurrence["render_dpi"] = RENDER_DPI
+            occurrence["render_scale"] = RENDER_DPI / 72
+    finally:
+        for document in documents.values():
+            document.close()
 
 
 def validate(input_path: Path, pdf_paths: list[Path]) -> dict[str, Any]:
@@ -312,12 +340,13 @@ def validate(input_path: Path, pdf_paths: list[Path]) -> dict[str, Any]:
         group["id"] = asset_id
         group["asset_group_id"] = asset_id
         group["modality"] = "image"
+    pdf_by_name = {path.name: path for path in pdf_paths}
     _mark_visible_placements(groups, pdf_paths)
     for group in groups:
-        _validate_group(group)
+        _validate_group(group, pdf_by_name)
         group["min_effective_dpi"] = None
         group["status"], group["reason"] = _classify(group)
-    _render_low_resolution(groups, pdf_paths)
+    _render_accepted_pages(groups, pdf_paths)
 
     temp_path = input_path.with_name(input_path.name + ".tmp")
     try:
@@ -327,7 +356,8 @@ def validate(input_path: Path, pdf_paths: list[Path]) -> dict[str, Any]:
         temp_path.unlink(missing_ok=True)
         raise
 
-    _write_gallery(OUTPUT_DIR / "image_gallery.html", groups)
+    volume = str(groups[0].get("volume", "volume_1")) if groups else "volume_1"
+    _write_gallery(OUTPUT_DIR / f"image_gallery_{volume}.html", groups)
     count_by_status: dict[str, int] = defaultdict(int)
     occurrences_by_status: dict[str, int] = defaultdict(int)
     for group in groups:
@@ -348,30 +378,162 @@ def validate(input_path: Path, pdf_paths: list[Path]) -> dict[str, Any]:
             "tiny_if_shorter_side_below_px": TINY_THRESHOLD,
             "low_resolution_if_shorter_side_below_px": MIN_LOW_RESOLUTION_SIDE,
             "low_resolution_if_effective_dpi_at_or_below": MIN_EFFECTIVE_DPI,
+            "exclude_if_aspect_ratio_above": MAX_ASPECT_RATIO,
+            "exclude_if_rendered_crop_shorter_side_below_px": MIN_RENDERED_CROP_EDGE,
+            "exclude_if_rendered_crop_contrast_below": MIN_CROP_CONTRAST,
             "exclude_if_no_visible_page_placement": True,
             "repeated_component_at_occurrences": REUSED_OCCURRENCE_THRESHOLD,
             "source_pdf_render_dpi": RENDER_DPI,
         },
         "log": str(LOG_PATH),
     }
-    report_path = OUTPUT_DIR / "image_pipeline_report.json"
+    report_path = OUTPUT_DIR / f"image_pipeline_report_{volume}.json"
     report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     logging.info("Validated %d unique images: %s", len(groups), json.dumps(report["groups_by_status"], sort_keys=True))
     logging.info("Report: %s", report_path)
     print(f"Validated {len(groups)} unique images; statuses: {json.dumps(report['groups_by_status'], sort_keys=True)}")
     print(f"Updated chunks: {input_path}")
-    print(f"Gallery: {OUTPUT_DIR / 'image_gallery.html'}")
+    print(f"Gallery: {OUTPUT_DIR / f'image_gallery_{volume}.html'}")
+    print(f"Report: {report_path}")
+    return report
+
+
+def _volume_name(pdf_path: Path, fallback: int) -> str:
+    match = re.search(r"nationalbuilding0?(\d+)", pdf_path.stem, re.I)
+    return f"volume_{int(match.group(1)) if match else fallback}"
+
+
+def _extract_groups_from_pdf(pdf_path: Path, volume: str) -> list[dict[str, Any]]:
+    """Create temporary in-memory image groups; no raw image files are saved."""
+    groups: dict[str, dict[str, Any]] = {}
+    with pymupdf.open(pdf_path) as document:
+        logging.info("Scanning %s: %d pages", pdf_path.name, document.page_count)
+        image_cache: dict[int, tuple[str, int, int, str]] = {}
+        for page in document:
+            seen_xrefs: set[int] = set()
+            for image_info in page.get_images(full=True):
+                xref = int(image_info[0])
+                if not xref or xref in seen_xrefs:
+                    continue
+                seen_xrefs.add(xref)
+                try:
+                    if xref not in image_cache:
+                        extracted = document.extract_image(xref)
+                        image_cache[xref] = (
+                            hashlib.sha256(extracted["image"]).hexdigest(),
+                            int(extracted.get("width", 0)),
+                            int(extracted.get("height", 0)),
+                            str(extracted.get("ext", "")),
+                        )
+                    digest, width, height, extension = image_cache[xref]
+                    occurrence = {
+                        "source": pdf_path.name,
+                        "volume": volume,
+                        "page": page.number + 1,
+                        "image_index": str(xref),
+                        "placements": [
+                            {"bbox_pdf_points": [round(rect.x0, 2), round(rect.y0, 2), round(rect.x1, 2), round(rect.y1, 2)]}
+                            for rect in page.get_image_rects(xref)
+                        ],
+                    }
+                    group = groups.setdefault(digest, {
+                        "id": f"{volume}-asset-{digest[:16]}",
+                        "asset_group_id": f"{volume}-asset-{digest[:16]}",
+                        "modality": "image",
+                        "volume": volume,
+                        "sha256": digest,
+                        "width": width,
+                        "height": height,
+                        "source_extension": extension,
+                        "occurrences": [],
+                    })
+                    group["occurrences"].append(occurrence)
+                except Exception as exc:
+                    logging.warning("Could not inspect %s page %d xref %d: %s", pdf_path.name, page.number + 1, xref, exc)
+            if (page.number + 1) % 25 == 0 or page.number + 1 == document.page_count:
+                logging.info("Scanned %s: %d/%d pages", pdf_path.name, page.number + 1, document.page_count)
+    return list(groups.values())
+
+
+def clean_pdf(pdf_path: Path, volume: str) -> dict[str, Any]:
+    """Validate one PDF and write only accepted visual records plus page images."""
+    groups = _extract_groups_from_pdf(pdf_path, volume)
+    logging.info("Validating %d unique image groups from %s", len(groups), pdf_path.name)
+    _mark_visible_placements(groups, [pdf_path])
+    pdf_by_name = {pdf_path.name: pdf_path}
+    for group in groups:
+        _validate_group(group, pdf_by_name)
+        group["min_effective_dpi"] = None
+        group["status"], group["reason"] = _classify(group)
+    _render_accepted_pages(groups, [pdf_path])
+    logging.info("Finished crop-quality checks for %s", pdf_path.name)
+
+    accepted = [group for group in groups if group.get("status") == "accepted"]
+    chunks: list[dict[str, Any]] = []
+    for record in accepted:
+        source = record.get("occurrences", [{}])[0].get("source")
+        chunks.append({
+            "image_id": str(record["id"]),
+            "modality": "image",
+            "volume": volume,
+            "source_pdf": source,
+            "page_number": int(record["page_number"]),
+            "page_image_path": record["page_image_path"],
+            "high_res_page_path": record["page_image_path"],
+            "bbox_pdf_points": record["bbox_pdf_points"],
+            "render_dpi": record["render_dpi"],
+            "render_scale": record["render_scale"],
+            "source_size_px": [record.get("width"), record.get("height")],
+            "effective_dpi": record.get("min_effective_dpi"),
+            "occurrence_count": len(record.get("occurrences", [])),
+            "validation": record["reason"],
+            "rendered_crop_metrics": record.get("rendered_crop_metrics", {}),
+        })
+    chunks_path = OUTPUT_DIR / f"image_chunks_{volume}.jsonl"
+    _write_jsonl(chunks_path, chunks)
+    gallery_path = OUTPUT_DIR / f"image_gallery_{volume}.html"
+    _write_gallery(gallery_path, groups)
+    count_by_status: dict[str, int] = defaultdict(int)
+    for group in groups:
+        count_by_status[str(group.get("status"))] += 1
+    report = {
+        "pipeline": "clean_validate_images",
+        "volume": volume,
+        "source_pdf": str(pdf_path),
+        "unique_image_groups": len(groups),
+        "accepted_images": len(accepted),
+        "image_chunks": str(chunks_path),
+        "groups_by_status": dict(sorted(count_by_status.items())),
+        "gallery": str(gallery_path),
+        "saved_page_directory": str(OUTPUT_DIR / volume),
+        "validation": {
+            "minimum_raw_short_edge_px": TINY_THRESHOLD,
+            "maximum_aspect_ratio": MAX_ASPECT_RATIO,
+            "minimum_rendered_crop_edge_px": MIN_RENDERED_CROP_EDGE,
+            "minimum_rendered_crop_contrast": MIN_CROP_CONTRAST,
+            "render_dpi": RENDER_DPI,
+        },
+    }
+    report_path = OUTPUT_DIR / f"image_pipeline_report_{volume}.json"
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Validated {len(accepted)} usable images from {pdf_path.name}.")
+    print(f"Image chunks: {chunks_path}")
+    print(f"Gallery: {gallery_path}")
     print(f"Report: {report_path}")
     return report
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT, help="Grouped image JSONL from src.images.chunk_images")
-    parser.add_argument("--pdf", type=Path, nargs="+", default=[DEFAULT_PDF], help="Source PDF(s), same order/files used for extraction")
+    parser.add_argument("--pdf", type=Path, nargs="+", default=[DEFAULT_PDF], help="NBC PDF(s) to clean and validate")
     args = parser.parse_args()
     try:
-        validate(_resolve_from_root(args.input), [p.resolve() for p in args.pdf])
+        _configure_logging()
+        for index, pdf_path in enumerate(args.pdf, start=1):
+            resolved = _resolve_from_root(pdf_path).resolve()
+            if not resolved.is_file():
+                raise FileNotFoundError(f"Source PDF not found: {resolved}")
+            clean_pdf(resolved, _volume_name(resolved, index))
     except Exception as exc:
         logging.exception("Image validation failed: %s", exc)
         print(f"Image validation failed: {exc}", file=sys.stderr)

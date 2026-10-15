@@ -1,4 +1,4 @@
-"""Extract and semantically chunk text from one selected NBC 2016 PDF volume."""
+"""Extract, chunk, clean, and validate text from one NBC 2016 PDF volume."""
 
 from __future__ import annotations
 
@@ -9,6 +9,8 @@ import re
 import sys
 import textwrap
 import time
+import unicodedata
+from collections import Counter
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
@@ -24,6 +26,9 @@ OUTPUT_DIR = ROOT / "outputs" / "chunks"
 LOG_PATH = OUTPUT_DIR / "chunking.log"
 MODEL_NAME = "sentence-transformers/multi-qa-MiniLM-L6-dot-v1"
 MAX_TOKENS = 500
+SHORT_CHUNK_TOKENS = 10
+BOILERPLATE_MAX_TOKENS = 12
+BOILERPLATE_REPEAT_THRESHOLD = 3
 OVERSIZE_OVERLAP = 50
 DISTANCE_PERCENTILE = 85.0
 EMBEDDING_BATCH_SIZE = 64
@@ -343,6 +348,145 @@ def _chunk(
     return chunks, cutoff
 
 
+def _split_at_word_boundaries(text: str) -> list[str] | None:
+    """Split an over-limit chunk without dropping words."""
+    parts: list[str] = []
+    current = ""
+    for word in text.split():
+        candidate = f"{current} {word}".strip()
+        if len(ENCODING.encode(candidate)) <= MAX_TOKENS:
+            current = candidate
+            continue
+        if current:
+            parts.append(current)
+        if len(ENCODING.encode(word)) > MAX_TOKENS:
+            return None
+        current = word
+    if current:
+        parts.append(current)
+    return parts
+
+
+def _boilerplate_signature(text: str) -> str:
+    """Match recurring page labels even when their page number changes."""
+    normalized = re.sub(r"\d+", "#", text.casefold())
+    return re.sub(r"[^a-z0-9#]+", " ", normalized).strip()
+
+
+def _clean_and_validate(raw_chunks: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Produce final chunks; invalid records are excluded and recorded in the report."""
+    control_chars = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+    counts: Counter[str] = Counter()
+    warning_samples: dict[str, list[str]] = {}
+    exclusion_samples: dict[str, list[str]] = {}
+    warning_count = 0
+    seen_ids: set[str] = set()
+    output_ids: set[str] = set()
+    cleaned: list[dict[str, Any]] = []
+
+    def warn(category: str, chunk_id: str) -> None:
+        nonlocal warning_count
+        warning_count += 1
+        counts[category] += 1
+        samples = warning_samples.setdefault(category, [])
+        if len(samples) < 20:
+            samples.append(chunk_id)
+
+    def exclude(category: str, chunk_id: str) -> None:
+        counts[category] += 1
+        samples = exclusion_samples.setdefault(category, [])
+        if len(samples) < 20:
+            samples.append(chunk_id)
+
+    for record in raw_chunks:
+        counts["raw_chunks"] += 1
+        chunk_id = record.get("id")
+        metadata = record.get("metadata")
+        text = record.get("text")
+        if (
+            not isinstance(chunk_id, str)
+            or not chunk_id
+            or chunk_id in seen_ids
+            or not isinstance(metadata, dict)
+            or not isinstance(text, str)
+            or metadata.get("modality") != "text"
+            or not isinstance(metadata.get("source"), str)
+            or not metadata["source"].strip()
+            or not isinstance(metadata.get("volume"), int)
+            or not isinstance(metadata.get("page_start"), int)
+            or not isinstance(metadata.get("page_end"), int)
+            or metadata["page_start"] > metadata["page_end"]
+        ):
+            counts["invalid_records_excluded"] += 1
+            continue
+        seen_ids.add(chunk_id)
+        normalized = unicodedata.normalize("NFC", text)
+        normalized, removed = control_chars.subn(" ", normalized)
+        normalized = re.sub(r"\s+", " ", normalized).strip()
+        if removed:
+            warn("control_characters_removed", chunk_id)
+        if not normalized:
+            counts["empty_records_excluded"] += 1
+            continue
+        parts = [normalized]
+        if len(ENCODING.encode(normalized)) > MAX_TOKENS:
+            parts = _split_at_word_boundaries(normalized) or []
+            if not parts:
+                counts["unsplittable_records_excluded"] += 1
+                continue
+            warn("over_limit_chunks_split", chunk_id)
+        for part_index, part_text in enumerate(parts, start=1):
+            token_count = len(ENCODING.encode(part_text))
+            if token_count > MAX_TOKENS:
+                counts["over_limit_records_excluded"] += 1
+                continue
+            part_id = chunk_id if part_index == 1 else f"{chunk_id}-part-{part_index:02d}"
+            if part_id in output_ids:
+                counts["duplicate_output_ids_excluded"] += 1
+                continue
+            output_ids.add(part_id)
+            part_metadata = dict(metadata)
+            part_metadata["token_count"] = token_count
+            if len(parts) > 1:
+                part_metadata["source_chunk_id"] = chunk_id
+                part_metadata["subchunk_index"] = part_index
+                part_metadata["subchunk_count"] = len(parts)
+            if token_count <= SHORT_CHUNK_TOKENS:
+                warn("short_chunks", part_id)
+            if "\ufffd" in part_text:
+                warn("replacement_characters", part_id)
+            cleaned.append({"id": part_id, "text": part_text, "metadata": part_metadata})
+            counts["final_chunks"] += 1
+
+    signatures = Counter(
+        _boilerplate_signature(record["text"])
+        for record in cleaned
+        if record["metadata"]["token_count"] <= BOILERPLATE_MAX_TOKENS
+    )
+    filtered: list[dict[str, Any]] = []
+    for record in cleaned:
+        signature = _boilerplate_signature(record["text"])
+        if (
+            record["metadata"]["token_count"] <= BOILERPLATE_MAX_TOKENS
+            and signature
+            and signatures[signature] >= BOILERPLATE_REPEAT_THRESHOLD
+        ):
+            exclude("repeated_boilerplate_excluded", record["id"])
+            continue
+        filtered.append(record)
+    counts["final_chunks"] = len(filtered)
+
+    return filtered, {
+        "counts": dict(counts),
+        "warning_samples": warning_samples,
+        "exclusion_samples": exclusion_samples,
+        "warnings": warning_count,
+        "excluded_records": sum(
+            value for key, value in counts.items() if key.endswith("_excluded")
+        ),
+    }
+
+
 def _write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="\n") as handle:
@@ -409,19 +553,23 @@ def run(
         raise RuntimeError("No text units were extracted from the PDFs")
     print(f"Preparing semantic boundaries for {len(units)} sentences")
     distances = _cosine_distances(model, units)
-    chunks, cutoff = _chunk(units, distances, percentile)
+    raw_chunks, cutoff = _chunk(units, distances, percentile)
+    chunks, validation = _clean_and_validate(raw_chunks)
     print(
         f"Pages: {stats['pages']} (native {stats['native']}, OCR {stats['ocr']}, empty {stats['empty']})"
     )
     print(f"Sentences: {len(units)}; semantic cutoff: {cutoff:.4f} at p{percentile:g}")
     print(
-        f"Text chunks: {len(chunks)}; average tokens: {sum(c['metadata']['token_count'] for c in chunks) / max(1, len(chunks)):.1f}"
+        f"Final text chunks: {len(chunks)}; average tokens: {sum(c['metadata']['token_count'] for c in chunks) / max(1, len(chunks)):.1f}"
     )
     if preview:
         _print_preview(chunks, sample)
         return 0
-    _write_jsonl(OUTPUT_DIR / "text_chunks.jsonl", chunks)
-    print(f"Wrote text: {OUTPUT_DIR / 'text_chunks.jsonl'}")
+    volumes = sorted({int(chunk["metadata"]["volume"]) for chunk in chunks})
+    volume_label = "_".join(str(volume) for volume in volumes)
+    output_path = OUTPUT_DIR / f"text_chunks_volume_{volume_label}.jsonl"
+    _write_jsonl(output_path, chunks)
+    print(f"Wrote text: {output_path}")
     token_counts = [chunk["metadata"]["token_count"] for chunk in chunks]
     batches = (len(units) + EMBEDDING_BATCH_SIZE - 1) // EMBEDDING_BATCH_SIZE
     summary = [
@@ -433,14 +581,30 @@ def run(
         f"Semantic model: {MODEL_NAME}",
         f"Embedding batches: {batches} (batch size {EMBEDDING_BATCH_SIZE}, {len(units)} sentence vectors)",
         f"Semantic boundary cutoff: {cutoff:.4f} (adjacent-distance percentile p{percentile:g})",
-        f"Text chunks: {len(chunks)}",
+        f"Raw chunks before validation: {len(raw_chunks)}",
+        f"Final text chunks: {len(chunks)}",
+        f"Validation exclusions: {validation['excluded_records']}; warnings: {validation['warnings']}",
         f"Chunk token counts: average {sum(token_counts) / max(1, len(token_counts)):.1f}, min {min(token_counts, default=0)}, max {max(token_counts, default=0)} (limit {MAX_TOKENS})",
-        f"Text JSONL: {OUTPUT_DIR / 'text_chunks.jsonl'}",
+        f"Text JSONL: {output_path}",
     ]
     print("\nRun summary:")
     for line in summary:
         print(f"  {line}")
     _append_run_log(summary)
+    report_path = OUTPUT_DIR / f"text_pipeline_report_volume_{volume_label}.json"
+    report = {
+        "pipeline": "chunk_nbc_text",
+        "status": "completed",
+        "source_pdfs": [str(path) for path in paths],
+        "volumes": volumes,
+        "output": str(output_path),
+        "pages": stats,
+        "semantic_boundary": {"model": MODEL_NAME, "percentile": percentile, "cutoff": cutoff},
+        "validation": validation,
+        "final_chunks": len(chunks),
+    }
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Report: {report_path}")
     print(f"Run details appended to: {LOG_PATH}")
     return 0
 
