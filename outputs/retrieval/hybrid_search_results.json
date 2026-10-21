@@ -1,0 +1,298 @@
+{
+  "generated_at": "2026-10-19T14:18:29+05:30",
+  "case_2_hybrid_results": [
+    {
+      "rank": 1,
+      "id": "nbc-v1-p264-000863",
+      "cosine_similarity": 0.7583328485488892,
+      "cosine_distance": 0.24166715145111084,
+      "text": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Access Corridor — A corridor in exit access insulation criteria shall be 20 min. which may not necessarily have the requirement ofexits 3 Fire doors in exits shall be provided with intumescent seal. being met 4 Fire doors in exits shall not be allowed to be on hold open ig met. position and kept closed and to close by ‘door closure— spring 2.19 Exit Discharge — The component ofameans of mechanism’. ; | we : . 5 Fire curtains shall not be allowed as fire exits. If so provided egress between the termination of an exit and a public for compartmentation, independent fire door shall be provided way (see Fig. 1). meeting the requirement for fire door in exits as above (of the . . . co . width as required) within the prescribed travel distance 2.20 Fire Barrier (or Fire Resisting Barrier) — A requirement. fire barrier is a vertically or horizontally aligned . . . . b h 1 h . m, th 2.23 Fire Exit— A way out leading from exit access member suc as a wa ora ire curtain, OF ‘00r. . ese with or without panic bar provided on the door. may be with discontinuities created by openings with a specified fire resistance rating, where such members 2.24 Firefighting Shaft (Fire Tower)— An enclosed are designed and constructed with a specified fire shaft having protected area of 120 min fire resistance resistance rating to limit the spread of fire that also fant Oe Hin come Protected Lobby. dinchog and restricts the movement of smoke. ireman’s lift, connected directly to exit discharge or through exit passageway with 120 min fire resistant 2.21 Fire Compartment — A space within a building wall at the level of exit discharge to exit discharge. that is enclosed by fire barrier or fire resistant walls on These shall also serve the purpose of exit requirement/ all sides, including the top and bottom. strategy for the occupants.",
+      "metadata": {
+        "heading": "Part 4 — Fire and Life Safety",
+        "extraction_methods": "ocr",
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "page_end": 264,
+        "clause": "2.17",
+        "page_start": 264,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "volume": 1,
+        "source": "nationalbuilding01.pdf",
+        "distance_percentile": 85.0,
+        "chunk_index": 863,
+        "chunk_method": "semantic",
+        "token_count": 440,
+        "chunk_id": "nbc-v1-p264-000863",
+        "modality": "text"
+      },
+      "lexical_score": 0.8857,
+      "exact_matches": [
+        "2.18",
+        "Exit Access Corridor"
+      ],
+      "hybrid_score": 0.8029,
+      "score": 0.8029
+    },
+    {
+      "rank": 2,
+      "id": "nbc-v1-p283-000928",
+      "cosine_similarity": 0.7774554491043091,
+      "cosine_distance": 0.22254455089569092,
+      "text": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping, ducts for pressurization and similar a) Basement exits shall be sufficient to provide life safety services. Such openings as well as vertical for the capacity of the basement as determined passage of shaft through floors shall be protected by in accordance with 4.4.2.1. In no case shall passive systems. there be less than two independent basement exits. 4.2.18 Walking surfaces in exit access shall comply b) Basements having incidental occupancies to with the following requirements for smooth exit: main occupancy shall be planned with exit a) Walking surfaces shall be nominally level. requirements of the basements for the actual b) The slope of walking surface in the direction occupancy within the basement. of travel shall not exceed | in 20 unless the c) Where basement is used for car parking and ramp requirements are met (see 4.4.2.4.3.5). also there is direct approach from any 28 NATIONAL BUILDING CODE OF INDIA 2016 i [a] a, Y Ky 3 EXIT DISCHARGE a DOOR. x ES] § By | aK EXIT ACCESS a 8 & 47 EXIT ACCESS EXIT WITH_EXIT PASSAGEWAY AND EXIT DISCHARGE Fic. 5 Minimum HEAD Room MEASUREMENT occupancy above to the basement, door __ persons within any floor area or the occupant load shall openings leading to the basement shall need be based on the actual number of occupants declared, to be protected with fire doors with 120 min but in no case less than that specified in Table 3. The fire rating, except for exit discharge doors occupant load ofa mezzanine floor discharging to a from the basements. floor below shall be added to that floor occupancy and the capacity of the exits shall be designed for the total 4.3 Occupant Load pacity . eI occupancy load thus established. For determining the exits required, the number of The occupant load of each story considered individually Table 3 Occupant Load (Clauses 4.3 and 4.4.2.1) sl Group of Occupancy Occupant Load Factor No.",
+      "metadata": {
+        "page_start": 283,
+        "volume": 1,
+        "source": "nationalbuilding01.pdf",
+        "distance_percentile": 85.0,
+        "chunk_method": "semantic",
+        "modality": "text",
+        "page_end": 284,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "extraction_methods": "ocr",
+        "token_count": 471,
+        "chunk_index": 928,
+        "chunk_id": "nbc-v1-p283-000928",
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "heading": "Part 4 — Fire and Life Safety"
+      },
+      "lexical_score": 0.5857,
+      "exact_matches": [
+        "2.18"
+      ],
+      "hybrid_score": 0.7103,
+      "score": 0.7103
+    },
+    {
+      "rank": 3,
+      "id": "nbc-v1-p315-001015",
+      "cosine_similarity": 0.7547141909599304,
+      "cosine_distance": 0.24528580904006958,
+      "text": "VISION PANELS REQUIRED IN DOORS; CENTRE MULLIONS PROHIBITED EXIT ACCESS CORRIDOR WIDTH > 2400 mm {UT hain 9) AHA FIRECOMPARTMENT SO ! A 120min FIRE RESISTANT WALLs<:)) [| Sam || AS COMPARTMENT AND ALSO FOR HORIZONTAL EXIT DOOR LEAVES SWING ) FIRE COMPARTMENT INOPPOSITEDIRECTIONS HUT Y ital SPACE TO BE AS PER 6.3.2.(g) (2) Fic. 14 Part PLAN INDICATING Concept OF HorizonTAL Exit IN HospitAL 60 NATIONAL BUILDING CODE OF INDIA 2016 g) For hospitals (Subdivision C-1), the following 10) Any sleeping accommodation or suite shall also be complied with: exceeding 100 m? in area shall have at 1) Compartmentation shall meet the least two doorways leading to the exit . access corridors. requirement as per 4.5.2. . 2) Bach compartment (see 4.5.2) shall be able 11) Floor surface of corridors shall not be to accommodate, in addition to its own. inclined at a gradient steeper than | in 12 : earean : to the horizontal. the patients from adjoining compartment also considering 3.5 m? per person. If 12) Exit access corridors from a compartment patients are not bed-ridden, a factor of to another compartment shall be divided 0.6 m? per person is recommended. at the compartment intersection bya fire 3) All critical patients and those incapable door of 120 min fire rating in the fire of self-preservation and having physical compartment wall. impairment shall be housed within 30 m 13) Rooms designated for laboratory and the height. like shall not exceed 100 m? in area and 4) Other types of patients and occupancies if additional space is required, fire incidental to the hospitals such as separation of 120 min shall be provided. consultation rooms, nurses’ stations, 14) Storage of flammable liquids in medical shops, canteens, etc may be laboratories or in any other area shall be housed at heights beyond 30 m but not not more than 3 litre for every 10 m? more than 45 m. area.",
+      "metadata": {
+        "distance_percentile": 85.0,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "token_count": 480,
+        "extraction_methods": "ocr",
+        "chunk_method": "semantic",
+        "chunk_index": 1015,
+        "modality": "text",
+        "page_end": 316,
+        "volume": 1,
+        "chunk_id": "nbc-v1-p315-001015",
+        "source": "nationalbuilding01.pdf",
+        "page_start": 315,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "heading": "Part 4 — Fire and Life Safety"
+      },
+      "lexical_score": 0.5286,
+      "exact_matches": [
+        "Exit Access Corridor"
+      ],
+      "hybrid_score": 0.6756,
+      "score": 0.6756
+    },
+    {
+      "rank": 4,
+      "id": "nbc-v1-p282-000925",
+      "cosine_similarity": 0.7810440063476562,
+      "cosine_distance": 0.21895599365234375,
+      "text": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling 4.2.1 An exit may be a fire exit doorway; an internal height of at least 2.4 m. However, the height of exit staircase, exit passageway, external doorway, external door shall be at least 2.0 m (see Fig. 5). staircase and these having access to the street or to a Veranda or to a refuge area or to the terrace or roof of 4.2.12 Where changes in elevation of more than a building. An exit may also include a horizontal exit 300 mm are encountered in the exits, ramps or sloped leading to an adjoining building/fire compartment surfaces shall be used with handrails and floor finish having its further access to unlocked/public exit at the materials that contrast with the adjacent finish materials. same level. 4.2.13 The capacity of the means of egress required 4.2.2 Unless otherwise specified, lifts, escalators, from any storey of the building shall not be reduced moving walks and revolving doors shall not be along the path of egress travel until arrival to the exit considered as exits and shall not constitute any partof discharge. the required exit. 4.2.14 The lifts, escalators, moving walks, turnstiles 4.2.3 Every exit, exit passageway and exit discharge and revolving doors shall not be considered in shall be continuously maintained free ofall obstructions determining the required capacity of means of egress or impediments to full use in the case of fire or other _for the individual floor(s) or the building. emergency. 4.2.15 Turnstiles or similar devices that restrict travel 4.2.4 Every building having human occupancy shall to one direction or that are used to restrict unauthorized be provided with exits sufficient to permit safe egress entry shall not be so placed as to obstruct any required of occupants, in case of fire or other emergency. meansofegress. Alternative door openings of required 4.2.5 In every building or structure, exits shall comply exit width shall be available within 3 m of such devices, with the minimum requirements of this Part, except if installed. those not accessible for general public use.",
+      "metadata": {
+        "volume": 1,
+        "token_count": 487,
+        "extraction_methods": "ocr",
+        "modality": "text",
+        "distance_percentile": 85.0,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "source": "nationalbuilding01.pdf",
+        "chunk_method": "semantic",
+        "page_end": 282,
+        "heading": "Part 4 — Fire and Life Safety",
+        "page_start": 282,
+        "chunk_index": 925,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "chunk_id": "nbc-v1-p282-000925"
+      },
+      "lexical_score": 0.2286,
+      "exact_matches": [],
+      "hybrid_score": 0.5877,
+      "score": 0.5877
+    },
+    {
+      "rank": 5,
+      "id": "nbc-v1-p288-000941",
+      "cosine_similarity": 0.7445676326751709,
+      "cosine_distance": 0.2554323673248291,
+      "text": "The maximum height of riser shall be \\ 190 mm for staircase of residential buildings (A-2) and \\ RoR 150 mm for other buildings. The number ofrisers shall \\ DOOR WIDTH be limited to 12 per flight. \\ The staircases may be internal staircases or external ~ staircases. ss ~~ 4.4.2.4.3.2 Internal staircases Fic, 8 Minimum Crear Door Wit The internal staircases may be constructed with an of exit doorways leading from them in the exernal wall, or otherwise, and shall comply with the direction of travel to the exit (see Table 4 and mowing: Table 5). a) Internal stairs shall be constructed of non- b) Inthe case of buildings where there is a central combustible materials throughout, and shall corridor, which is part of exit access, the doors have fire resistant rating ofminimum 120 min. of rooms (except for rooms having assembly b) A staircase shall not be arranged rounda lift occupancy) shall open inwards to permit shaft. smooth flow of traffic in the corridor. c) Exits shall not be used as a portion ofa supply, 4.4.2.4.3 Staircases return or exhaust air system serving adjoining _ _ areas. Any opening(s) shall not be permitted 4.4.2.4.3.1 General in walls or in doors, separating exits from The requirements of number of staircases shall adjoining areas. . supplement the requirement of different occupancies 4) No flue chimney, electromechanical in 6.1 to 6.9. equipment, air conditioning units, gas piping or electrical panels shall be allowed in the All buildings, as mentioned in 1.2, shall have a stairway. minimum of two staircases.",
+      "metadata": {
+        "page_end": 288,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "token_count": 378,
+        "chunk_id": "nbc-v1-p288-000941",
+        "heading": "Part 4 — Fire and Life Safety",
+        "volume": 1,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "page_start": 288,
+        "source": "nationalbuilding01.pdf",
+        "modality": "text",
+        "distance_percentile": 85.0,
+        "extraction_methods": "ocr",
+        "chunk_method": "semantic",
+        "chunk_index": 941
+      },
+      "lexical_score": 0.2857,
+      "exact_matches": [],
+      "hybrid_score": 0.584,
+      "score": 0.584
+    }
+  ],
+  "case_3_hybrid_results": [
+    {
+      "rank": 1,
+      "id": "nbc-v1-p264-000863",
+      "cosine_similarity": 0.8028002381324768,
+      "cosine_distance": 0.1971997618675232,
+      "text": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Access Corridor — A corridor in exit access insulation criteria shall be 20 min. which may not necessarily have the requirement ofexits 3 Fire doors in exits shall be provided with intumescent seal. being met 4 Fire doors in exits shall not be allowed to be on hold open ig met. position and kept closed and to close by ‘door closure— spring 2.19 Exit Discharge — The component ofameans of mechanism’. ; | we : . 5 Fire curtains shall not be allowed as fire exits. If so provided egress between the termination of an exit and a public for compartmentation, independent fire door shall be provided way (see Fig. 1). meeting the requirement for fire door in exits as above (of the . . . co . width as required) within the prescribed travel distance 2.20 Fire Barrier (or Fire Resisting Barrier) — A requirement. fire barrier is a vertically or horizontally aligned . . . . b h 1 h . m, th 2.23 Fire Exit— A way out leading from exit access member suc as a wa ora ire curtain, OF ‘00r. . ese with or without panic bar provided on the door. may be with discontinuities created by openings with a specified fire resistance rating, where such members 2.24 Firefighting Shaft (Fire Tower)— An enclosed are designed and constructed with a specified fire shaft having protected area of 120 min fire resistance resistance rating to limit the spread of fire that also fant Oe Hin come Protected Lobby. dinchog and restricts the movement of smoke. ireman’s lift, connected directly to exit discharge or through exit passageway with 120 min fire resistant 2.21 Fire Compartment — A space within a building wall at the level of exit discharge to exit discharge. that is enclosed by fire barrier or fire resistant walls on These shall also serve the purpose of exit requirement/ all sides, including the top and bottom. strategy for the occupants.",
+      "metadata": {
+        "extraction_methods": "ocr",
+        "modality": "text",
+        "page_end": 264,
+        "source": "nationalbuilding01.pdf",
+        "distance_percentile": 85.0,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "clause": "2.17",
+        "token_count": 440,
+        "chunk_method": "semantic",
+        "chunk_index": 863,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "chunk_id": "nbc-v1-p264-000863",
+        "volume": 1,
+        "heading": "Part 4 — Fire and Life Safety",
+        "page_start": 264
+      },
+      "lexical_score": 0.8286,
+      "exact_matches": [
+        "intumescent seal",
+        "fire doors"
+      ],
+      "hybrid_score": 0.8118,
+      "score": 0.8118
+    },
+    {
+      "rank": 2,
+      "id": "nbc-v1-p356-001125",
+      "cosine_similarity": 0.7509257793426514,
+      "cosine_distance": 0.24907422065734863,
+      "text": "Enclosures h h |a a Open Enclosed Open Enclosed Station Station Station Station i) Q) G) @ G) (6) i) Auxiliary substation, electrical UPS/battery room 2 3 1.5 3 ii) Signalling equipment room, telecom equipment room, S&T (signalling and 2 2 1.5 1.5 train control) UPS/battery room, electrical cable shafts, S&T cable shafts iii) Environmental control system (ECS) plant room, tunnel ventilation room, 2 2 1.5 1.5 firemen’s staircase, emergency equipment store, CDMA room, GSM room, sewage ejector room, sump pump room, chiller plant room, pump room, DG panel room iv) Station manager room, cash and ticket supervisor room, security room, 1 2 0.5 1.5 stores, cleaners room, refuse storage, toilets, plumbing shafts, staff mess rooms, distribution board room and the like. from any angle and against any latch fitted to b) For protection against intrusion of flammable the door. and combustible liquids and flooding of c) Any fire door fitted within an opening which underground transit systems, any structure is provided as a means of escape shall be including emergency egress or access stairs capable of being opened manually, not be held or vent or fan shaft structure utilized for open by any means other than by an ventilation of underground system shall be electromagnetic or electro-mechanical device permitted to be terminated at grade, provided which can be activated by the presence of that the level at which it is terminated is at smoke and/or the fire alarm system, provided least 450 mm above the surrounding ground that this shall not apply in the case of fire doors level/footpath level. opening into pressurised exit staircases. c) Emergency ventilation fans, their motors, and . all related components exposed to the exhaust J-6.6 Smoke Compartmentation airflow shall be designed to operate in an a) Smoke compartments shall be created to ambient atmosphere of250°C foraminimum ensure that in case ofa fire scenario, the escape of 60 min. routes are not full ofsmoke and a safe passage d) Operation ofthe emergency ventilation system is provided to fire fighters to reach fire components shall be initiated from the central location. supervising station. b) Smoke barriers shall be provided within the e) All",
+      "metadata": {
+        "chunk_index": 1125,
+        "volume": 1,
+        "extraction_methods": "ocr",
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "chunk_method": "semantic",
+        "page_end": 356,
+        "token_count": 500,
+        "page_start": 356,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "distance_percentile": 85.0,
+        "heading": "Part 4 — Fire and Life Safety",
+        "modality": "text",
+        "source": "nationalbuilding01.pdf",
+        "chunk_id": "nbc-v1-p356-001125"
+      },
+      "lexical_score": 0.5286,
+      "exact_matches": [
+        "fire doors"
+      ],
+      "hybrid_score": 0.6731,
+      "score": 0.6731
+    },
+    {
+      "rank": 3,
+      "id": "nbc-v1-p282-000924",
+      "cosine_similarity": 0.7388640642166138,
+      "cosine_distance": 0.26113593578338623,
+      "text": "4 LIFE SAFETY 4.2.7 For non-naturally ventilated areas, fire doors with 4.1 General 120 min fire resistance rating shall be provided and particularly at the entrance to lift lobby and stair well Every building shall be so designed, constructed, where a ‘funnel or flue effect’ may be created, inducing equipped, maintained and operated as to provide an upward spread of fire, to prevent spread of fire and adequate meansofegress to avoid undue danger to the smoke. an unie dra the tone varied nevensy loteseape, 4.2.8 Exits shall be so arranged that theymay bereached . without passing through another occupied unit/passage For high occupancy areas, it may be required to have in others control, if they pose challenge or restriction annunciation, announcements and voice guided/aided in means of egress. system to direct the occupants towards safe caress 4.2.9 Doors in exits shall open in the direction of exit. routes, areas of comparative safety or exits, and to avoid sa qe situation of panic during distress. In case of assembly buildings (Group D) and institutional buildings (Group C-1), exit door shall not Every main occupancy may have certain occupancies open immediately upon a flight of stair and all such which may be incidental to the main occupancy. The entries to the stair shall be through a landing, so that exit requirements pertaining to such incidental such doors do not impede movement of people occupancies from the floor of the occupancy to the level descending froma higher floor when fully opened (see of exit discharge shall be calculated to meet the Fig. 4A). While for other occupancies, such doors shall requirement of the actual occupancy of such type, to not reduce the pathway in the landing by more than ensure adequate meansofegress of the occupants. half the width of such staircase (see Fig. 4B). Over- See also 13 ofPart 3 ‘Development Control Rules and head or sliding doors shall not be installed. General Building Requirements’ of the Code for 4.2.10 At least half of the required exit stairs from accessibility for elderly and persons with disabilities, upper floors (rounded to the next higher number) shall for various requirements for enabling a smooth and safe discharge directly to the exterior or through exit egress. passageways.",
+      "metadata": {
+        "modality": "text",
+        "extraction_methods": "ocr",
+        "source": "nationalbuilding01.pdf",
+        "page_end": 282,
+        "volume": 1,
+        "heading": "Part 4 — Fire and Life Safety",
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "distance_percentile": 85.0,
+        "chunk_index": 924,
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "chunk_method": "semantic",
+        "page_start": 282,
+        "token_count": 483,
+        "chunk_id": "nbc-v1-p282-000924"
+      },
+      "lexical_score": 0.4714,
+      "exact_matches": [
+        "fire doors"
+      ],
+      "hybrid_score": 0.6453,
+      "score": 0.6453
+    },
+    {
+      "rank": 4,
+      "id": "nbc-v1-p320-001031",
+      "cosine_similarity": 0.7113908529281616,
+      "cosine_distance": 0.2886091470718384,
+      "text": "The areas having storage, 600 mm above the ridge of the north light. If, manufacturing, hazardous activities such as paint store, however, the separating wall Isat right angles . to the axis ofthe north-light opening, the saw oil storage, spray booths, etc, shall be separated from . non-hazardous areas like administrative office, staff tooth gaps shall be bricked up and the Screen canteen, etc by fire rated walls/doors of 120 min fire wall extended 600 mm above the ridge of the resistance rating. The fire resistance rating of high north light as well as beyond the extreme hazardous areas like petrochemical, explosives shall north-light opening. be 240 min. j) Similarly, the thickness of the floor slabs in . . case of buildings having upper levels shall be The fire separating wall where provided shall comply designed to provide fire rating as mentioned with the following requirements: above. a) The separating wall shall be carried through k) Storage areas shall be separated from the the roof. This portion of the wall extending remainder ofthe building/block by fire walls. PART 4 FIRE AND LIFE SAFETY 65 m) Moderate and high hazard areas in industries escapes may be used as required exits for both to have two fire doors each having 180 min new and existing buildings. fire resistance rating. | | NOTE — All high hazard industrial occupancies shall 6.7.2 Life Safety have automatic sprinkler protection or such other ao . protection as may be appropriate to the particular hazard, 6.7.2.1 In buildings used for aircraft assembly or other including explosion venting for any area subject to occupancy requiring undivided floor areas so large that explosion hazard, designed to minimise danger to the distances from points within the area to the nearest occupants in case of fire or other emergency before they : . have time to utilize exits to escape. outside walls where exit doors could be provided are in excess of 45 m, requirements for distance to exits 6.7.3 Additional Precautions may be satisfied by providing stairs leading to exit a) In any room in which volatile flammable tunnels or to overhead passageways.",
+      "metadata": {
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "chunk_id": "nbc-v1-p320-001031",
+        "source": "nationalbuilding01.pdf",
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "distance_percentile": 85.0,
+        "heading": "Part 4 — Fire and Life Safety",
+        "token_count": 439,
+        "extraction_methods": "ocr",
+        "modality": "text",
+        "chunk_method": "semantic",
+        "page_start": 320,
+        "page_end": 321,
+        "chunk_index": 1031,
+        "volume": 1
+      },
+      "lexical_score": 0.4714,
+      "exact_matches": [
+        "fire doors"
+      ],
+      "hybrid_score": 0.6274,
+      "score": 0.6274
+    },
+    {
+      "rank": 5,
+      "id": "nbc-v1-p314-001012",
+      "cosine_similarity": 0.7277226448059082,
+      "cosine_distance": 0.2722773551940918,
+      "text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable.",
+      "metadata": {
+        "source": "nationalbuilding01.pdf",
+        "page_end": 315,
+        "modality": "text",
+        "volume": 1,
+        "heading_review_status": "assigned_from_contents_page_ranges",
+        "page_start": 314,
+        "clause": "6.1.1.2",
+        "heading_source": "nbc_volume1_contents_pages_v1",
+        "chunk_id": "nbc-v1-p314-001012",
+        "token_count": 387,
+        "extraction_methods": "ocr",
+        "heading": "Part 4 — Fire and Life Safety",
+        "chunk_method": "semantic",
+        "distance_percentile": 85.0,
+        "chunk_index": 1012
+      },
+      "lexical_score": 0.4143,
+      "exact_matches": [
+        "fire doors"
+      ],
+      "hybrid_score": 0.618,
+      "score": 0.618
+    }
+  ]
+}

@@ -60,6 +60,9 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 
+_MODEL_CACHE: dict[tuple[str, str | None], Any] = {}
+
+
 def _embed_query(
     query: str,
     *,
@@ -73,15 +76,18 @@ def _embed_query(
     """
     from sentence_transformers import SentenceTransformer  # local import keeps startup fast
 
-    model_kwargs: dict[str, str] = {"device": device} if device else {}
-    model = SentenceTransformer(model_name, **model_kwargs)
-    logger.info("Embedding query with model: %s", model_name)
+    cache_key = (model_name, device)
+    if cache_key not in _MODEL_CACHE:
+        model_kwargs: dict[str, str] = {"device": device} if device else {}
+        logger.info("Loading embedding model: %s", model_name)
+        _MODEL_CACHE[cache_key] = SentenceTransformer(model_name, **model_kwargs)
+
+    model = _MODEL_CACHE[cache_key]
     vector = model.encode(
         query,
         normalize_embeddings=True,
         convert_to_numpy=True,
     )
-    logger.info("Query embedding dimension: %d", len(vector))
     return vector.tolist()
 
 
@@ -90,17 +96,22 @@ def _search_collection(
     query_vector: list[float],
     collection: Any,
     top_k: int,
+    where: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Run a top-k ANN query on *collection* and return structured results."""
     effective_k = min(top_k, collection.count())
     if effective_k == 0:
         return []
 
-    response = collection.query(
-        query_embeddings=[query_vector],
-        n_results=effective_k,
-        include=["documents", "metadatas", "distances"],
-    )
+    query_kwargs: dict[str, Any] = {
+        "query_embeddings": [query_vector],
+        "n_results": effective_k,
+        "include": ["documents", "metadatas", "distances"],
+    }
+    if where:
+        query_kwargs["where"] = where
+
+    response = collection.query(**query_kwargs)
 
     ids: list[str] = (response.get("ids") or [[]])[0]
     documents: list[str] = (response.get("documents") or [[]])[0]
@@ -137,6 +148,7 @@ def retrieve(
     collection_name: str,
     model_name: str,
     device: str | None,
+    where: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Embed *query*, search the vector store, and return the top-*k* results.
 
@@ -188,11 +200,13 @@ def retrieve(
         query_vector=query_vector,
         collection=collection,
         top_k=top_k,
+        where=where,
     )
 
     return {
         "query": query,
         "top_k": top_k,
+        "filter": where,
         "embedding_model": model_name,
         "collection": safe_name,
         "vector_database": str(persist_dir),
@@ -215,6 +229,7 @@ def retrieve_multi_k(
     collection_name: str,
     model_name: str,
     device: str | None,
+    where: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run retrieval for several k values and return a comparison report.
 
@@ -251,6 +266,7 @@ def retrieve_multi_k(
             query_vector=query_vector,
             collection=collection,
             top_k=k,
+            where=where,
         )
         runs.append(
             {
@@ -262,6 +278,7 @@ def retrieve_multi_k(
 
     return {
         "query": query,
+        "filter": where,
         "embedding_model": model_name,
         "collection": safe_name,
         "vector_database": str(persist_dir),
@@ -354,7 +371,21 @@ def main() -> int:
         default=OUTPUT_DIR,
         help="Directory where JSON results are written",
     )
+    parser.add_argument(
+        "--filter-heading",
+        help="Optional section heading filter (e.g. 'Part 4 — Fire and Life Safety')",
+    )
+    parser.add_argument(
+        "--where-json",
+        help="Optional JSON string representing a Chroma metadata where filter",
+    )
     args = parser.parse_args()
+
+    where: dict[str, Any] | None = None
+    if args.where_json:
+        where = json.loads(args.where_json)
+    elif args.filter_heading:
+        where = {"heading": args.filter_heading}
 
     k_values: list[int] = args.top_k
     if any(k < 1 for k in k_values):
@@ -369,6 +400,7 @@ def main() -> int:
             collection_name=args.collection,
             model_name=args.model,
             device=args.device,
+            where=where,
         )
     except Exception as exc:
         logger.exception("Retrieval failed: %s", exc)
