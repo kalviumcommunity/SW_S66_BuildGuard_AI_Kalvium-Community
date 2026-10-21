@@ -1,0 +1,2559 @@
+{
+  "tuning_metadata": {
+    "timestamp": "2026-10-21T13:34:11+05:30",
+    "collection": "nbc_v1_multi_qa_minilm_l6_dot_v1",
+    "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+    "total_test_queries": 6,
+    "configurations_evaluated": 6
+  },
+  "chosen_settings": {
+    "chosen_config_name": "hybrid_filtered_weighted",
+    "chosen_config": {
+      "name": "hybrid_filtered_weighted",
+      "description": "Hybrid search (k=5, alpha=0.65) combining dense vectors with exact lexical matching and section filter.",
+      "top_k": 5,
+      "use_metadata_filter": true,
+      "score_threshold": null,
+      "hybrid": true,
+      "hybrid_method": "weighted",
+      "alpha": 0.65
+    },
+    "metrics_summary": {
+      "top_1_hit_rate": 1.0,
+      "top_k_hit_rate": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "average_domain_precision": 1.0,
+      "composite_relevance_score": 100.0,
+      "queries_tested": 6,
+      "top_1_hits": 6,
+      "top_k_hits": 6
+    },
+    "improvements_over_baseline": {
+      "baseline_config": "baseline_k3",
+      "mrr_improvement": 0.2778,
+      "top_1_hit_rate_improvement": 0.3333,
+      "domain_precision_improvement": 0.0556
+    },
+    "justification": "The 'hybrid_filtered_weighted' configuration achieved the highest overall performance with a Composite Score of 100.0/100. Compared to the baseline vector search (baseline_k3), it delivered a Top-1 Hit Rate of 100.0% (+33.3%), an MRR of 1.0000 (+0.2778), and 100% Domain Precision (+5.6%). By combining section metadata filtering with lexical keyword and clause boosting (hybrid alpha=0.65), it eliminates cross-domain distractions (such as steel buckling in timber queries) while ensuring exact regulatory clauses (e.g. Clause 2.18) are indexed directly at Rank 1.",
+    "ranking_leaderboard": [
+      {
+        "rank": 1,
+        "config_name": "hybrid_filtered_weighted",
+        "composite_score": 100.0,
+        "top_1_hit_rate": 1.0,
+        "top_k_hit_rate": 1.0,
+        "mrr": 1.0,
+        "domain_precision": 1.0
+      },
+      {
+        "rank": 2,
+        "config_name": "hybrid_filtered_rrf",
+        "composite_score": 92.22,
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 1.0,
+        "mrr": 0.8056,
+        "domain_precision": 1.0
+      },
+      {
+        "rank": 3,
+        "config_name": "filtered_vector_k5",
+        "composite_score": 83.89,
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mrr": 0.7222,
+        "domain_precision": 1.0
+      },
+      {
+        "rank": 4,
+        "config_name": "baseline_k3",
+        "composite_score": 82.22,
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mrr": 0.7222,
+        "domain_precision": 0.9444
+      },
+      {
+        "rank": 5,
+        "config_name": "baseline_k7",
+        "composite_score": 79.6,
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mrr": 0.7222,
+        "domain_precision": 0.8571
+      },
+      {
+        "rank": 6,
+        "config_name": "vector_threshold_tau75",
+        "composite_score": 74.42,
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.6667,
+        "mrr": 0.6667,
+        "domain_precision": 0.925
+      }
+    ]
+  },
+  "configurations": [
+    {
+      "config_name": "baseline_k3",
+      "config": {
+        "name": "baseline_k3",
+        "description": "Baseline dense vector retrieval with small context (k=3), unfiltered, no threshold.",
+        "top_k": 3,
+        "use_metadata_filter": false,
+        "score_threshold": null,
+        "hybrid": false,
+        "hybrid_method": "weighted",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mean_reciprocal_rank": 0.7222,
+        "average_domain_precision": 0.9444,
+        "composite_relevance_score": 82.22,
+        "queries_tested": 6,
+        "top_1_hits": 4,
+        "top_k_hits": 5
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": null,
+          "top_1_hit": false,
+          "hit_at_k": false,
+          "reciprocal_rank": 0.0,
+          "domain_precision": 0.6667,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8010085225105286,
+              "cosine_similarity": 0.8010085225105286,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7887536287307739,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p122-000399",
+              "score": 0.7783066034317017,
+              "cosine_similarity": 0.7783066034317017,
+              "heading": "Part 3 — Development Control Rules and General Building Requirements",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "(Clause 4.3.2.1.1) 4.3.1 Other Buildings SI Description With For all assembly buildings like, theatres, cinema houses, KD m assembly halls, stadia; ed"
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8143230676651001,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000943",
+              "score": 0.7692493200302124,
+              "cosine_similarity": 0.7692493200302124,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "A-4) PART 4 FIRE AND LIFE SAFETY 33 3) Residential hotel (A-5 and: 1.50m 11) All staircase shall terminate at the level A-6) of exit discharge. The ac"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p360-001135",
+              "score": 0.7602224349975586,
+              "cosine_similarity": 0.7602224349975586,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "K-4.2.2 The width of exit stairs shall not be required h) The provisions shall include measures to © €xceed 1 200 mm for enclosed trainways. protect p"
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.8291088938713074,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p265-000868",
+              "score": 0.7949231266975403,
+              "cosine_similarity": 0.7949231266975403,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.25",
+              "is_ground_truth": false,
+              "text_preview": "Se . . oe . resistance rated wall having fire protected openings, 2 The fire resistance rating shall be specified in terms of minutes. . . . . . . whi"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.7812427878379822,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.7665727734565735,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p279-000913",
+              "score": 0.7513128519058228,
+              "cosine_similarity": 0.7513128519058228,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.7.3 Suitable arrangements shall be made by including safe and adequate controls, acceptable and installing double throw switches to ensure that th"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p278-000912",
+              "score": 0.744062066078186,
+              "cosine_similarity": 0.744062066078186,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "For details, see Part 8 h) Escape lighting luminaires should be sited to ‘Building Services, Section 2 Electrical and Allied : ene cover the following"
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.8750200867652893,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.8425247669219971,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.8284169435501099,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": 3,
+          "top_1_hit": false,
+          "hit_at_k": true,
+          "reciprocal_rank": 0.3333,
+          "domain_precision": 1.0,
+          "results_count": 3,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.8284685015678406,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.7561647295951843,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p645-001941",
+              "score": 0.743424117565155,
+              "cosine_similarity": 0.743424117565155,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "(N- 4) d; with a minimumof2.5 d;. Also accordance with good practice [6-3A(9)]. governed by net area at critical section see : ‘ . which should be 80 "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_name": "baseline_k7",
+      "config": {
+        "name": "baseline_k7",
+        "description": "Baseline dense vector retrieval with expanded context (k=7), unfiltered, no threshold.",
+        "top_k": 7,
+        "use_metadata_filter": false,
+        "score_threshold": null,
+        "hybrid": false,
+        "hybrid_method": "weighted",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mean_reciprocal_rank": 0.7222,
+        "average_domain_precision": 0.8571,
+        "composite_relevance_score": 79.6,
+        "queries_tested": 6,
+        "top_1_hits": 4,
+        "top_k_hits": 5
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": null,
+          "top_1_hit": false,
+          "hit_at_k": false,
+          "reciprocal_rank": 0.0,
+          "domain_precision": 0.8571,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8010085225105286,
+              "cosine_similarity": 0.8010085225105286,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7887536287307739,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p122-000399",
+              "score": 0.7783066034317017,
+              "cosine_similarity": 0.7783066034317017,
+              "heading": "Part 3 — Development Control Rules and General Building Requirements",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "(Clause 4.3.2.1.1) 4.3.1 Other Buildings SI Description With For all assembly buildings like, theatres, cinema houses, KD m assembly halls, stadia; ed"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.7748828530311584,
+              "cosine_similarity": 0.7748828530311584,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p317-001019",
+              "score": 0.7686598300933838,
+              "cosine_similarity": 0.7686598300933838,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "7 : a to provide direct access to the exit, provided Above this height the buildings may be used for that not less than one cross aisle for every 10 b"
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v1-p285-000932",
+              "score": 0.7669004201889038,
+              "cosine_similarity": 0.7669004201889038,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "300 mm x 200 mm, with letters ofheight and width not Lighting shall be provided with emergency less than 50 mm, with detail of occupancy, area and pow"
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p286-000934",
+              "score": 0.7659780979156494,
+              "cosine_similarity": 0.7659780979156494,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 Deap End Corripor 4.4.2.3 Capacities ofmeans of egress For example, if an exit doorway measures . oe 1 000 mm in clear width, it would be defined a)"
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 0.8571,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8143230676651001,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000943",
+              "score": 0.7692493200302124,
+              "cosine_similarity": 0.7692493200302124,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "A-4) PART 4 FIRE AND LIFE SAFETY 33 3) Residential hotel (A-5 and: 1.50m 11) All staircase shall terminate at the level A-6) of exit discharge. The ac"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p360-001135",
+              "score": 0.7602224349975586,
+              "cosine_similarity": 0.7602224349975586,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "K-4.2.2 The width of exit stairs shall not be required h) The provisions shall include measures to © €xceed 1 200 mm for enclosed trainways. protect p"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p183-000576",
+              "score": 0.7508290410041809,
+              "cosine_similarity": 0.7508290410041809,
+              "heading": "Part 3 — Development Control Rules and General Building Requirements",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "41). The minimum unobstructed that do not impede the movement of — width ofcorridors shall be 1 500 mm, witha preference wheelchairs. If mat is provid"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p316-001018",
+              "score": 0.7429584264755249,
+              "cosine_similarity": 0.7429584264755249,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "PART 4 FIRE AND LIFE SAFETY 61 EXIT STAIR 1 \" AREAA HORIZONTAL EXIT y EXIT STAIR 2 HORIZONTAL [ EXIT2 Bi AREA.C Hi AREA B Fic. 15 Minimum oF Two Exits"
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v1-p317-001019",
+              "score": 0.7416696548461914,
+              "cosine_similarity": 0.7416696548461914,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "7 : a to provide direct access to the exit, provided Above this height the buildings may be used for that not less than one cross aisle for every 10 b"
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7412699460983276,
+              "cosine_similarity": 0.7412699460983276,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.8291088938713074,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p265-000868",
+              "score": 0.7949231266975403,
+              "cosine_similarity": 0.7949231266975403,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.25",
+              "is_ground_truth": false,
+              "text_preview": "Se . . oe . resistance rated wall having fire protected openings, 2 The fire resistance rating shall be specified in terms of minutes. . . . . . . whi"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.7812427878379822,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p320-001030",
+              "score": 0.7763978838920593,
+              "cosine_similarity": 0.7763978838920593,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "8) Doors and window openings in external walls P ancy Purp ° within 3 m of the fire separating walls shall 6.7 Industrial Buildings (Group G) be prote"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p274-000896",
+              "score": 0.775980532169342,
+              "cosine_similarity": 0.775980532169342,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Structural Element Fire Resistance Ratings (min) for Type of Construction ——o> Type 1 Type 2 Type 3 Type 4 io) (2) G3) (4) (5) (6) i) Exterior walls: "
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v1-p296-000966",
+              "score": 0.7545232176780701,
+              "cosine_similarity": 0.7545232176780701,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Occupancy Fire Exting- nisher (1) (2) (3) RESIDENTIAL BUILDINGS (A) a) Lodging and Rooming Houses (A-1) (see Note 3) I) Less than 15 min height i) Up "
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p279-000915",
+              "score": 0.7509523630142212,
+              "cosine_similarity": 0.7509523630142212,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas "
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 0.7143,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.7665727734565735,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p279-000913",
+              "score": 0.7513128519058228,
+              "cosine_similarity": 0.7513128519058228,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.7.3 Suitable arrangements shall be made by including safe and adequate controls, acceptable and installing double throw switches to ensure that th"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p278-000912",
+              "score": 0.744062066078186,
+              "cosine_similarity": 0.744062066078186,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "For details, see Part 8 h) Escape lighting luminaires should be sited to ‘Building Services, Section 2 Electrical and Allied : ene cover the following"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v2-p293-001002",
+              "score": 0.7401328086853027,
+              "cosine_similarity": 0.7401328086853027,
+              "heading": "B-R",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "xxi) Trip/Neutral/Close xxii) Local/remote selector switch xxiii) LED lamps xxiv) Mechanical operation"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7327749133110046,
+              "cosine_similarity": 0.7327749133110046,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v2-p551-001871",
+              "score": 0.7258680462837219,
+              "cosine_similarity": 0.7258680462837219,
+              "heading": "PART 8 BUILDING SERVICES — SECTION 2 ELECTRICAL AND ALLIED INSTALLATIONS 171 Sl No. IS No. Title",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "(persons only or persons with transport devices, number . . . . ofintermediate exits, relative orientation and theoretical In particular, at floor int"
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p278-000911",
+              "score": 0.7216560244560242,
+              "cosine_similarity": 0.7216560244560242,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "rating of 120 min. Access to the substation shall be d) The horizontal luminance at floor level on the provided from the nearest fire exit/exit stairc"
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.8750200867652893,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.8425247669219971,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.8284169435501099,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p631-001900",
+              "score": 0.7937231659889221,
+              "cosine_similarity": 0.7937231659889221,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "5.3.1",
+              "is_ground_truth": false,
+              "text_preview": "5.3.1 When low durability timbers are to be used increase in the permissible stresses, provided the [see 5.2(b)] on outside locations, the permissible"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p619-001841",
+              "score": 0.7907041311264038,
+              "cosine_similarity": 0.7907041311264038,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Q = static moment of area above or below c) Group C — E above 5.6 kN/mm*? and up to the neutral axis about neutral axis, 9.8 kN/mm? and f,above 8.5 N/"
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v1-p628-001891",
+              "score": 0.7838215827941895,
+              "cosine_similarity": 0.7838215827941895,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "NOTE — Preferred lengths of timber: 0.5, 1, 1.5, 2, 2.5 and 3m. Table 5 Preferred Cut Sizes of Structural Timber aa for Roof Trusses (Span from 3 m to"
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p630-001899",
+              "score": 0.7827149629592896,
+              "cosine_similarity": 0.7827149629592896,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "In all other cases shear along grain to be used. PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 19"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": 3,
+          "top_1_hit": false,
+          "hit_at_k": true,
+          "reciprocal_rank": 0.3333,
+          "domain_precision": 0.7143,
+          "results_count": 7,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.8284685015678406,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.7561647295951843,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p645-001941",
+              "score": 0.743424117565155,
+              "cosine_similarity": 0.743424117565155,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "(N- 4) d; with a minimumof2.5 d;. Also accordance with good practice [6-3A(9)]. governed by net area at critical section see : ‘ . which should be 80 "
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p646-001947",
+              "score": 0.7390710115432739,
+              "cosine_similarity": 0.7390710115432739,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "11 Stress DisTRIBUTION IN A SpLit RING CONNECTOR PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 35 2) Below core: compression joint"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v2-p190-000672",
+              "score": 0.7158524990081787,
+              "cosine_similarity": 0.7158524990081787,
+              "heading": "NATIONAL BUILDING CODE OF INDIA PART 7 CONSTRUCTION MANAGEMENT, PRACTICES AND SAFETY BUREAU OF INDIAN STANDARDS",
+              "clause": "6.6.4",
+              "is_ground_truth": false,
+              "text_preview": "6.6.4 Every joint in a cable shall be provided with Conduit wiring system shall comply with insulation not less effective than that of the cable cores"
+            },
+            {
+              "rank": 6,
+              "id": "nbc-v1-p640-001926",
+              "score": 0.7116687893867493,
+              "cosine_similarity": 0.7116687893867493,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 SpacinG or Naits at Nope Joints WHERE MEMBERS ARE INCLINED TO ONE ANOTHER PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 29"
+            },
+            {
+              "rank": 7,
+              "id": "nbc-v1-p962-002954",
+              "score": 0.7109751105308533,
+              "cosine_similarity": 0.7109751105308533,
+              "heading": "Part 6 — Structural Design, Section 6 — Steel",
+              "clause": "2.47",
+              "is_ground_truth": false,
+              "text_preview": "PART 6 STRUCTURAL DESIGN — SECTION 6 STEEL 9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_name": "vector_threshold_tau75",
+      "config": {
+        "name": "vector_threshold_tau75",
+        "description": "Dense vector retrieval (k=5) with similarity cutoff threshold (tau >= 0.75).",
+        "top_k": 5,
+        "use_metadata_filter": false,
+        "score_threshold": 0.75,
+        "hybrid": false,
+        "hybrid_method": "weighted",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.6667,
+        "mean_reciprocal_rank": 0.6667,
+        "average_domain_precision": 0.925,
+        "composite_relevance_score": 74.42,
+        "queries_tested": 6,
+        "top_1_hits": 4,
+        "top_k_hits": 4
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": null,
+          "top_1_hit": false,
+          "hit_at_k": false,
+          "reciprocal_rank": 0.0,
+          "domain_precision": 0.8,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8010085225105286,
+              "cosine_similarity": 0.8010085225105286,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7887536287307739,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p122-000399",
+              "score": 0.7783066034317017,
+              "cosine_similarity": 0.7783066034317017,
+              "heading": "Part 3 — Development Control Rules and General Building Requirements",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "(Clause 4.3.2.1.1) 4.3.1 Other Buildings SI Description With For all assembly buildings like, theatres, cinema houses, KD m assembly halls, stadia; ed"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.7748828530311584,
+              "cosine_similarity": 0.7748828530311584,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p317-001019",
+              "score": 0.7686598300933838,
+              "cosine_similarity": 0.7686598300933838,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "7 : a to provide direct access to the exit, provided Above this height the buildings may be used for that not less than one cross aisle for every 10 b"
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 0.75,
+          "results_count": 4,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8143230676651001,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000943",
+              "score": 0.7692493200302124,
+              "cosine_similarity": 0.7692493200302124,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "A-4) PART 4 FIRE AND LIFE SAFETY 33 3) Residential hotel (A-5 and: 1.50m 11) All staircase shall terminate at the level A-6) of exit discharge. The ac"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p360-001135",
+              "score": 0.7602224349975586,
+              "cosine_similarity": 0.7602224349975586,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "K-4.2.2 The width of exit stairs shall not be required h) The provisions shall include measures to © €xceed 1 200 mm for enclosed trainways. protect p"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p183-000576",
+              "score": 0.7508290410041809,
+              "cosine_similarity": 0.7508290410041809,
+              "heading": "Part 3 — Development Control Rules and General Building Requirements",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "41). The minimum unobstructed that do not impede the movement of — width ofcorridors shall be 1 500 mm, witha preference wheelchairs. If mat is provid"
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.8291088938713074,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p265-000868",
+              "score": 0.7949231266975403,
+              "cosine_similarity": 0.7949231266975403,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.25",
+              "is_ground_truth": false,
+              "text_preview": "Se . . oe . resistance rated wall having fire protected openings, 2 The fire resistance rating shall be specified in terms of minutes. . . . . . . whi"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.7812427878379822,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p320-001030",
+              "score": 0.7763978838920593,
+              "cosine_similarity": 0.7763978838920593,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "8) Doors and window openings in external walls P ancy Purp ° within 3 m of the fire separating walls shall 6.7 Industrial Buildings (Group G) be prote"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p274-000896",
+              "score": 0.775980532169342,
+              "cosine_similarity": 0.775980532169342,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Structural Element Fire Resistance Ratings (min) for Type of Construction ——o> Type 1 Type 2 Type 3 Type 4 io) (2) G3) (4) (5) (6) i) Exterior walls: "
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 2,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.7665727734565735,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p279-000913",
+              "score": 0.7513128519058228,
+              "cosine_similarity": 0.7513128519058228,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.7.3 Suitable arrangements shall be made by including safe and adequate controls, acceptable and installing double throw switches to ensure that th"
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.8750200867652893,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.8425247669219971,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.8284169435501099,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p631-001900",
+              "score": 0.7937231659889221,
+              "cosine_similarity": 0.7937231659889221,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "5.3.1",
+              "is_ground_truth": false,
+              "text_preview": "5.3.1 When low durability timbers are to be used increase in the permissible stresses, provided the [see 5.2(b)] on outside locations, the permissible"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p619-001841",
+              "score": 0.7907041311264038,
+              "cosine_similarity": 0.7907041311264038,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Q = static moment of area above or below c) Group C — E above 5.6 kN/mm*? and up to the neutral axis about neutral axis, 9.8 kN/mm? and f,above 8.5 N/"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": null,
+          "top_1_hit": false,
+          "hit_at_k": false,
+          "reciprocal_rank": 0.0,
+          "domain_precision": 1.0,
+          "results_count": 2,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.8284685015678406,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.7561647295951843,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_name": "filtered_vector_k5",
+      "config": {
+        "name": "filtered_vector_k5",
+        "description": "Metadata-filtered dense vector retrieval (k=5) scoped to expected document section.",
+        "top_k": 5,
+        "use_metadata_filter": true,
+        "score_threshold": null,
+        "hybrid": false,
+        "hybrid_method": "weighted",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 0.8333,
+        "mean_reciprocal_rank": 0.7222,
+        "average_domain_precision": 1.0,
+        "composite_relevance_score": 83.89,
+        "queries_tested": 6,
+        "top_1_hits": 4,
+        "top_k_hits": 5
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": null,
+          "top_1_hit": false,
+          "hit_at_k": false,
+          "reciprocal_rank": 0.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8010085225105286,
+              "cosine_similarity": 0.8010085225105286,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7887536287307739,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.7748828530311584,
+              "cosine_similarity": 0.7748828530311584,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p317-001019",
+              "score": 0.7686598300933838,
+              "cosine_similarity": 0.7686598300933838,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "7 : a to provide direct access to the exit, provided Above this height the buildings may be used for that not less than one cross aisle for every 10 b"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p285-000932",
+              "score": 0.7669004201889038,
+              "cosine_similarity": 0.7669004201889038,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "300 mm x 200 mm, with letters ofheight and width not Lighting shall be provided with emergency less than 50 mm, with detail of occupancy, area and pow"
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8143230676651001,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000943",
+              "score": 0.7692493200302124,
+              "cosine_similarity": 0.7692493200302124,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "A-4) PART 4 FIRE AND LIFE SAFETY 33 3) Residential hotel (A-5 and: 1.50m 11) All staircase shall terminate at the level A-6) of exit discharge. The ac"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p360-001135",
+              "score": 0.7602224349975586,
+              "cosine_similarity": 0.7602224349975586,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "K-4.2.2 The width of exit stairs shall not be required h) The provisions shall include measures to © €xceed 1 200 mm for enclosed trainways. protect p"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p316-001018",
+              "score": 0.7429584264755249,
+              "cosine_similarity": 0.7429584264755249,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "PART 4 FIRE AND LIFE SAFETY 61 EXIT STAIR 1 \" AREAA HORIZONTAL EXIT y EXIT STAIR 2 HORIZONTAL [ EXIT2 Bi AREA.C Hi AREA B Fic. 15 Minimum oF Two Exits"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p317-001019",
+              "score": 0.7416696548461914,
+              "cosine_similarity": 0.7416696548461914,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "7 : a to provide direct access to the exit, provided Above this height the buildings may be used for that not less than one cross aisle for every 10 b"
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.8291088938713074,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p265-000868",
+              "score": 0.7949231266975403,
+              "cosine_similarity": 0.7949231266975403,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.25",
+              "is_ground_truth": false,
+              "text_preview": "Se . . oe . resistance rated wall having fire protected openings, 2 The fire resistance rating shall be specified in terms of minutes. . . . . . . whi"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.7812427878379822,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p320-001030",
+              "score": 0.7763978838920593,
+              "cosine_similarity": 0.7763978838920593,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "8) Doors and window openings in external walls P ancy Purp ° within 3 m of the fire separating walls shall 6.7 Industrial Buildings (Group G) be prote"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p274-000896",
+              "score": 0.775980532169342,
+              "cosine_similarity": 0.775980532169342,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Structural Element Fire Resistance Ratings (min) for Type of Construction ——o> Type 1 Type 2 Type 3 Type 4 io) (2) G3) (4) (5) (6) i) Exterior walls: "
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.7665727734565735,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p279-000913",
+              "score": 0.7513128519058228,
+              "cosine_similarity": 0.7513128519058228,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.7.3 Suitable arrangements shall be made by including safe and adequate controls, acceptable and installing double throw switches to ensure that th"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p278-000912",
+              "score": 0.744062066078186,
+              "cosine_similarity": 0.744062066078186,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "For details, see Part 8 h) Escape lighting luminaires should be sited to ‘Building Services, Section 2 Electrical and Allied : ene cover the following"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.7327749133110046,
+              "cosine_similarity": 0.7327749133110046,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p278-000911",
+              "score": 0.7216560244560242,
+              "cosine_similarity": 0.7216560244560242,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "rating of 120 min. Access to the substation shall be d) The horizontal luminance at floor level on the provided from the nearest fire exit/exit stairc"
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.8750200867652893,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.8425247669219971,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.8284169435501099,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p631-001900",
+              "score": 0.7937231659889221,
+              "cosine_similarity": 0.7937231659889221,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "5.3.1",
+              "is_ground_truth": false,
+              "text_preview": "5.3.1 When low durability timbers are to be used increase in the permissible stresses, provided the [see 5.2(b)] on outside locations, the permissible"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p619-001841",
+              "score": 0.7907041311264038,
+              "cosine_similarity": 0.7907041311264038,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Q = static moment of area above or below c) Group C — E above 5.6 kN/mm*? and up to the neutral axis about neutral axis, 9.8 kN/mm? and f,above 8.5 N/"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": 3,
+          "top_1_hit": false,
+          "hit_at_k": true,
+          "reciprocal_rank": 0.3333,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.8284685015678406,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.7561647295951843,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p645-001941",
+              "score": 0.743424117565155,
+              "cosine_similarity": 0.743424117565155,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "(N- 4) d; with a minimumof2.5 d;. Also accordance with good practice [6-3A(9)]. governed by net area at critical section see : ‘ . which should be 80 "
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p646-001947",
+              "score": 0.7390710115432739,
+              "cosine_similarity": 0.7390710115432739,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "11 Stress DisTRIBUTION IN A SpLit RING CONNECTOR PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 35 2) Below core: compression joint"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p640-001926",
+              "score": 0.7116687893867493,
+              "cosine_similarity": 0.7116687893867493,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 SpacinG or Naits at Nope Joints WHERE MEMBERS ARE INCLINED TO ONE ANOTHER PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_name": "hybrid_filtered_weighted",
+      "config": {
+        "name": "hybrid_filtered_weighted",
+        "description": "Hybrid search (k=5, alpha=0.65) combining dense vectors with exact lexical matching and section filter.",
+        "top_k": 5,
+        "use_metadata_filter": true,
+        "score_threshold": null,
+        "hybrid": true,
+        "hybrid_method": "weighted",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 1.0,
+        "top_k_hit_rate": 1.0,
+        "mean_reciprocal_rank": 1.0,
+        "average_domain_precision": 1.0,
+        "composite_relevance_score": 100.0,
+        "queries_tested": 6,
+        "top_1_hits": 6,
+        "top_k_hits": 6
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.7942,
+              "cosine_similarity": 0.7640983462333679,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": true,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.7312,
+              "cosine_similarity": 0.7748828530311584,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p315-001015",
+              "score": 0.632,
+              "cosine_similarity": 0.7569628953933716,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "VISION PANELS REQUIRED IN DOORS; CENTRE MULLIONS PROHIBITED EXIT ACCESS CORRIDOR WIDTH > 2400 mm {UT hain 9) AHA FIRECOMPARTMENT SO ! A 120min FIRE RE"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p282-000924",
+              "score": 0.6057,
+              "cosine_similarity": 0.7433786988258362,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4 LIFE SAFETY 4.2.7 For non-naturally ventilated areas, fire doors with 4.1 General 120 min fire resistance rating shall be provided and particularly "
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.5827,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.8373,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000941",
+              "score": 0.6279,
+              "cosine_similarity": 0.7290829420089722,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "The maximum height of riser shall be \\ 190 mm for staircase of residential buildings (A-2) and \\ RoR 150 mm for other buildings. The number ofrisers s"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p285-000932",
+              "score": 0.6205,
+              "cosine_similarity": 0.7392054796218872,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "300 mm x 200 mm, with letters ofheight and width not Lighting shall be provided with emergency less than 50 mm, with detail of occupancy, area and pow"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p286-000934",
+              "score": 0.6037,
+              "cosine_similarity": 0.7348947525024414,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 Deap End Corripor 4.4.2.3 Capacities ofmeans of egress For example, if an exit doorway measures . oe 1 000 mm in clear width, it would be defined a)"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.5883,
+              "cosine_similarity": 0.7327980399131775,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.8749,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p279-000915",
+              "score": 0.7401,
+              "cosine_similarity": 0.7509523630142212,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.6758,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p320-001031",
+              "score": 0.6574,
+              "cosine_similarity": 0.7313623428344727,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "The areas having storage, 600 mm above the ridge of the north light. If, manufacturing, hazardous activities such as paint store, however, the separat"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p320-001030",
+              "score": 0.6447,
+              "cosine_similarity": 0.7763978838920593,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "8) Doors and window openings in external walls P ancy Purp ° within 3 m of the fire separating walls shall 6.7 Industrial Buildings (Group G) be prote"
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.8483,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p356-001125",
+              "score": 0.5864,
+              "cosine_similarity": 0.7137386202812195,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Enclosures h h |a a Open Enclosed Open Enclosed Station Station Station Station i) Q) G) @ G) (6) i) Auxiliary substation, electrical UPS/battery room"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p350-001109",
+              "score": 0.5708,
+              "cosine_similarity": 0.6896733641624451,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "5) Extensive height and depth involved with H-4 ENCLOSED PARKING STRUCTURES highly combustible load. a) Those car parking structures which are c) Fire"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p266-000869",
+              "score": 0.5654,
+              "cosine_similarity": 0.6813685894012451,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Loe grade point beyond the vehicle, enclosing stations, or releases the latch bolt upon the application of a force . . . ae : . trainway, (c) A point "
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p278-000911",
+              "score": 0.5566,
+              "cosine_similarity": 0.7216560244560242,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "rating of 120 min. Access to the substation shall be d) The horizontal luminance at floor level on the provided from the nearest fire exit/exit stairc"
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.9013,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.801,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p631-001900",
+              "score": 0.7434,
+              "cosine_similarity": 0.7937231659889221,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "5.3.1",
+              "is_ground_truth": false,
+              "text_preview": "5.3.1 When low durability timbers are to be used increase in the permissible stresses, provided the [see 5.2(b)] on outside locations, the permissible"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p619-001841",
+              "score": 0.7415,
+              "cosine_similarity": 0.7907041311264038,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Q = static moment of area above or below c) Group C — E above 5.6 kN/mm*? and up to the neutral axis about neutral axis, 9.8 kN/mm? and f,above 8.5 N/"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.7401,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p645-001941",
+              "score": 0.8332,
+              "cosine_similarity": 0.743424117565155,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "(N- 4) d; with a minimumof2.5 d;. Also accordance with good practice [6-3A(9)]. governed by net area at critical section see : ‘ . which should be 80 "
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.6857,
+              "cosine_similarity": 0.6720828413963318,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.6163,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.5693,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p646-001947",
+              "score": 0.5582,
+              "cosine_similarity": 0.7390710115432739,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "11 Stress DisTRIBUTION IN A SpLit RING CONNECTOR PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 35 2) Below core: compression joint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "config_name": "hybrid_filtered_rrf",
+      "config": {
+        "name": "hybrid_filtered_rrf",
+        "description": "Hybrid search (k=5, k_rrf=60) combining vector and lexical rankings via Reciprocal Rank Fusion.",
+        "top_k": 5,
+        "use_metadata_filter": true,
+        "score_threshold": null,
+        "hybrid": true,
+        "hybrid_method": "rrf",
+        "alpha": 0.65
+      },
+      "metrics": {
+        "top_1_hit_rate": 0.6667,
+        "top_k_hit_rate": 1.0,
+        "mean_reciprocal_rank": 0.8056,
+        "average_domain_precision": 1.0,
+        "composite_relevance_score": 92.22,
+        "queries_tested": 6,
+        "top_1_hits": 4,
+        "top_k_hits": 6
+      },
+      "query_evaluations": [
+        {
+          "query_id": "q1_exit_access_corridor",
+          "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p264-000863"
+          ],
+          "first_hit_rank": 3,
+          "top_1_hit": false,
+          "hit_at_k": true,
+          "reciprocal_rank": 0.3333,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p283-000928",
+              "score": 0.032002,
+              "cosine_similarity": 0.7748828530311584,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping,"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.031514,
+              "cosine_similarity": 0.7887536287307739,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.031099,
+              "cosine_similarity": 0.7640983462333679,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": true,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p286-000934",
+              "score": 0.030303,
+              "cosine_similarity": 0.7659780979156494,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 Deap End Corripor 4.4.2.3 Capacities ofmeans of egress For example, if an exit doorway measures . oe 1 000 mm in clear width, it would be defined a)"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.030282,
+              "cosine_similarity": 0.8010085225105286,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            }
+          ]
+        },
+        {
+          "query_id": "q2_dead_end_corridor",
+          "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p285-000933"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p285-000933",
+              "score": 0.032787,
+              "cosine_similarity": 0.8143230676651001,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not exceed 6 m for educational, a"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p288-000943",
+              "score": 0.031054,
+              "cosine_similarity": 0.7692493200302124,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "A-4) PART 4 FIRE AND LIFE SAFETY 33 3) Residential hotel (A-5 and: 1.50m 11) All staircase shall terminate at the level A-6) of exit discharge. The ac"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p285-000932",
+              "score": 0.030798,
+              "cosine_similarity": 0.7392054796218872,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "300 mm x 200 mm, with letters ofheight and width not Lighting shall be provided with emergency less than 50 mm, with detail of occupancy, area and pow"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p360-001135",
+              "score": 0.030579,
+              "cosine_similarity": 0.7602224349975586,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "K-4.2.2 The width of exit stairs shall not be required h) The provisions shall include measures to © €xceed 1 200 mm for enclosed trainways. protect p"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p286-000934",
+              "score": 0.030331,
+              "cosine_similarity": 0.7348947525024414,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 Deap End Corripor 4.4.2.3 Capacities ofmeans of egress For example, if an exit doorway measures . oe 1 000 mm in clear width, it would be defined a)"
+            }
+          ]
+        },
+        {
+          "query_id": "q3_boiler_room_separation",
+          "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p314-001012"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p314-001012",
+              "score": 0.032787,
+              "cosine_similarity": 0.8291088938713074,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "6.1.1.2",
+              "is_ground_truth": true,
+              "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed an"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p264-000863",
+              "score": 0.031498,
+              "cosine_similarity": 0.7812427878379822,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "2.17",
+              "is_ground_truth": false,
+              "text_preview": "1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and stability; and the 2.18 Exit Acc"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p279-000915",
+              "score": 0.031054,
+              "cosine_similarity": 0.7509523630142212,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": "3.4.7.3",
+              "is_ground_truth": false,
+              "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas "
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p320-001030",
+              "score": 0.03055,
+              "cosine_similarity": 0.7763978838920593,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "8) Doors and window openings in external walls P ancy Purp ° within 3 m of the fire separating walls shall 6.7 Industrial Buildings (Group G) be prote"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p274-000896",
+              "score": 0.03009,
+              "cosine_similarity": 0.775980532169342,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Structural Element Fire Resistance Ratings (min) for Type of Construction ——o> Type 1 Type 2 Type 3 Type 4 io) (2) G3) (4) (5) (6) i) Exterior walls: "
+            }
+          ]
+        },
+        {
+          "query_id": "q4_transit_horizontal_exits",
+          "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+          "category": "Fire and Life Safety",
+          "expected_chunk_ids": [
+            "nbc-v1-p355-001123"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p355-001123",
+              "score": 0.032787,
+              "cosine_similarity": 0.7665727734565735,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall exits shall comply with the sha"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p356-001125",
+              "score": 0.031054,
+              "cosine_similarity": 0.7137386202812195,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Enclosures h h |a a Open Enclosed Open Enclosed Station Station Station Station i) Q) G) @ G) (6) i) Auxiliary substation, electrical UPS/battery room"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p278-000911",
+              "score": 0.030769,
+              "cosine_similarity": 0.7216560244560242,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "rating of 120 min. Access to the substation shall be d) The horizontal luminance at floor level on the provided from the nearest fire exit/exit stairc"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p278-000912",
+              "score": 0.030366,
+              "cosine_similarity": 0.744062066078186,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "For details, see Part 8 h) Escape lighting luminaires should be sited to ‘Building Services, Section 2 Electrical and Allied : ene cover the following"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p282-000925",
+              "score": 0.029911,
+              "cosine_similarity": 0.7327749133110046,
+              "heading": "Part 4 — Fire and Life Safety",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "4.2 General Exit Requirements 4.2.11 Unless otherwise specified, all the exits and exit . . . passageways to exit discharge shall havea clear ceiling "
+            }
+          ]
+        },
+        {
+          "query_id": "q5_permissible_timber_stresses",
+          "query": "Safe permissible stresses for timber species and groups Table 1",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p620-001844",
+            "nbc-v1-p630-001898"
+          ],
+          "first_hit_rank": 1,
+          "top_1_hit": true,
+          "hit_at_k": true,
+          "reciprocal_rank": 1.0,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p620-001844",
+              "score": 0.032787,
+              "cosine_similarity": 0.8750200867652893,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "I I s I \\C Table 1 Safe Permissible Stresses for the Species of Timber [Clauses 4.1,4.2, 4.7.1.3(b), 5.4.1, 5.4.2 and 6.5.8.3.1(b)] Species LocalIty A"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p630-001898",
+              "score": 0.032002,
+              "cosine_similarity": 0.8284169435501099,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": true,
+              "text_preview": "Choice of Species for Load-Bearing Temporary obtain the permissible stresses for other grades provided Structures or Semi-Structural Components at tha"
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p631-001900",
+              "score": 0.031498,
+              "cosine_similarity": 0.7937231659889221,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "5.3.1",
+              "is_ground_truth": false,
+              "text_preview": "5.3.1 When low durability timbers are to be used increase in the permissible stresses, provided the [see 5.2(b)] on outside locations, the permissible"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p619-001841",
+              "score": 0.03101,
+              "cosine_similarity": 0.7907041311264038,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Q = static moment of area above or below c) Group C — E above 5.6 kN/mm*? and up to the neutral axis about neutral axis, 9.8 kN/mm? and f,above 8.5 N/"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p630-001896",
+              "score": 0.030415,
+              "cosine_similarity": 0.8425247669219971,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": "4.7",
+              "is_ground_truth": false,
+              "text_preview": "4.7 Suitability 5 PERMISSIBLE STRESSES 4.7.1 Suitability in respect of Durability and 5.1 Fundamental stress values of different groups of Treatabilit"
+            }
+          ]
+        },
+        {
+          "query_id": "q6_timber_connector_joints",
+          "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+          "category": "Structural Timber",
+          "expected_chunk_ids": [
+            "nbc-v1-p645-001941"
+          ],
+          "first_hit_rank": 2,
+          "top_1_hit": false,
+          "hit_at_k": true,
+          "reciprocal_rank": 0.5,
+          "domain_precision": 1.0,
+          "results_count": 5,
+          "retrieved_results": [
+            {
+              "rank": 1,
+              "id": "nbc-v1-p647-001949",
+              "score": 0.032266,
+              "cosine_similarity": 0.8284685015678406,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "2! doea ren i 2 2 10.2.3 Choice of Species Wood used for making dowels shall be fairly straight where grained, free from excessive liability to shrink"
+            },
+            {
+              "rank": 2,
+              "id": "nbc-v1-p645-001941",
+              "score": 0.032266,
+              "cosine_similarity": 0.743424117565155,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": true,
+              "text_preview": "(N- 4) d; with a minimumof2.5 d;. Also accordance with good practice [6-3A(9)]. governed by net area at critical section see : ‘ . which should be 80 "
+            },
+            {
+              "rank": 3,
+              "id": "nbc-v1-p647-001954",
+              "score": 0.031754,
+              "cosine_similarity": 0.7561647295951843,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "Once the wood fittings The thickness of dowel may vary from 25 mm to 35 mm are shop tailored and made, the construction process and diameter from 50 m"
+            },
+            {
+              "rank": 4,
+              "id": "nbc-v1-p646-001947",
+              "score": 0.03101,
+              "cosine_similarity": 0.7390710115432739,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "11 Stress DisTRIBUTION IN A SpLit RING CONNECTOR PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 35 2) Below core: compression joint"
+            },
+            {
+              "rank": 5,
+              "id": "nbc-v1-p640-001926",
+              "score": 0.03031,
+              "cosine_similarity": 0.7116687893867493,
+              "heading": "Part 6 — Structural Design, Section 3A — Timber",
+              "clause": null,
+              "is_ground_truth": false,
+              "text_preview": "6 SpacinG or Naits at Nope Joints WHERE MEMBERS ARE INCLINED TO ONE ANOTHER PART 6 STRUCTURAL DESIGN — SECTION 3 TIMBER AND BAMBOO: 3A TIMBER 29"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
