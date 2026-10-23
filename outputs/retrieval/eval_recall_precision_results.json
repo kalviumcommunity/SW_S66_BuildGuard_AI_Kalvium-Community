@@ -1,0 +1,1026 @@
+{
+  "generated_at": "2026-10-23T09:25:04Z",
+  "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+  "dry_run": true,
+  "total_queries": 8,
+  "total_configurations": 6,
+  "best_configuration": "filtered_k10",
+  "labelled_queries": [
+    {
+      "id": "eq1_exit_access_corridor",
+      "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+      "category": "Fire and Life Safety",
+      "relevant_chunk_ids": [
+        "nbc-v1-p264-000863"
+      ],
+      "expected_heading": "Part 4 — Fire and Life Safety",
+      "expected_keywords": [
+        "2.18",
+        "Exit Access Corridor",
+        "fire doors"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Authoritative regulatory definition of Exit Access Corridor under Clause 2.18."
+    },
+    {
+      "id": "eq2_dead_end_corridor",
+      "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+      "category": "Fire and Life Safety",
+      "relevant_chunk_ids": [
+        "nbc-v1-p285-000933"
+      ],
+      "expected_heading": "Part 4 — Fire and Life Safety",
+      "expected_keywords": [
+        "4.4.1",
+        "dead end corridor",
+        "exit access"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Clause 4.4.1 dead-end corridor length limit (6 m educational/assembly, 15 m others)."
+    },
+    {
+      "id": "eq3_boiler_room_separation",
+      "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+      "category": "Fire and Life Safety",
+      "relevant_chunk_ids": [
+        "nbc-v1-p314-001012"
+      ],
+      "expected_heading": "Part 4 — Fire and Life Safety",
+      "expected_keywords": [
+        "120 min fire resistance rating",
+        "boiler room",
+        "fire doors"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Clause 6.1.1.2 requirement for 120-minute fire barriers around boiler rooms."
+    },
+    {
+      "id": "eq4_transit_horizontal_exits",
+      "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+      "category": "Fire and Life Safety",
+      "relevant_chunk_ids": [
+        "nbc-v1-p355-001123"
+      ],
+      "expected_heading": "Part 4 — Fire and Life Safety",
+      "expected_keywords": [
+        "J-5.4.12",
+        "fare barriers",
+        "horizontal exits",
+        "transit"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Section J-5.4 transit station egress illumination and horizontal exit criteria."
+    },
+    {
+      "id": "eq5_permissible_timber_stresses",
+      "query": "Safe permissible stresses for timber species and groups Table 1",
+      "category": "Structural Timber",
+      "relevant_chunk_ids": [
+        "nbc-v1-p620-001844",
+        "nbc-v1-p630-001898"
+      ],
+      "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+      "expected_keywords": [
+        "Table 1",
+        "Safe Permissible Stresses",
+        "Timber"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Structural design tables specifying permissible stress limits for timber species."
+    },
+    {
+      "id": "eq6_timber_connector_joints",
+      "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+      "category": "Structural Timber",
+      "relevant_chunk_ids": [
+        "nbc-v1-p645-001941"
+      ],
+      "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+      "expected_keywords": [
+        "timber connector joints",
+        "metallic rings",
+        "wooden disc-dowels"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Section 10 specifications for heavy-stress jointing using metallic rings."
+    },
+    {
+      "id": "eq7_means_of_egress",
+      "query": "Minimum number of means of egress for occupancy load and travel distance requirements",
+      "category": "Fire and Life Safety",
+      "relevant_chunk_ids": [
+        "nbc-v1-p272-000889"
+      ],
+      "expected_heading": "Part 4 — Fire and Life Safety",
+      "expected_keywords": [
+        "means of egress",
+        "occupancy load",
+        "travel distance"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "General means-of-egress quantity and travel-distance table."
+    },
+    {
+      "id": "eq8_timber_column_design",
+      "query": "Timber column design slenderness ratio and effective length buckling",
+      "category": "Structural Timber",
+      "relevant_chunk_ids": [
+        "nbc-v1-p635-001910"
+      ],
+      "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+      "expected_keywords": [
+        "slenderness ratio",
+        "effective length",
+        "column"
+      ],
+      "expected_source": "nationalbuilding01.pdf",
+      "description": "Design rules for timber column stability via slenderness ratio limits."
+    }
+  ],
+  "configuration_summaries": [
+    {
+      "config_name": "baseline_k3",
+      "description": "Plain vector search, top-3",
+      "top_k": 3,
+      "mean_recall": 0.5,
+      "mean_precision": 0.16666666666666666,
+      "mean_mrr": 0.375,
+      "mean_ndcg": 0.375,
+      "hit_rate_at_1": 0.25,
+      "hit_rate_at_k": 0.5,
+      "mean_heading_match": 0.55,
+      "keyword_hit_rate": 0.5,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.3333333333333333,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.3333333333333333,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.3333333333333333,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "baseline_k3",
+          "top_k": 3,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.3333333333333333,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        }
+      ],
+      "failures": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ]
+    },
+    {
+      "config_name": "baseline_k5",
+      "description": "Plain vector search, top-5",
+      "top_k": 5,
+      "mean_recall": 0.75,
+      "mean_precision": 0.15000000000000002,
+      "mean_mrr": 0.3,
+      "mean_ndcg": 0.3,
+      "hit_rate_at_1": 0.125,
+      "hit_rate_at_k": 0.75,
+      "mean_heading_match": 0.675,
+      "keyword_hit_rate": 0.75,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.25,
+          "ndcg_at_k": 0.25,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 4,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.25,
+          "ndcg_at_k": 0.25,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 4,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "baseline_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        }
+      ],
+      "failures": [
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ]
+    },
+    {
+      "config_name": "baseline_k10",
+      "description": "Plain vector search, top-10",
+      "top_k": 10,
+      "mean_recall": 0.625,
+      "mean_precision": 0.0625,
+      "mean_mrr": 0.10238095238095238,
+      "mean_ndcg": 0.10238095238095238,
+      "hit_rate_at_1": 0.0,
+      "hit_rate_at_k": 0.625,
+      "mean_heading_match": 0.6125,
+      "keyword_hit_rate": 0.625,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.16666666666666666,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 6,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.14285714285714285,
+          "ndcg_at_k": 0.14285714285714285,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 7,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.16666666666666666,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 6,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.14285714285714285,
+          "ndcg_at_k": 0.14285714285714285,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 7,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "baseline_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        }
+      ],
+      "failures": [
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ]
+    },
+    {
+      "config_name": "filtered_k5",
+      "description": "Metadata-filtered vector search (heading), top-5",
+      "top_k": 5,
+      "mean_recall": 0.5,
+      "mean_precision": 0.1,
+      "mean_mrr": 0.25416666666666665,
+      "mean_ndcg": 0.25416666666666665,
+      "hit_rate_at_1": 0.125,
+      "hit_rate_at_k": 0.5,
+      "mean_heading_match": 0.55,
+      "keyword_hit_rate": 0.5,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.3333333333333333,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 3,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ],
+      "failures": [
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ]
+    },
+    {
+      "config_name": "filtered_k10",
+      "description": "Metadata-filtered vector search (heading), top-10",
+      "top_k": 10,
+      "mean_recall": 1.0,
+      "mean_precision": 0.1,
+      "mean_mrr": 0.2355654761904762,
+      "mean_ndcg": 0.2355654761904762,
+      "hit_rate_at_1": 0.0,
+      "hit_rate_at_k": 1.0,
+      "mean_heading_match": 0.8,
+      "keyword_hit_rate": 1.0,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.125,
+          "ndcg_at_k": 0.125,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 8,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.16666666666666666,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 6,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.16666666666666666,
+          "ndcg_at_k": 0.16666666666666666,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 6,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.3333333333333333,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 3,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.25,
+          "ndcg_at_k": 0.25,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 4,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "filtered_k10",
+          "top_k": 10,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "reciprocal_rank": 0.14285714285714285,
+          "ndcg_at_k": 0.14285714285714285,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 7,
+          "failure_reason": ""
+        }
+      ],
+      "failures": []
+    },
+    {
+      "config_name": "hybrid_filtered_k5",
+      "description": "Hybrid (vector + keyword) with heading filter, top-5",
+      "top_k": 5,
+      "mean_recall": 0.875,
+      "mean_precision": 0.17500000000000002,
+      "mean_mrr": 0.45208333333333334,
+      "mean_ndcg": 0.45208333333333334,
+      "hit_rate_at_1": 0.25,
+      "hit_rate_at_k": 0.875,
+      "mean_heading_match": 0.7375,
+      "keyword_hit_rate": 0.875,
+      "per_query": [
+        {
+          "query_id": "eq1_exit_access_corridor",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.2,
+          "ndcg_at_k": 0.2,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 5,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq2_dead_end_corridor",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.3333333333333333,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 3,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq3_boiler_room_separation",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq4_transit_horizontal_exits",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "hit_at_1": true,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 1,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq5_permissible_timber_stresses",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.25,
+          "ndcg_at_k": 0.25,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 4,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq6_timber_connector_joints",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.5,
+          "ndcg_at_k": 0.5,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 2,
+          "failure_reason": ""
+        },
+        {
+          "query_id": "eq7_means_of_egress",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "reciprocal_rank": 0.0,
+          "ndcg_at_k": 0.0,
+          "hit_at_1": false,
+          "hit_at_k": false,
+          "heading_match_rate": 0.3,
+          "keyword_hit": false,
+          "first_relevant_rank": 0,
+          "failure_reason": "vocabulary_mismatch: dry-run simulated miss"
+        },
+        {
+          "query_id": "eq8_timber_column_design",
+          "config_name": "hybrid_filtered_k5",
+          "top_k": 5,
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "reciprocal_rank": 0.3333333333333333,
+          "ndcg_at_k": 0.3333333333333333,
+          "hit_at_1": false,
+          "hit_at_k": true,
+          "heading_match_rate": 0.8,
+          "keyword_hit": true,
+          "first_relevant_rank": 3,
+          "failure_reason": ""
+        }
+      ],
+      "failures": [
+        {
+          "query_id": "eq7_means_of_egress",
+          "reason": "vocabulary_mismatch: dry-run simulated miss"
+        }
+      ]
+    }
+  ],
+  "overall": {
+    "best_config": "filtered_k10",
+    "best_recall_at_k": 1.0,
+    "best_hit_rate_at_k": 1.0,
+    "best_mrr": 0.2355654761904762,
+    "best_ndcg": 0.2355654761904762
+  }
+}
