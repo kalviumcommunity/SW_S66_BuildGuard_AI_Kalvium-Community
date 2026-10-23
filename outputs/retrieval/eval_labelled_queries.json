@@ -1,0 +1,132 @@
+[
+  {
+    "id": "eq1_exit_access_corridor",
+    "query": "Clause 2.18 Exit Access Corridor definition and requirements",
+    "category": "Fire and Life Safety",
+    "relevant_chunk_ids": [
+      "nbc-v1-p264-000863"
+    ],
+    "expected_heading": "Part 4 — Fire and Life Safety",
+    "expected_keywords": [
+      "2.18",
+      "Exit Access Corridor",
+      "fire doors"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Authoritative regulatory definition of Exit Access Corridor under Clause 2.18."
+  },
+  {
+    "id": "eq2_dead_end_corridor",
+    "query": "Dead end corridor maximum travel distance in exit access for educational and assembly",
+    "category": "Fire and Life Safety",
+    "relevant_chunk_ids": [
+      "nbc-v1-p285-000933"
+    ],
+    "expected_heading": "Part 4 — Fire and Life Safety",
+    "expected_keywords": [
+      "4.4.1",
+      "dead end corridor",
+      "exit access"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Clause 4.4.1 dead-end corridor length limit (6 m educational/assembly, 15 m others)."
+  },
+  {
+    "id": "eq3_boiler_room_separation",
+    "query": "Boiler room separation and 120 min fire resistance rating wall with fire doors",
+    "category": "Fire and Life Safety",
+    "relevant_chunk_ids": [
+      "nbc-v1-p314-001012"
+    ],
+    "expected_heading": "Part 4 — Fire and Life Safety",
+    "expected_keywords": [
+      "120 min fire resistance rating",
+      "boiler room",
+      "fire doors"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Clause 6.1.1.2 requirement for 120-minute fire barriers around boiler rooms."
+  },
+  {
+    "id": "eq4_transit_horizontal_exits",
+    "query": "Emergency escape illumination and horizontal exit criteria in transit stations",
+    "category": "Fire and Life Safety",
+    "relevant_chunk_ids": [
+      "nbc-v1-p355-001123"
+    ],
+    "expected_heading": "Part 4 — Fire and Life Safety",
+    "expected_keywords": [
+      "J-5.4.12",
+      "fare barriers",
+      "horizontal exits",
+      "transit"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Section J-5.4 transit station egress illumination and horizontal exit criteria."
+  },
+  {
+    "id": "eq5_permissible_timber_stresses",
+    "query": "Safe permissible stresses for timber species and groups Table 1",
+    "category": "Structural Timber",
+    "relevant_chunk_ids": [
+      "nbc-v1-p620-001844",
+      "nbc-v1-p630-001898"
+    ],
+    "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+    "expected_keywords": [
+      "Table 1",
+      "Safe Permissible Stresses",
+      "Timber"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Structural design tables specifying permissible stress limits for timber species."
+  },
+  {
+    "id": "eq6_timber_connector_joints",
+    "query": "Design of timber connector joints and metallic rings or wooden disc-dowels",
+    "category": "Structural Timber",
+    "relevant_chunk_ids": [
+      "nbc-v1-p645-001941"
+    ],
+    "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+    "expected_keywords": [
+      "timber connector joints",
+      "metallic rings",
+      "wooden disc-dowels"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Section 10 specifications for heavy-stress jointing using metallic rings."
+  },
+  {
+    "id": "eq7_means_of_egress",
+    "query": "Minimum number of means of egress for occupancy load and travel distance requirements",
+    "category": "Fire and Life Safety",
+    "relevant_chunk_ids": [
+      "nbc-v1-p272-000889"
+    ],
+    "expected_heading": "Part 4 — Fire and Life Safety",
+    "expected_keywords": [
+      "means of egress",
+      "occupancy load",
+      "travel distance"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "General means-of-egress quantity and travel-distance table."
+  },
+  {
+    "id": "eq8_timber_column_design",
+    "query": "Timber column design slenderness ratio and effective length buckling",
+    "category": "Structural Timber",
+    "relevant_chunk_ids": [
+      "nbc-v1-p635-001910"
+    ],
+    "expected_heading": "Part 6 — Structural Design, Section 3A — Timber",
+    "expected_keywords": [
+      "slenderness ratio",
+      "effective length",
+      "column"
+    ],
+    "expected_source": "nationalbuilding01.pdf",
+    "description": "Design rules for timber column stability via slenderness ratio limits."
+  }
+]
