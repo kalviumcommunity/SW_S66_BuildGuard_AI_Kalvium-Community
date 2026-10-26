@@ -17,6 +17,8 @@ outputs/*
 !outputs/vector_db/**
 !outputs/retrieval/
 !outputs/retrieval/**
+!outputs/prompts/
+!outputs/prompts/**
 
 
 # Python
