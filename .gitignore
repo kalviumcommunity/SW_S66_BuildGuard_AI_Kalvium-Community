@@ -17,6 +17,8 @@ outputs/*
 !outputs/vector_db/**
 !outputs/retrieval/
 !outputs/retrieval/**
+!outputs/grounded_generation/
+!outputs/grounded_generation/**
 
 
 # Python
