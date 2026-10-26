@@ -1,0 +1,72 @@
+{
+  "query": "What is the minimum fire resistance rating required for walls separating a boiler room from other parts of a building?",
+  "answer": "[DRY-RUN] Based on the retrieved NBC chunks, the answer relates to: What is the minimum fire resistance rating required for walls separating a boiler room from other pa. Relevant provisions are found at PDF p. 314-315, PDF p. 279-280, PDF p. 320-321. [This is a synthetic response — no LLM was called.]",
+  "sources": [
+    {
+      "rank": 1,
+      "id": "nbc-v1-p314-001012",
+      "source": "nationalbuilding01.pdf",
+      "volume": 1,
+      "page": "314-315",
+      "heading": "Part 4 — Fire and Life Safety",
+      "cosine_similarity": 0.8264464735984802,
+      "rerank_score": 4.0295,
+      "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms contai…"
+    },
+    {
+      "rank": 2,
+      "id": "nbc-v1-p279-000915",
+      "source": "nationalbuilding01.pdf",
+      "volume": 1,
+      "page": "279-280",
+      "heading": "Part 4 — Fire and Life Safety",
+      "cosine_similarity": 0.7682436108589172,
+      "rerank_score": 3.7279,
+      "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. o…"
+    },
+    {
+      "rank": 3,
+      "id": "nbc-v1-p320-001031",
+      "source": "nationalbuilding01.pdf",
+      "volume": 1,
+      "page": "320-321",
+      "heading": "Part 4 — Fire and Life Safety",
+      "cosine_similarity": 0.7316129207611084,
+      "rerank_score": 3.2248,
+      "text_preview": "The areas having storage, 600 mm above the ridge of the north light. If, manufacturing, hazardous activities such as paint store, however, the separating wall Isat right angles . to the axis ofthe nor…"
+    }
+  ],
+  "context_block": "=== RETRIEVED BUILDING CODE CONTEXT ===\n\n[Chunk 1 of 3]\nSource: nationalbuilding01.pdf | Volume 1, Page: 314-315 | Heading: Part 4 — Fire and Life Safety\nSimilarity: 0.8264 | Re-rank score: 4.0295\n------------------------------------------------------------\n120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable.\n------------------------------------------------------------\n\n[Chunk 2 of 3]\nSource: nationalbuilding01.pdf | Volume 1, Page: 279-280 | Heading: Part 4 — Fire and Life Safety\nSimilarity: 0.7682 | Re-rank score: 3.7279\n------------------------------------------------------------\n3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. occupancy shall be as given in Part 8 ‘Building Services, Section 1 Lighting and Natural Ventilation’ 3.4.8.3 Duct work and ‘Section 3 Air conditioning, Heating and 3.4.8.3.1 Air ducts serving main floor areas, corridors, Mechanical Ventilation’ of the Code. etc, shall not pass through the exits/exit passageway/ Air conditioning and ventilating systems shall be so exit enclosure. Exits and lift lobbies, etc, shall not be installed and maintained as to minimise the danger of used as return air passage. spread of fire, smoke or fumes from one floor to other —_3.4.8.3.2 As far as possible, metallic ducts shall be used or from outside to any occupied building or structure. even for the return air instead of space above the false Many high-rise buildings integrate smoke management ceiling. systems into their conventional HVAC systems. Insuch —_3.4.8.3.3 Wherever the ducts pass through fire walls or installation, it requires special design considerations, floors, the opening around the ducts shall be sealed 24 NATIONAL BUILDING CODE OF INDIA 2016 with materials having fire resistance rating of the 3.4.9.2.2 Further, the following additional aspects may compartment. Such duct shall also be provided with be taken into account in the location of boiler room: fire dampers at all fire walls and floors unless such a) The boilers shall be installed in a fire resisting ucts are eauired perform for iesafety operations room of 180 min fire resistance rating. and in such case fire damper maybe avoided at fire . . . wall and floor while integrity of the duct shall be ) vance dove of 120be provided with 8 maintained with 120 min fire resistance rating to allow rating. the emergency operations for fire safety requirements. . La c) The boiler room shall be provided with its 3.4.8.3.4 The ducting within compartment would dedicated natural or mechanical ventilation require minimum fire resistance rating of30 min. Such system.\n------------------------------------------------------------\n\n[Chunk 3 of 3]\nSource: nationalbuilding01.pdf | Volume 1, Page: 320-321 | Heading: Part 4 — Fire and Life Safety\nSimilarity: 0.7316 | Re-rank score: 3.2248\n------------------------------------------------------------\nThe areas having storage, 600 mm above the ridge of the north light. If, manufacturing, hazardous activities such as paint store, however, the separating wall Isat right angles . to the axis ofthe north-light opening, the saw oil storage, spray booths, etc, shall be separated from . non-hazardous areas like administrative office, staff tooth gaps shall be bricked up and the Screen canteen, etc by fire rated walls/doors of 120 min fire wall extended 600 mm above the ridge of the resistance rating. The fire resistance rating of high north light as well as beyond the extreme hazardous areas like petrochemical, explosives shall north-light opening. be 240 min. j) Similarly, the thickness of the floor slabs in . . case of buildings having upper levels shall be The fire separating wall where provided shall comply designed to provide fire rating as mentioned with the following requirements: above. a) The separating wall shall be carried through k) Storage areas shall be separated from the the roof. This portion of the wall extending remainder ofthe building/block by fire walls. PART 4 FIRE AND LIFE SAFETY 65 m) Moderate and high hazard areas in industries escapes may be used as required exits for both to have two fire doors each having 180 min new and existing buildings. fire resistance rating. | | NOTE — All high hazard industrial occupancies shall 6.7.2 Life Safety have automatic sprinkler protection or such other ao . protection as may be appropriate to the particular hazard, 6.7.2.1 In buildings used for aircraft assembly or other including explosion venting for any area subject to occupancy requiring undivided floor areas so large that explosion hazard, designed to minimise danger to the distances from points within the area to the nearest occupants in case of fire or other emergency before they : . have time to utilize exits to escape. outside walls where exit doors could be provided are in excess of 45 m, requirements for distance to exits 6.7.3 Additional Precautions may be satisfied by providing stairs leading to exit a) In any room in which volatile flammable tunnels or to overhead passageways.\n------------------------------------------------------------",
+  "stages": {
+    "embed": {
+      "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "vector_dim": 384,
+      "elapsed_ms": 7318.5
+    },
+    "retrieve": {
+      "candidate_k": 10,
+      "retrieved_count": 10,
+      "metadata_filter": null,
+      "hybrid": true,
+      "elapsed_ms": 367.6
+    },
+    "rerank": {
+      "method": "cross_encoder",
+      "final_k": 3,
+      "returned_count": 3,
+      "elapsed_ms": 5818.2
+    },
+    "assemble": {
+      "chunk_count": 3,
+      "context_chars": 6938,
+      "elapsed_ms": 0.0
+    },
+    "generate": {
+      "model": "dry-run",
+      "answer_chars": 302,
+      "elapsed_ms": 0.0
+    }
+  },
+  "generated_at": "2026-10-26T13:34:19Z",
+  "pipeline_elapsed_ms": 13504.9
+}
