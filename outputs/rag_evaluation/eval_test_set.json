@@ -1,0 +1,156 @@
+[
+  {
+    "test_id": "tc01_boiler_room_wall_rating",
+    "category": "Fire Resistance & Separation",
+    "question": "What is the minimum fire resistance rating required for walls separating a boiler room from other occupancies?",
+    "conversation_history": [],
+    "expected_answer": "Under NBC 2016 Part 4, Clause 6.1.1.2 and Table 1, walls separating a boiler room or transformer enclosure from the remainder of the building must provide a minimum fire resistance rating of 120 minutes (2 hours).",
+    "expected_sources": [
+      "nbc-v1-p314-001012",
+      "Part 4, Clause 6.1.1.2",
+      "Part 4, Table 1",
+      "[Volume 1, PDF p. 314-315]"
+    ],
+    "required_facts": [
+      "120 min",
+      "2 hours",
+      "boiler room",
+      "fire resistance rating"
+    ],
+    "should_refuse": false,
+    "description": "Standard regulatory compliance query regarding service compartment separation fire ratings."
+  },
+  {
+    "test_id": "tc02_boiler_room_doors_opening",
+    "category": "Fire Doors & Openings Protection",
+    "question": "What are the fire resistance and closing requirements for doors installed in boiler room separation walls?",
+    "conversation_history": [],
+    "expected_answer": "Under Part 4, Clause 6.1.1.4, openings in boiler room separation walls must be protected by self-closing fire doors with a minimum fire resistance rating of 120 minutes (2 hours). Ventilation openings or louvers are prohibited unless equipped with certified automatic fire dampers.",
+    "expected_sources": [
+      "nbc-v1-p315-001015",
+      "Part 4, Clause 6.1.1.4",
+      "[Volume 1, PDF p. 315]"
+    ],
+    "required_facts": [
+      "self-closing",
+      "120 minutes",
+      "fire doors"
+    ],
+    "should_refuse": false,
+    "description": "Door protection and opening limitation rules for high-risk equipment compartments."
+  },
+  {
+    "test_id": "tc03_exit_access_corridor_definition",
+    "category": "Egress & Life Safety",
+    "question": "What is the definition and regulatory requirement for an Exit Access Corridor under Clause 2.18?",
+    "conversation_history": [],
+    "expected_answer": "Under Clause 2.18, an Exit Access Corridor is an enclosed passageway leading to an exit, designed to provide continuous and unobstructed travel for building occupants toward designated exits.",
+    "expected_sources": [
+      "nbc-v1-p264-000863",
+      "Part 4, Clause 2.18",
+      "[Volume 1, PDF p. 264]"
+    ],
+    "required_facts": [
+      "Exit Access Corridor",
+      "Clause 2.18",
+      "passageway",
+      "exit"
+    ],
+    "should_refuse": false,
+    "description": "Fundamental statutory definition of corridor egress paths under Part 4."
+  },
+  {
+    "test_id": "tc04_dead_end_corridor_travel_distance",
+    "category": "Egress & Life Safety",
+    "question": "What is the maximum permissible length for a dead-end corridor in educational and assembly buildings?",
+    "conversation_history": [],
+    "expected_answer": "Under Part 4, Clause 4.4.1, dead-end corridors in educational and assembly occupancies must not exceed 6 metres in length (15 metres for other occupancies).",
+    "expected_sources": [
+      "nbc-v1-p285-000933",
+      "Part 4, Clause 4.4.1",
+      "[Volume 1, PDF p. 285]"
+    ],
+    "required_facts": [
+      "6 m",
+      "dead end",
+      "educational",
+      "Clause 4.4.1"
+    ],
+    "should_refuse": false,
+    "description": "Specific numerical limit on dead-end corridor lengths to prevent entrapment during egress."
+  },
+  {
+    "test_id": "tc05_transit_station_horizontal_exits",
+    "category": "Special Occupancies",
+    "question": "What are the criteria for horizontal exits and emergency escape illumination in transit stations under Clause J-5.4.12?",
+    "conversation_history": [],
+    "expected_answer": "Under Clause J-5.4.12, transit stations require emergency escape illumination along exit routes and horizontal exits separated by 2-hour fire barriers with fare barrier bypass provisions.",
+    "expected_sources": [
+      "nbc-v1-p355-001123",
+      "Part 4, Clause J-5.4.12",
+      "[Volume 1, PDF p. 355]"
+    ],
+    "required_facts": [
+      "J-5.4.12",
+      "horizontal exit",
+      "transit"
+    ],
+    "should_refuse": false,
+    "description": "Mass transit egress illumination and horizontal barrier specifications in Annex J."
+  },
+  {
+    "test_id": "tc06_conversational_follow_up_doors",
+    "category": "Conversational Follow-Up",
+    "question": "What about the doors in those walls?",
+    "conversation_history": [
+      {
+        "role": "user",
+        "content": "What is the fire rating for boiler room walls?"
+      },
+      {
+        "role": "assistant",
+        "content": "According to NBC 2016 Part 4 Clause 6.1.1.2, walls separating a boiler room must provide a minimum fire resistance rating of 120 minutes."
+      }
+    ],
+    "expected_answer": "Openings in boiler room separation walls must be protected by self-closing fire doors having a fire resistance rating of at least 120 minutes (2 hours).",
+    "expected_sources": [
+      "nbc-v1-p315-001015",
+      "Part 4, Clause 6.1.1.4",
+      "[Volume 1, PDF p. 315]"
+    ],
+    "required_facts": [
+      "self-closing",
+      "fire doors",
+      "120 min"
+    ],
+    "should_refuse": false,
+    "description": "Conversational follow-up containing pronoun coreferences ('those walls') and ellipsis ('What about the doors')."
+  },
+  {
+    "test_id": "tc07_out_of_domain_negative",
+    "category": "Negative / Out-of-Domain",
+    "question": "What is the maximum criminal penalty for copyright infringement under the Indian Copyright Act 1957?",
+    "conversation_history": [],
+    "expected_answer": "I cannot answer this question because the query subject falls outside the scope of the National Building Code provisions.",
+    "expected_sources": [],
+    "required_facts": [
+      "cannot answer",
+      "outside the scope"
+    ],
+    "should_refuse": true,
+    "description": "Out-of-domain legal query testing guardrail safe refusal and hallucination prevention."
+  },
+  {
+    "test_id": "tc08_missing_provision_unindexed",
+    "category": "Negative / Missing Provision",
+    "question": "What are the quantum computing data center cryogenic containment specifications under NBC Part 12?",
+    "conversation_history": [],
+    "expected_answer": "I don't have enough information to answer that reliably based on the provided National Building Code context.",
+    "expected_sources": [],
+    "required_facts": [
+      "don't have enough information"
+    ],
+    "should_refuse": true,
+    "description": "Fictitious technical clause testing retrieval absence detection and missing-context fallback."
+  }
+]

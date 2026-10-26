@@ -27,6 +27,8 @@ outputs/*
 !outputs/guardrails/**
 !outputs/conversational_rag/
 !outputs/conversational_rag/**
+!outputs/rag_evaluation/
+!outputs/rag_evaluation/**
 
 
 # Python

@@ -1,0 +1,562 @@
+{
+  "summary": {
+    "total_cases": 8,
+    "passed_cases": 5,
+    "failed_cases": 3,
+    "pass_rate": 0.625,
+    "mean_correctness": 0.6904,
+    "mean_grounding": 0.9583,
+    "mean_citation_score": 0.8979,
+    "mean_overall_score": 0.8257,
+    "refusal_precision": 1.0,
+    "notable_failures": [
+      {
+        "test_id": "tc03_exit_access_corridor_definition",
+        "category": "Egress & Life Safety",
+        "question": "What is the definition and regulatory requirement for an Exit Access Corridor under Clause 2.18?",
+        "overall_score": 0.6156,
+        "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: Exit Access Corridor, Clause 2.18, passageway",
+        "correctness_score": 0.205,
+        "grounding_score": 1.0,
+        "citation_score": 0.8667,
+        "generated_answer": "Based on the retrieved provisions in [1], 1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and st... This requirement is formally specified in the code [Volume 1, PDF p. 264]."
+      },
+      {
+        "test_id": "tc04_dead_end_corridor_travel_distance",
+        "category": "Egress & Life Safety",
+        "question": "What is the maximum permissible length for a dead-end corridor in educational and assembly buildings?",
+        "overall_score": 0.6339,
+        "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: 6 m, educational, Clause 4.4.1",
+        "correctness_score": 0.2456,
+        "grounding_score": 1.0,
+        "citation_score": 0.8667,
+        "generated_answer": "Based on the retrieved provisions in [1], 4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not... This requirement is formally specified in the code [Volume 1, PDF p. 285-286]."
+      },
+      {
+        "test_id": "tc05_transit_station_horizontal_exits",
+        "category": "Special Occupancies",
+        "question": "What are the criteria for horizontal exits and emergency escape illumination in transit stations under Clause J-5.4.12?",
+        "overall_score": 0.6694,
+        "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: horizontal exit, transit",
+        "correctness_score": 0.3246,
+        "grounding_score": 1.0,
+        "citation_score": 0.8667,
+        "generated_answer": "Based on the retrieved provisions in [1], J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall e... This requirement is formally specified in the code [Volume 1, PDF p. 355]."
+      }
+    ],
+    "category_breakdown": {
+      "Fire Resistance & Separation": {
+        "mean_score": 0.9285,
+        "count": 1
+      },
+      "Fire Doors & Openings Protection": {
+        "mean_score": 0.9105,
+        "count": 1
+      },
+      "Egress & Life Safety": {
+        "mean_score": 0.6248,
+        "count": 2
+      },
+      "Special Occupancies": {
+        "mean_score": 0.6694,
+        "count": 1
+      },
+      "Conversational Follow-Up": {
+        "mean_score": 0.8475,
+        "count": 1
+      },
+      "Negative / Out-of-Domain": {
+        "mean_score": 1.0,
+        "count": 1
+      },
+      "Negative / Missing Provision": {
+        "mean_score": 1.0,
+        "count": 1
+      }
+    },
+    "evaluated_at": "2026-10-26T19:28:35.926091+00:00"
+  },
+  "evaluated_items": [
+    {
+      "test_id": "tc01_boiler_room_wall_rating",
+      "category": "Fire Resistance & Separation",
+      "question": "What is the minimum fire resistance rating required for walls separating a boiler room from other occupancies?",
+      "generated_answer": "Under Clause 6.1.1.2 of the National Building Code of India [1], walls separating a boiler room or central heating plant from other parts of a building must provide a minimum fire resistance rating of 120 minutes (2 hours). Furthermore, all connecting openings must be protected by self-closing fire doors with an equivalent 120-minute fire rating [Volume 1, PDF p. 314-315].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p314-001012",
+        "nbc-v1-p279-000915",
+        "nbc-v1-p275-000900",
+        "nbc-v1-p272-000892"
+      ],
+      "correctness": {
+        "score": 0.9077,
+        "matched_facts": [
+          "120 min",
+          "2 hours",
+          "boiler room",
+          "fire resistance rating"
+        ],
+        "missing_facts": [],
+        "fact_coverage_ratio": 1.0,
+        "semantic_similarity": 0.6923,
+        "is_refusal_correct": true,
+        "notes": "Matched 4/4 required facts."
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 2,
+        "total_sentences": 2,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "2/2 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.85,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 314-315]",
+          "[1]",
+          "Clause 6.1.1.2"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 314-315]",
+          "[1]",
+          "Clause 6.1.1.2"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 314-315]",
+          "Chunk [1] exists in context",
+          "Clause 6.1.1.2"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [
+          "[Volume 1, PDF p. 314-315]"
+        ],
+        "notes": "3/3 citations verified. Expected sources found: 1/4"
+      },
+      "overall_score": 0.9285,
+      "passed": true,
+      "failure_reason": null,
+      "elapsed_ms": 7825.1
+    },
+    {
+      "test_id": "tc02_boiler_room_doors_opening",
+      "category": "Fire Doors & Openings Protection",
+      "question": "What are the fire resistance and closing requirements for doors installed in boiler room separation walls?",
+      "generated_answer": "Under Clause 6.1.1.2 of the National Building Code of India [1], walls separating a boiler room or central heating plant from other parts of a building must provide a minimum fire resistance rating of 120 minutes (2 hours). Furthermore, all connecting openings must be protected by self-closing fire doors with an equivalent 120-minute fire rating [Volume 1, PDF p. 314-315].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p314-001012",
+        "nbc-v1-p279-000915",
+        "nbc-v1-p322-001034",
+        "nbc-v1-p320-001031"
+      ],
+      "correctness": {
+        "score": 0.89,
+        "matched_facts": [
+          "self-closing",
+          "120 minutes",
+          "fire doors"
+        ],
+        "missing_facts": [],
+        "fact_coverage_ratio": 1.0,
+        "semantic_similarity": 0.6333,
+        "is_refusal_correct": true,
+        "notes": "Matched 3/3 required facts."
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 2,
+        "total_sentences": 2,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "2/2 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.8,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 314-315]",
+          "[1]",
+          "Clause 6.1.1.2"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 314-315]",
+          "[1]",
+          "Clause 6.1.1.2"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 314-315]",
+          "Chunk [1] exists in context",
+          "Clause 6.1.1.2"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [],
+        "notes": "3/3 citations verified. Expected sources found: 0/3"
+      },
+      "overall_score": 0.9105,
+      "passed": true,
+      "failure_reason": null,
+      "elapsed_ms": 14.9
+    },
+    {
+      "test_id": "tc03_exit_access_corridor_definition",
+      "category": "Egress & Life Safety",
+      "question": "What is the definition and regulatory requirement for an Exit Access Corridor under Clause 2.18?",
+      "generated_answer": "Based on the retrieved provisions in [1], 1). 2 Fire doors in exits shall have fire rating as required in this oo Part to meet the requirement of integrity and st... This requirement is formally specified in the code [Volume 1, PDF p. 264].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p264-000863",
+        "nbc-v1-p283-000928",
+        "nbc-v1-p122-000399",
+        "nbc-v1-p285-000933"
+      ],
+      "correctness": {
+        "score": 0.205,
+        "matched_facts": [
+          "exit"
+        ],
+        "missing_facts": [
+          "Exit Access Corridor",
+          "Clause 2.18",
+          "passageway"
+        ],
+        "fact_coverage_ratio": 0.25,
+        "semantic_similarity": 0.1,
+        "is_refusal_correct": true,
+        "notes": "Matched 1/4 required facts. Missing: Exit Access Corridor, Clause 2.18, passageway"
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 3,
+        "total_sentences": 3,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "3/3 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.8667,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 264]",
+          "[1]"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 264]",
+          "[1]"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 264]",
+          "Chunk [1] exists in context"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [
+          "[Volume 1, PDF p. 264]"
+        ],
+        "notes": "2/2 citations verified. Expected sources found: 1/3"
+      },
+      "overall_score": 0.6156,
+      "passed": false,
+      "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: Exit Access Corridor, Clause 2.18, passageway",
+      "elapsed_ms": 12.1
+    },
+    {
+      "test_id": "tc04_dead_end_corridor_travel_distance",
+      "category": "Egress & Life Safety",
+      "question": "What is the maximum permissible length for a dead-end corridor in educational and assembly buildings?",
+      "generated_answer": "Based on the retrieved provisions in [1], 4.4.1 Exit Access c) The dead end corridor length in exit access a) A common pathoftravel is desirable in exit shall not... This requirement is formally specified in the code [Volume 1, PDF p. 285-286].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p285-000933",
+        "nbc-v1-p275-000899",
+        "nbc-v1-p288-000941",
+        "nbc-v1-p183-000576"
+      ],
+      "correctness": {
+        "score": 0.2456,
+        "matched_facts": [
+          "dead end"
+        ],
+        "missing_facts": [
+          "6 m",
+          "educational",
+          "Clause 4.4.1"
+        ],
+        "fact_coverage_ratio": 0.25,
+        "semantic_similarity": 0.2353,
+        "is_refusal_correct": true,
+        "notes": "Matched 1/4 required facts. Missing: 6 m, educational, Clause 4.4.1"
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 2,
+        "total_sentences": 2,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "2/2 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.8667,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 285-286]",
+          "[1]"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 285-286]",
+          "[1]"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 285-286]",
+          "Chunk [1] exists in context"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [
+          "[Volume 1, PDF p. 285]"
+        ],
+        "notes": "2/2 citations verified. Expected sources found: 1/3"
+      },
+      "overall_score": 0.6339,
+      "passed": false,
+      "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: 6 m, educational, Clause 4.4.1",
+      "elapsed_ms": 12.2
+    },
+    {
+      "test_id": "tc05_transit_station_horizontal_exits",
+      "category": "Special Occupancies",
+      "question": "What are the criteria for horizontal exits and emergency escape illumination in transit stations under Clause J-5.4.12?",
+      "generated_answer": "Based on the retrieved provisions in [1], J-5.4.12 Emergency and escape lighting and c) Gate-type fare barriers in the means of egress illumination ofmeansofall e... This requirement is formally specified in the code [Volume 1, PDF p. 355].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p355-001123",
+        "nbc-v1-p278-000912",
+        "nbc-v1-p350-001109",
+        "nbc-v1-p282-000925"
+      ],
+      "correctness": {
+        "score": 0.3246,
+        "matched_facts": [
+          "J-5.4.12"
+        ],
+        "missing_facts": [
+          "horizontal exit",
+          "transit"
+        ],
+        "fact_coverage_ratio": 0.3333,
+        "semantic_similarity": 0.3043,
+        "is_refusal_correct": true,
+        "notes": "Matched 1/3 required facts. Missing: horizontal exit, transit"
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 2,
+        "total_sentences": 2,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "2/2 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.8667,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 355]",
+          "[1]"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 355]",
+          "[1]"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 355]",
+          "Chunk [1] exists in context"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [
+          "[Volume 1, PDF p. 355]"
+        ],
+        "notes": "2/2 citations verified. Expected sources found: 1/3"
+      },
+      "overall_score": 0.6694,
+      "passed": false,
+      "failure_reason": "PARTIAL_CORRECTNESS: Missing required facts: horizontal exit, transit",
+      "elapsed_ms": 11.5
+    },
+    {
+      "test_id": "tc06_conversational_follow_up_doors",
+      "category": "Conversational Follow-Up",
+      "question": "What about the doors in those walls?",
+      "generated_answer": "Under the National Building Code of India (Part 4, Clause 6.1.1.4) [Volume 1, PDF p. 315], openings in walls separating a boiler room must be protected by self-closing fire doors with a minimum fire resistance rating of 120 minutes (2 hours). Ventilation openings or louvers are prohibited in these fire doors unless protected by certified automatic fire dampers [Volume 1, PDF p. 315].",
+      "should_refuse": false,
+      "is_refusal": false,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p315-001015",
+        "nbc-v1-p314-001012"
+      ],
+      "correctness": {
+        "score": 0.95,
+        "matched_facts": [
+          "self-closing",
+          "fire doors",
+          "120 min"
+        ],
+        "missing_facts": [],
+        "fact_coverage_ratio": 1.0,
+        "semantic_similarity": 0.8333,
+        "is_refusal_correct": true,
+        "notes": "Matched 3/3 required facts."
+      },
+      "grounding": {
+        "score": 0.6667,
+        "grounded_sentences": 2,
+        "total_sentences": 3,
+        "unsupported_claims": [
+          "Under the National Building Code of India (Part 4, Clause 6.1.1.4) [Volume 1, PD..."
+        ],
+        "hallucination_detected": true,
+        "notes": "2/3 sentences grounded in retrieved NBC chunks."
+      },
+      "citation_audit": {
+        "citation_score": 0.9333,
+        "extracted_citations": [
+          "[Volume 1, PDF p. 315]",
+          "Part 4, Clause 6.1.1.4"
+        ],
+        "valid_citations": [
+          "[Volume 1, PDF p. 315]",
+          "Part 4, Clause 6.1.1.4"
+        ],
+        "invalid_citations": [],
+        "supported_claims": [
+          "[Volume 1, PDF p. 315]",
+          "Part 4, Clause 6.1.1.4"
+        ],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [
+          "Part 4, Clause 6.1.1.4",
+          "[Volume 1, PDF p. 315]"
+        ],
+        "notes": "2/2 citations verified. Expected sources found: 2/3"
+      },
+      "overall_score": 0.8475,
+      "passed": true,
+      "failure_reason": null,
+      "elapsed_ms": 2.4
+    },
+    {
+      "test_id": "tc07_out_of_domain_negative",
+      "category": "Negative / Out-of-Domain",
+      "question": "What is the maximum criminal penalty for copyright infringement under the Indian Copyright Act 1957?",
+      "generated_answer": "I cannot answer this question because the query subject appears to fall outside the scope of the indexed National Building Code provisions.",
+      "should_refuse": true,
+      "is_refusal": true,
+      "retrieved_chunk_ids": [
+        "nbc-v2-p711-002392",
+        "nbc-v2-p251-000860",
+        "nbc-v2-p764-002521-part-02",
+        "nbc-v2-p784-002583"
+      ],
+      "correctness": {
+        "score": 1.0,
+        "matched_facts": [
+          "safe_refusal_triggered"
+        ],
+        "missing_facts": [],
+        "fact_coverage_ratio": 1.0,
+        "semantic_similarity": 1.0,
+        "is_refusal_correct": true,
+        "notes": "Correctly refused out-of-domain/insufficient query."
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 1,
+        "total_sentences": 1,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "Refusal is fully grounded (no unsupported factual assertions made)."
+      },
+      "citation_audit": {
+        "citation_score": 1.0,
+        "extracted_citations": [],
+        "valid_citations": [],
+        "invalid_citations": [],
+        "supported_claims": [],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [],
+        "notes": "Refusal requires no citations."
+      },
+      "overall_score": 1.0,
+      "passed": true,
+      "failure_reason": null,
+      "elapsed_ms": 11.7
+    },
+    {
+      "test_id": "tc08_missing_provision_unindexed",
+      "category": "Negative / Missing Provision",
+      "question": "What are the quantum computing data center cryogenic containment specifications under NBC Part 12?",
+      "generated_answer": "I don't have enough information to answer that reliably based on the National Building Code.",
+      "should_refuse": true,
+      "is_refusal": true,
+      "retrieved_chunk_ids": [
+        "nbc-v1-p1188-003683",
+        "nbc-v1-p303-000985",
+        "nbc-v1-p146-000449",
+        "nbc-v1-p996-003066"
+      ],
+      "correctness": {
+        "score": 1.0,
+        "matched_facts": [
+          "safe_refusal_triggered"
+        ],
+        "missing_facts": [],
+        "fact_coverage_ratio": 1.0,
+        "semantic_similarity": 1.0,
+        "is_refusal_correct": true,
+        "notes": "Correctly refused out-of-domain/insufficient query."
+      },
+      "grounding": {
+        "score": 1.0,
+        "grounded_sentences": 1,
+        "total_sentences": 1,
+        "unsupported_claims": [],
+        "hallucination_detected": false,
+        "notes": "Refusal is fully grounded (no unsupported factual assertions made)."
+      },
+      "citation_audit": {
+        "citation_score": 1.0,
+        "extracted_citations": [],
+        "valid_citations": [],
+        "invalid_citations": [],
+        "supported_claims": [],
+        "unsupported_citations": [],
+        "citation_precision": 1.0,
+        "citation_support_ratio": 1.0,
+        "expected_sources_found": [],
+        "notes": "Refusal requires no citations."
+      },
+      "overall_score": 1.0,
+      "passed": true,
+      "failure_reason": null,
+      "elapsed_ms": 11.4
+    }
+  ]
+}
