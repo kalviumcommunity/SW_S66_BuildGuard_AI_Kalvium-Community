@@ -21,6 +21,8 @@ outputs/*
 !outputs/prompts/**
 !outputs/rag_pipeline/
 !outputs/rag_pipeline/**
+!outputs/grounded_generation/
+!outputs/grounded_generation/**
 
 
 # Python
