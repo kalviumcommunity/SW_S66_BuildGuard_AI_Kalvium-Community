@@ -17,8 +17,6 @@ outputs/*
 !outputs/vector_db/**
 !outputs/retrieval/
 !outputs/retrieval/**
-!outputs/citations/
-!outputs/citations/**
 
 
 # Python
