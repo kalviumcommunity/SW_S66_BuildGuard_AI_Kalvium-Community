@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-10-26T14:49:33Z",
+  "sample_cited_answer": {
+    "query": "What is the minimum fire resistance rating required for walls separating a boiler room from other parts of a building?",
+    "answer": "Under Clause 6.1.1.2 of the National Building Code of India, walls separating a boiler room from other parts of a building must provide a minimum fire resistance rating of 120 minutes (2 hours) [1]. All exterior and interior openings connecting to the boiler room must be protected by self-closing fire doors having an equivalent fire resistance rating of not less than 120 minutes [1] [Volume 1, PDF p. 314-315].",
+    "mode": "cited_answer",
+    "citations_map": {
+      "[1]": {
+        "marker_id": 1,
+        "marker_tag": "[1]",
+        "chunk_id": "nbc-v1-p314-001012",
+        "source_document": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "314-315",
+        "clause": "6.1.1.2",
+        "section_heading": "Part 4 — Fire and Life Safety",
+        "similarity_score": 0.8264464735984802,
+        "rerank_score": null,
+        "snippet": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign…",
+        "full_text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable."
+      },
+      "[2]": {
+        "marker_id": 2,
+        "marker_tag": "[2]",
+        "chunk_id": "nbc-v1-p279-000915",
+        "source_document": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "279-280",
+        "clause": "3.4.7.3",
+        "section_heading": "Part 4 — Fire and Life Safety",
+        "similarity_score": 0.7682436108589172,
+        "rerank_score": null,
+        "snippet": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any comb…",
+        "full_text": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. occupancy shall be as given in Part 8 ‘Building Services, Section 1 Lighting and Natural Ventilation’ 3.4.8.3 Duct work and ‘Section 3 Air conditioning, Heating and 3.4.8.3.1 Air ducts serving main floor areas, corridors, Mechanical Ventilation’ of the Code. etc, shall not pass through the exits/exit passageway/ Air conditioning and ventilating systems shall be so exit enclosure. Exits and lift lobbies, etc, shall not be installed and maintained as to minimise the danger of used as return air passage. spread of fire, smoke or fumes from one floor to other —_3.4.8.3.2 As far as possible, metallic ducts shall be used or from outside to any occupied building or structure. even for the return air instead of space above the false Many high-rise buildings integrate smoke management ceiling. systems into their conventional HVAC systems. Insuch —_3.4.8.3.3 Wherever the ducts pass through fire walls or installation, it requires special design considerations, floors, the opening around the ducts shall be sealed 24 NATIONAL BUILDING CODE OF INDIA 2016 with materials having fire resistance rating of the 3.4.9.2.2 Further, the following additional aspects may compartment. Such duct shall also be provided with be taken into account in the location of boiler room: fire dampers at all fire walls and floors unless such a) The boilers shall be installed in a fire resisting ucts are eauired perform for iesafety operations room of 180 min fire resistance rating. and in such case fire damper maybe avoided at fire . . . wall and floor while integrity of the duct shall be ) vance dove of 120be provided with 8 maintained with 120 min fire resistance rating to allow rating. the emergency operations for fire safety requirements. . La c) The boiler room shall be provided with its 3.4.8.3.4 The ducting within compartment would dedicated natural or mechanical ventilation require minimum fire resistance rating of30 min. Such system."
+      }
+    },
+    "verification_report": {
+      "total_claims": 2,
+      "verified_claims": 2,
+      "unsupported_claims": 0,
+      "fabricated_citations": [],
+      "overall_accuracy": 1.0,
+      "is_fully_verified": true,
+      "summary": "2/2 claims verified against retrieved sources (100% accuracy).",
+      "claim_attributions": [
+        {
+          "claim_text": "Under Clause 6.1.1.2 of the National Building Code of India, walls separating a boiler room from other parts of a building must provide a minimum fire resistance rating of 120 minutes (2 hours) [1].",
+          "citations": [
+            "[1]"
+          ],
+          "matched_sources": [
+            {
+              "marker_id": 1,
+              "marker_tag": "[1]",
+              "chunk_id": "nbc-v1-p314-001012",
+              "source_document": "nationalbuilding01.pdf",
+              "volume": 1,
+              "page": "314-315",
+              "clause": "6.1.1.2",
+              "section_heading": "Part 4 — Fire and Life Safety",
+              "similarity_score": 0.8264464735984802,
+              "rerank_score": null,
+              "snippet": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign…",
+              "full_text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable."
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "evidence_snippet": "shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge",
+          "confidence_score": 0.72
+        },
+        {
+          "claim_text": "All exterior and interior openings connecting to the boiler room must be protected by self-closing fire doors having an equivalent fire resistance rating of not less than 120 minutes [1] [Volume 1, PDF p. 314-315].",
+          "citations": [
+            "[1]"
+          ],
+          "matched_sources": [
+            {
+              "marker_id": 1,
+              "marker_tag": "[1]",
+              "chunk_id": "nbc-v1-p314-001012",
+              "source_document": "nationalbuilding01.pdf",
+              "volume": 1,
+              "page": "314-315",
+              "clause": "6.1.1.2",
+              "section_heading": "Part 4 — Fire and Life Safety",
+              "similarity_score": 0.8264464735984802,
+              "rerank_score": null,
+              "snippet": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign…",
+              "full_text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable."
+            }
+          ],
+          "verification_status": "VERIFIED",
+          "evidence_snippet": "shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge",
+          "confidence_score": 0.67
+        }
+      ]
+    },
+    "is_fallback": false,
+    "model": "deterministic-citation-generator",
+    "elapsed_ms": 245.9
+  },
+  "no_source_fallback_case": {
+    "query": "What are the statutory guidelines for registering a trademark under the Indian Trade Marks Act?",
+    "answer": "I don't have enough information to answer that reliably based on the provided National Building Code context.",
+    "mode": "no_source_fallback",
+    "citations_map": {},
+    "verification_report": null,
+    "is_fallback": true,
+    "model": "no_source_detector",
+    "elapsed_ms": 0.0
+  }
+}
