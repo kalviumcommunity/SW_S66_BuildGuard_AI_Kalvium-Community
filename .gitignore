@@ -19,6 +19,8 @@ outputs/*
 !outputs/retrieval/**
 !outputs/prompts/
 !outputs/prompts/**
+!outputs/rag_pipeline/
+!outputs/rag_pipeline/**
 
 
 # Python
