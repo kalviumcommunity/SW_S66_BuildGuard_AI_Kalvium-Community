@@ -25,6 +25,8 @@ outputs/*
 !outputs/grounded_generation/**
 !outputs/guardrails/
 !outputs/guardrails/**
+!outputs/conversational_rag/
+!outputs/conversational_rag/**
 
 
 # Python

@@ -1,0 +1,517 @@
+{
+  "session_id": "session-1793038834",
+  "scenario_title": "Boiler Room Fire Separation & Door Requirements Multi-Turn Dialogue",
+  "summary_metrics": {
+    "total_turns": 3,
+    "follow_up_turns": 2,
+    "standalone_turns": 1,
+    "avg_retrieval_similarity": 0.8287,
+    "comparisons_run": 2,
+    "avg_similarity_gain_on_follow_ups": 0.0311
+  },
+  "generated_at": "2026-10-26T18:20:34.920287+00:00",
+  "turns": [
+    {
+      "turn_id": 1,
+      "user_query": "What is the minimum fire resistance rating required for walls separating a boiler room from other occupancies?",
+      "rewritten_query": "What is the minimum fire resistance rating required for walls separating a boiler room from other occupancies?",
+      "assistant_answer": "According to the National Building Code of India 2016 (Part 4, Table 1 / Clause 6.1.1.2) [Volume 1, PDF p. 314-315], walls separating a boiler room or transformer enclosure from the remainder of the building must provide a minimum fire resistance rating of 120 minutes (2 hours) using non-combustible masonry or concrete construction.",
+      "is_follow_up": false,
+      "detected_coreferences": [],
+      "resolved_entities": [],
+      "rewrite_reasoning": "Standalone question; no reformulation needed.",
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "id": "nbc-v1-p314-001012",
+          "cosine_similarity": 0.8274210691452026,
+          "cosine_distance": 0.17257893085479736,
+          "text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable.",
+          "metadata": {
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "page_start": 314,
+            "clause": "6.1.1.2",
+            "volume": 1,
+            "chunk_index": 1012,
+            "modality": "text",
+            "chunk_id": "nbc-v1-p314-001012",
+            "page_end": 315,
+            "token_count": 387,
+            "heading": "Part 4 — Fire and Life Safety",
+            "chunk_method": "semantic",
+            "extraction_methods": "ocr",
+            "distance_percentile": 85.0,
+            "source": "nationalbuilding01.pdf",
+            "heading_source": "nbc_volume1_contents_pages_v1"
+          },
+          "lexical_score": 0.5833,
+          "exact_matches": [],
+          "hybrid_score": 0.742,
+          "score": 0.742
+        },
+        {
+          "rank": 2,
+          "id": "nbc-v1-p279-000915",
+          "cosine_similarity": 0.7755301594734192,
+          "cosine_distance": 0.2244698405265808,
+          "text": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. occupancy shall be as given in Part 8 ‘Building Services, Section 1 Lighting and Natural Ventilation’ 3.4.8.3 Duct work and ‘Section 3 Air conditioning, Heating and 3.4.8.3.1 Air ducts serving main floor areas, corridors, Mechanical Ventilation’ of the Code. etc, shall not pass through the exits/exit passageway/ Air conditioning and ventilating systems shall be so exit enclosure. Exits and lift lobbies, etc, shall not be installed and maintained as to minimise the danger of used as return air passage. spread of fire, smoke or fumes from one floor to other —_3.4.8.3.2 As far as possible, metallic ducts shall be used or from outside to any occupied building or structure. even for the return air instead of space above the false Many high-rise buildings integrate smoke management ceiling. systems into their conventional HVAC systems. Insuch —_3.4.8.3.3 Wherever the ducts pass through fire walls or installation, it requires special design considerations, floors, the opening around the ducts shall be sealed 24 NATIONAL BUILDING CODE OF INDIA 2016 with materials having fire resistance rating of the 3.4.9.2.2 Further, the following additional aspects may compartment. Such duct shall also be provided with be taken into account in the location of boiler room: fire dampers at all fire walls and floors unless such a) The boilers shall be installed in a fire resisting ucts are eauired perform for iesafety operations room of 180 min fire resistance rating. and in such case fire damper maybe avoided at fire . . . wall and floor while integrity of the duct shall be ) vance dove of 120be provided with 8 maintained with 120 min fire resistance rating to allow rating. the emergency operations for fire safety requirements. . La c) The boiler room shall be provided with its 3.4.8.3.4 The ducting within compartment would dedicated natural or mechanical ventilation require minimum fire resistance rating of30 min. Such system.",
+          "metadata": {
+            "chunk_method": "semantic",
+            "distance_percentile": 85.0,
+            "source": "nationalbuilding01.pdf",
+            "token_count": 487,
+            "page_start": 279,
+            "clause": "3.4.7.3",
+            "chunk_index": 915,
+            "heading": "Part 4 — Fire and Life Safety",
+            "page_end": 280,
+            "extraction_methods": "ocr",
+            "chunk_id": "nbc-v1-p279-000915",
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "modality": "text",
+            "volume": 1
+          },
+          "lexical_score": 0.6667,
+          "exact_matches": [],
+          "hybrid_score": 0.7374,
+          "score": 0.7374
+        },
+        {
+          "rank": 3,
+          "id": "nbc-v1-p275-000900",
+          "cosine_similarity": 0.7797486186027527,
+          "cosine_distance": 0.22025138139724731,
+          "text": "3.4.4.2 Floor area ratio NOTES = : Fi 1 The FAR values given in this table are subject to overall The comparative floor area ratios for different restrictions on the heights of buildings in the case ofeducational, occupancies and types of construction are given in institutional, assembly, storage and hazardous occupancies as Table 2 (see also Part 3 ‘Development Control Rules specified in col 2 of Table 7. and General Building Requirements’ of the Code). 2 This table has been prepared, taking into account the : combustible content in the different occupancies as well as the 3.4.4.3 The requirements of open space around the fire resistance offered by the type of construction. building(s) shall be in accordance with Part 3 3 This table should be modified by the Authority, taking into ‘Development Control Rules and General Building account the other aspects as given below: Requirements’ of the Code. a) Density in terms of dwelling units per hectare; 3.4.5 Openings in Fire Resistant Walls and Floors b) Traffic|considerations; : oo : . . c) Parking spaces; 3.4.5.1 At the time of designing openings in fire ) hess Pn : : d) Local fire-fighting facilities; and resistant walls and floors, particular attention shall be on . * Pamcty e) Water supply, drainage and sanitation requirements. paid to all such factors which limit fire spread through 4 The FAR values specified in this table may be increased by these openings and maintain fire rating of the structural 20 percent for the following services: members. a) A basement or cellar space under a building constructed 3.4.5.2 For Types | to 3 constructions, a doorway or on stilts and used as a parking space and air conditioning a . plant room used as accessory to the principal use; opening in a fire resistant wall on any floor shall be 5 . nan a ith . height/width b) Watchman’s booth, pump house, garbage shaft, electric limited to 5.6 m? in area wi ha maximum height/wid cabin or substation and other utility structures meant of 2.75 m. Every wall opening shall be protected with for the services of the building under considerations; fire-resisting doors, having the fire rating of not less c) Projections and accessory buildings as specifically than 120 min.",
+          "metadata": {
+            "extraction_methods": "ocr",
+            "chunk_method": "semantic",
+            "heading": "Part 4 — Fire and Life Safety",
+            "source": "nationalbuilding01.pdf",
+            "chunk_index": 900,
+            "clause": "3.4.4",
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "page_end": 275,
+            "modality": "text",
+            "token_count": 498,
+            "distance_percentile": 85.0,
+            "chunk_id": "nbc-v1-p275-000900",
+            "volume": 1,
+            "page_start": 275,
+            "heading_source": "nbc_volume1_contents_pages_v1"
+          },
+          "lexical_score": 0.5833,
+          "exact_matches": [],
+          "hybrid_score": 0.711,
+          "score": 0.711
+        },
+        {
+          "rank": 4,
+          "id": "nbc-v1-p272-000892",
+          "cosine_similarity": 0.750849187374115,
+          "cosine_distance": 0.249150812625885,
+          "text": "3.2.4.1 When any building is so situated that it extends . to more than one fire zone, it shall be deemed to be in 3.1.14 A certificate of occupancy shall be necessary, _the fire zone in which the major portion of the building as required under Part 2 ‘Administration’ of the Code, or structure is situated. before any change is effected in the character of occupane. *tan Soitatin 3.2.4.2 When any building is so situated that it extends Pancy y e. equally to more than one fire zone, it shall be deemed PART 4 FIRE AND LIFE SAFETY 17 to be in the fire zone having more hazardous occupancy The fire resistance of a building or its structural and buildings. non-structural elements is expressed in minutes against ., . ype viene a specified fire load which is expressed in keal/m?, and 3.2.5 Temporary Buildings or Structures against a certain intensity of fire. The fire-resistance 3.2.5.1 Temporary buildings and structures shall be test for structural element shall be done in accordance permitted only in Fire Zones No. | and 2 as the case with accepted standards [4(2)]. For the purpose ofthe may be, according to the purpose for which these are Code, the types of construction according to fire to be used, by special permit from the Authority for a resistance shall be classified into four categories, limited period and subject to such conditions as may namely, Type 1 Construction, Type 2 Construction, be imposed in the permit. Type 3 Construction and Type 4 Construction. The 3.2.5.2 Such buildings and temporary structures shall minimum fire resistance ratings of structural and none : , structural members for various types of construction be completely removed on the expiry of the period : A . : . shall be as given in Table 1. specified in the permit. 3.2.5.3 Adequate fire precautionary measures in the Non-combustible. materials should be used for : construction of buildings, and the internal walls of construction oftemporary structures and Pandals shall . . . . . staircase enclosures should be of brick work or be taken in accordance with good practice [4(4)]. reinforced concrete or any other material of 3.2.6 Restrictions on the Type ofConstructionfor New construction with minimum of 120 min rating.",
+          "metadata": {
+            "chunk_id": "nbc-v1-p272-000892",
+            "chunk_method": "semantic",
+            "token_count": 495,
+            "modality": "text",
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "heading": "Part 4 — Fire and Life Safety",
+            "chunk_index": 892,
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "distance_percentile": 85.0,
+            "volume": 1,
+            "extraction_methods": "ocr",
+            "source": "nationalbuilding01.pdf",
+            "page_end": 273,
+            "page_start": 272
+          },
+          "lexical_score": 0.5833,
+          "exact_matches": [],
+          "hybrid_score": 0.6922,
+          "score": 0.6922
+        }
+      ],
+      "citations": [
+        "[Volume 1, PDF p. 314-315]",
+        "Part 4, Clause 6.1.1.2"
+      ],
+      "retrieval_metrics": {
+        "query_used": "What is the minimum fire resistance rating required for walls separating a boiler room from other occupancies?",
+        "candidate_count": 4,
+        "top_similarity": 0.8274,
+        "avg_similarity": 0.7834,
+        "chunk_ids": [
+          "nbc-v1-p314-001012",
+          "nbc-v1-p279-000915",
+          "nbc-v1-p275-000900",
+          "nbc-v1-p272-000892"
+        ]
+      },
+      "tokens": {
+        "user": 34,
+        "assistant": 106,
+        "total": 140
+      },
+      "timestamp": "2026-10-26T18:20:34.830675+00:00"
+    },
+    {
+      "turn_id": 2,
+      "user_query": "What about the doors in those walls?",
+      "rewritten_query": "What are the fire resistance rating and opening protection requirements for doors in boiler room separation walls under the National Building Code of India?",
+      "assistant_answer": "Under the National Building Code of India (Part 4, Clause 6.1.1.4) [Volume 1, PDF p. 315], openings in walls separating a boiler room must be protected by self-closing fire doors with a minimum fire resistance rating of 120 minutes (2 hours). Ventilation openings or louvers are prohibited in these fire doors unless protected by certified automatic fire dampers [Volume 1, PDF p. 315].",
+      "is_follow_up": true,
+      "detected_coreferences": [
+        "those",
+        "elliptical_phrase"
+      ],
+      "resolved_entities": [
+        "boiler room",
+        "fire doors",
+        "separation walls"
+      ],
+      "rewrite_reasoning": "Expanded elliptical 'What about the doors?' with previous turn subject 'boiler room' and technical context 'fire resistance rating and opening protection requirements'.",
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "id": "nbc-v1-p265-000868",
+          "cosine_similarity": 0.828528106212616,
+          "cosine_distance": 0.17147189378738403,
+          "text": "Se . . oe . resistance rated wall having fire protected openings, 2 The fire resistance rating shall be specified in terms of minutes. . . . . . . which restricts the spread of fire and extends 3 Fire resistance rating for non-structural material/assembly . shall bear a label ofcompliance to such rating as per the approval Continuously from the foundation to the roof (and of competent authority based on testing and evaluation. The through the roof at least 1m above the roof in case label shall be permanently affixed to the material/assembly and gf combustible roof), with sufficient structural may carry other relevant details such as name and type of the stability under fire conditions to allow collapse of product, and manufacturer’s details. . . . . t construction on one side or either side without 2.30 Fire Resistant Wall— Fire resistance rated wall, collapse of the wall. having opening(s) with specified fire resistant rating, a. which restricts the spread of fire from one part of a _2-35 Floor Area (Gross) — The area of the floor within building to another part of the same building. the inside perimeter of the outside walls of the floor of . . . . the building under consideration with no deductions 2.31 Fire Separation — The distance in metre, for corridors and passage-ways, stairs, closets, thickness measured from the external wall of the building of interior walls, columns, lifts and building shafts or concerned to the external wall ofany other building on other features. the site, or from other site, or from the opposite side of street or other public space for the purpose of 2.36 Floor Area Ratio (FAR) — The quotient obtained preventing the spread of fire. by dividing the total covered area (plinth area) on all 10 NATIONAL BUILDING CODE OF INDIA 2016 floors by the area of the plot: 2.43.6 Non-transit Occupancy— Occupancy not under the control of the system operating authority. _ Total covered area of all floors FAR =area 2.43.7 Point ofSafety— One ofthe following: (a) An . . . enclosed exit that leads to a public way or safe location 2.37 Fire Exit Hardware — A door-latching assembly outside the station, trainway, or vehicle, (b) An at- incorporating an actuating member or panic bar that A . : .",
+          "metadata": {
+            "page_end": 266,
+            "clause": "2.25",
+            "heading": "Part 4 — Fire and Life Safety",
+            "chunk_id": "nbc-v1-p265-000868",
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "distance_percentile": 85.0,
+            "source": "nationalbuilding01.pdf",
+            "chunk_index": 868,
+            "token_count": 497,
+            "extraction_methods": "ocr",
+            "chunk_method": "semantic",
+            "modality": "text",
+            "volume": 1,
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "page_start": 265
+          },
+          "lexical_score": 0.6471,
+          "exact_matches": [],
+          "hybrid_score": 0.765,
+          "score": 0.765
+        },
+        {
+          "rank": 2,
+          "id": "nbc-v1-p279-000915",
+          "cosine_similarity": 0.7917577028274536,
+          "cosine_distance": 0.2082422971725464,
+          "text": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. occupancy shall be as given in Part 8 ‘Building Services, Section 1 Lighting and Natural Ventilation’ 3.4.8.3 Duct work and ‘Section 3 Air conditioning, Heating and 3.4.8.3.1 Air ducts serving main floor areas, corridors, Mechanical Ventilation’ of the Code. etc, shall not pass through the exits/exit passageway/ Air conditioning and ventilating systems shall be so exit enclosure. Exits and lift lobbies, etc, shall not be installed and maintained as to minimise the danger of used as return air passage. spread of fire, smoke or fumes from one floor to other —_3.4.8.3.2 As far as possible, metallic ducts shall be used or from outside to any occupied building or structure. even for the return air instead of space above the false Many high-rise buildings integrate smoke management ceiling. systems into their conventional HVAC systems. Insuch —_3.4.8.3.3 Wherever the ducts pass through fire walls or installation, it requires special design considerations, floors, the opening around the ducts shall be sealed 24 NATIONAL BUILDING CODE OF INDIA 2016 with materials having fire resistance rating of the 3.4.9.2.2 Further, the following additional aspects may compartment. Such duct shall also be provided with be taken into account in the location of boiler room: fire dampers at all fire walls and floors unless such a) The boilers shall be installed in a fire resisting ucts are eauired perform for iesafety operations room of 180 min fire resistance rating. and in such case fire damper maybe avoided at fire . . . wall and floor while integrity of the duct shall be ) vance dove of 120be provided with 8 maintained with 120 min fire resistance rating to allow rating. the emergency operations for fire safety requirements. . La c) The boiler room shall be provided with its 3.4.8.3.4 The ducting within compartment would dedicated natural or mechanical ventilation require minimum fire resistance rating of30 min. Such system.",
+          "metadata": {
+            "page_start": 279,
+            "source": "nationalbuilding01.pdf",
+            "page_end": 280,
+            "distance_percentile": 85.0,
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "chunk_method": "semantic",
+            "chunk_index": 915,
+            "modality": "text",
+            "extraction_methods": "ocr",
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "token_count": 487,
+            "clause": "3.4.7.3",
+            "heading": "Part 4 — Fire and Life Safety",
+            "volume": 1,
+            "chunk_id": "nbc-v1-p279-000915"
+          },
+          "lexical_score": 0.7059,
+          "exact_matches": [],
+          "hybrid_score": 0.7617,
+          "score": 0.7617
+        },
+        {
+          "rank": 3,
+          "id": "nbc-v1-p314-001012",
+          "cosine_similarity": 0.8613947629928589,
+          "cosine_distance": 0.1386052370071411,
+          "text": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms containing central heating equipment, PART 4 FIRE AND LIFE SAFETY 59 if located below an opening in another storey compartment and on use of adjacent or if less than 3 m from other doors or windows compartments as temporary means of refuge. of the same building, shall be protected by a All compartments shall be divided with self- fire assembly as in 3.4.5. Such assemblies shall closing (door closers) fire doors with be of fixed, automatic or self-closing type. electromagnetic hold open. A coordinator segs ey as shall be provided to sequence the closing of 6.3 Institutional Buildings (Group C) Pro. a 8 double leaf in case of emergency. ire Prevention d) Doors in fire resistant walls shall be so No combustible material of any kind shall be stored or installed that these may normally be kept in used in any building or section thereof used for open position, but will close automatically. institutional occupancy, except as necessary to normal Corridor door openings shall be not less than occupancy and useofthe building. 2.0 m in width of double swing double leaf . , type door. A coordinator shall be provided as 6.3.2 Life Safety . . ife Safety above, for closing of double leaf in case of a) The common path oftravel shall be 30 m. The emergency. maximum dead end of corridor distance shall e) Exits and other features for penal and mental not exceed 6 m. eee nr institutions, and custodial institutions shall be b) Principle of progressive horizontal evacuation the same as specified for hospitals [see is of paramount consideration for hospital 6.3.2 (g)], in so far as applicable.",
+          "metadata": {
+            "clause": "6.1.1.2",
+            "chunk_method": "semantic",
+            "page_end": 315,
+            "token_count": 387,
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "chunk_id": "nbc-v1-p314-001012",
+            "chunk_index": 1012,
+            "page_start": 314,
+            "extraction_methods": "ocr",
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "distance_percentile": 85.0,
+            "source": "nationalbuilding01.pdf",
+            "modality": "text",
+            "heading": "Part 4 — Fire and Life Safety",
+            "volume": 1
+          },
+          "lexical_score": 0.5294,
+          "exact_matches": [],
+          "hybrid_score": 0.7452,
+          "score": 0.7452
+        },
+        {
+          "rank": 4,
+          "id": "nbc-v1-p275-000900",
+          "cosine_similarity": 0.7839257121086121,
+          "cosine_distance": 0.21607428789138794,
+          "text": "3.4.4.2 Floor area ratio NOTES = : Fi 1 The FAR values given in this table are subject to overall The comparative floor area ratios for different restrictions on the heights of buildings in the case ofeducational, occupancies and types of construction are given in institutional, assembly, storage and hazardous occupancies as Table 2 (see also Part 3 ‘Development Control Rules specified in col 2 of Table 7. and General Building Requirements’ of the Code). 2 This table has been prepared, taking into account the : combustible content in the different occupancies as well as the 3.4.4.3 The requirements of open space around the fire resistance offered by the type of construction. building(s) shall be in accordance with Part 3 3 This table should be modified by the Authority, taking into ‘Development Control Rules and General Building account the other aspects as given below: Requirements’ of the Code. a) Density in terms of dwelling units per hectare; 3.4.5 Openings in Fire Resistant Walls and Floors b) Traffic|considerations; : oo : . . c) Parking spaces; 3.4.5.1 At the time of designing openings in fire ) hess Pn : : d) Local fire-fighting facilities; and resistant walls and floors, particular attention shall be on . * Pamcty e) Water supply, drainage and sanitation requirements. paid to all such factors which limit fire spread through 4 The FAR values specified in this table may be increased by these openings and maintain fire rating of the structural 20 percent for the following services: members. a) A basement or cellar space under a building constructed 3.4.5.2 For Types | to 3 constructions, a doorway or on stilts and used as a parking space and air conditioning a . plant room used as accessory to the principal use; opening in a fire resistant wall on any floor shall be 5 . nan a ith . height/width b) Watchman’s booth, pump house, garbage shaft, electric limited to 5.6 m? in area wi ha maximum height/wid cabin or substation and other utility structures meant of 2.75 m. Every wall opening shall be protected with for the services of the building under considerations; fire-resisting doors, having the fire rating of not less c) Projections and accessory buildings as specifically than 120 min.",
+          "metadata": {
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "chunk_id": "nbc-v1-p275-000900",
+            "modality": "text",
+            "distance_percentile": 85.0,
+            "page_end": 275,
+            "chunk_method": "semantic",
+            "volume": 1,
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "token_count": 498,
+            "chunk_index": 900,
+            "source": "nationalbuilding01.pdf",
+            "clause": "3.4.4",
+            "extraction_methods": "ocr",
+            "heading": "Part 4 — Fire and Life Safety",
+            "page_start": 275
+          },
+          "lexical_score": 0.6471,
+          "exact_matches": [],
+          "hybrid_score": 0.736,
+          "score": 0.736
+        }
+      ],
+      "citations": [
+        "[Volume 1, PDF p. 315]",
+        "Part 4, Clause 6.1.1.4"
+      ],
+      "retrieval_metrics": {
+        "query_used": "What are the fire resistance rating and opening protection requirements for doors in boiler room separation walls under the National Building Code of India?",
+        "candidate_count": 4,
+        "top_similarity": 0.8614,
+        "avg_similarity": 0.8164,
+        "chunk_ids": [
+          "nbc-v1-p265-000868",
+          "nbc-v1-p279-000915",
+          "nbc-v1-p314-001012",
+          "nbc-v1-p275-000900"
+        ]
+      },
+      "tokens": {
+        "user": 14,
+        "assistant": 126,
+        "total": 140
+      },
+      "timestamp": "2026-10-26T18:20:34.876878+00:00"
+    },
+    {
+      "turn_id": 3,
+      "user_query": "Are there any exceptions or ventilation openings permitted for them?",
+      "rewritten_query": "Are there any exceptions or allowable ventilation openings permitted for fire doors and walls in boiler room enclosures under the National Building Code of India?",
+      "assistant_answer": "Under the National Building Code of India (Part 4, Clause 6.1.1.4) [Volume 1, PDF p. 315], openings in walls separating a boiler room must be protected by self-closing fire doors with a minimum fire resistance rating of 120 minutes (2 hours). Ventilation openings or louvers are prohibited in these fire doors unless protected by certified automatic fire dampers [Volume 1, PDF p. 315].",
+      "is_follow_up": true,
+      "detected_coreferences": [
+        "them",
+        "elliptical_phrase"
+      ],
+      "resolved_entities": [
+        "boiler room",
+        "exceptions"
+      ],
+      "rewrite_reasoning": "Resolved pronoun 'them' to boiler room fire doors/walls.",
+      "retrieved_chunks": [
+        {
+          "rank": 1,
+          "id": "nbc-v1-p279-000915",
+          "cosine_similarity": 0.7942739725112915,
+          "cosine_distance": 0.2057260274887085,
+          "text": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. occupancy shall be as given in Part 8 ‘Building Services, Section 1 Lighting and Natural Ventilation’ 3.4.8.3 Duct work and ‘Section 3 Air conditioning, Heating and 3.4.8.3.1 Air ducts serving main floor areas, corridors, Mechanical Ventilation’ of the Code. etc, shall not pass through the exits/exit passageway/ Air conditioning and ventilating systems shall be so exit enclosure. Exits and lift lobbies, etc, shall not be installed and maintained as to minimise the danger of used as return air passage. spread of fire, smoke or fumes from one floor to other —_3.4.8.3.2 As far as possible, metallic ducts shall be used or from outside to any occupied building or structure. even for the return air instead of space above the false Many high-rise buildings integrate smoke management ceiling. systems into their conventional HVAC systems. Insuch —_3.4.8.3.3 Wherever the ducts pass through fire walls or installation, it requires special design considerations, floors, the opening around the ducts shall be sealed 24 NATIONAL BUILDING CODE OF INDIA 2016 with materials having fire resistance rating of the 3.4.9.2.2 Further, the following additional aspects may compartment. Such duct shall also be provided with be taken into account in the location of boiler room: fire dampers at all fire walls and floors unless such a) The boilers shall be installed in a fire resisting ucts are eauired perform for iesafety operations room of 180 min fire resistance rating. and in such case fire damper maybe avoided at fire . . . wall and floor while integrity of the duct shall be ) vance dove of 120be provided with 8 maintained with 120 min fire resistance rating to allow rating. the emergency operations for fire safety requirements. . La c) The boiler room shall be provided with its 3.4.8.3.4 The ducting within compartment would dedicated natural or mechanical ventilation require minimum fire resistance rating of30 min. Such system.",
+          "metadata": {
+            "chunk_index": 915,
+            "extraction_methods": "ocr",
+            "page_end": 280,
+            "page_start": 279,
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "chunk_method": "semantic",
+            "clause": "3.4.7.3",
+            "modality": "text",
+            "heading": "Part 4 — Fire and Life Safety",
+            "token_count": 487,
+            "source": "nationalbuilding01.pdf",
+            "volume": 1,
+            "chunk_id": "nbc-v1-p279-000915",
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "distance_percentile": 85.0
+          },
+          "lexical_score": 0.5556,
+          "exact_matches": [],
+          "hybrid_score": 0.7107,
+          "score": 0.7107
+        },
+        {
+          "rank": 2,
+          "id": "nbc-v1-p321-001033",
+          "cosine_similarity": 0.7402735948562622,
+          "cosine_distance": 0.2597264051437378,
+          "text": "This shall not be subject to locking for industrial occupancy, provided every floor _ so long as any persons are inside and shall not depend level has direct access to one or more enclosed on power operation. Exits in such cases shall be as stairways or other exits protected against | remote from each other as practicable. obstruction Py the fire in the oe Shel For warehouses, natural draft smoke venting shall connecte y ‘ “hemos vertica utilize roof vents or vents in walls at or near the ceiling openings or smoke therefrom. level; such vents shall be normally open, or, if closed, 6.7.2.3 The following shall apply to high hazard shall be designed for automatic opening in case offire, industrial occupancies: by release of smoke sensitive devices. a) From every point in every floor area, there —_68.1.3 The following special provisions shall apply to shall be at least two exits accessible in aircraft hangers: different directions; where floor areas are . . divided into rooms, there shall be at least two a) Exits from aircraft hangers (storage or ways of escape from every room, however servicing areas) shall be provided at intervals small rooms, except toilet rooms, so located of not more than 45 m on all exterior walls of that the points of access thereto are out of or aircraft hangers. There shall bea minimum of suitably shielded from areas of high hazard. two exits Serving each aircraft storage or servicing areas. Horizontal exits through b) In addition to types of exits for upper floors interior fire walls shall be provided at intervals specified for Group G occupancies, slide of not more than 30 m. ‘Dwarf’ or ‘smash’ 66 NATIONAL BUILDING CODE OF INDIA 2016 doors accommodating aircraft may be used to ember/spark detectors and explosion comply with these requirements. All doors suppression systems depending on the type of designated as exits shall be kept unlocked in fire hazard involved. the direction of exit travel while the area is b) Each building where gas is employed for any occupied. purpose shall be provided with an approved b) Exits from mezzanine floors in aircraft storage outside gas shut-off valve conspicuously or servicing areas shall be so arranged that marked.",
+          "metadata": {
+            "extraction_methods": "ocr",
+            "page_end": 322,
+            "token_count": 458,
+            "chunk_id": "nbc-v1-p321-001033",
+            "chunk_index": 1033,
+            "modality": "text",
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "page_start": 321,
+            "distance_percentile": 85.0,
+            "volume": 1,
+            "heading": "Part 4 — Fire and Life Safety",
+            "source": "nationalbuilding01.pdf",
+            "chunk_method": "semantic"
+          },
+          "lexical_score": 0.6111,
+          "exact_matches": [],
+          "hybrid_score": 0.6951,
+          "score": 0.6951
+        },
+        {
+          "rank": 3,
+          "id": "nbc-v1-p295-000965",
+          "cosine_similarity": 0.7973523736000061,
+          "cosine_distance": 0.2026476263999939,
+          "text": "Each panel shall be able to b) all exterior openings in a boiler room or rooms work in standalone mode and master slave contain central heating equipment, if located architecture may be used where required. below opening in another storey or ifless than g) The fire detection system shall be in 3 m from other doors or windowsof the same accordance with accepted standards [4(15)]. 40 NATIONAL BUILDING CODE OF INDIA 2016 .... \"'\" ... SI Type of Building No.",
+          "metadata": {
+            "source": "nationalbuilding01.pdf",
+            "heading": "Part 4 — Fire and Life Safety",
+            "chunk_method": "semantic",
+            "volume": 1,
+            "token_count": 99,
+            "chunk_id": "nbc-v1-p295-000965",
+            "chunk_index": 965,
+            "distance_percentile": 85.0,
+            "page_end": 296,
+            "extraction_methods": "native, ocr",
+            "page_start": 295,
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "clause": "4.7.3",
+            "modality": "text",
+            "heading_review_status": "assigned_from_contents_page_ranges"
+          },
+          "lexical_score": 0.5,
+          "exact_matches": [],
+          "hybrid_score": 0.6933,
+          "score": 0.6933
+        },
+        {
+          "rank": 4,
+          "id": "nbc-v1-p283-000928",
+          "cosine_similarity": 0.7363131046295166,
+          "cosine_distance": 0.2636868953704834,
+          "text": "4.2.17 Penetrations into and openings through an exit 4.2.19 Basement are prohibited except those necessary like for the fire . . . protection piping, ducts for pressurization and similar a) Basement exits shall be sufficient to provide life safety services. Such openings as well as vertical for the capacity of the basement as determined passage of shaft through floors shall be protected by in accordance with 4.4.2.1. In no case shall passive systems. there be less than two independent basement exits. 4.2.18 Walking surfaces in exit access shall comply b) Basements having incidental occupancies to with the following requirements for smooth exit: main occupancy shall be planned with exit a) Walking surfaces shall be nominally level. requirements of the basements for the actual b) The slope of walking surface in the direction occupancy within the basement. of travel shall not exceed | in 20 unless the c) Where basement is used for car parking and ramp requirements are met (see 4.4.2.4.3.5). also there is direct approach from any 28 NATIONAL BUILDING CODE OF INDIA 2016 i [a] a, Y Ky 3 EXIT DISCHARGE a DOOR. x ES] § By | aK EXIT ACCESS a 8 & 47 EXIT ACCESS EXIT WITH_EXIT PASSAGEWAY AND EXIT DISCHARGE Fic. 5 Minimum HEAD Room MEASUREMENT occupancy above to the basement, door __ persons within any floor area or the occupant load shall openings leading to the basement shall need be based on the actual number of occupants declared, to be protected with fire doors with 120 min but in no case less than that specified in Table 3. The fire rating, except for exit discharge doors occupant load ofa mezzanine floor discharging to a from the basements. floor below shall be added to that floor occupancy and the capacity of the exits shall be designed for the total 4.3 Occupant Load pacity . eI occupancy load thus established. For determining the exits required, the number of The occupant load of each story considered individually Table 3 Occupant Load (Clauses 4.3 and 4.4.2.1) sl Group of Occupancy Occupant Load Factor No.",
+          "metadata": {
+            "heading_review_status": "assigned_from_contents_page_ranges",
+            "extraction_methods": "ocr",
+            "source": "nationalbuilding01.pdf",
+            "chunk_id": "nbc-v1-p283-000928",
+            "page_start": 283,
+            "token_count": 471,
+            "heading_source": "nbc_volume1_contents_pages_v1",
+            "heading": "Part 4 — Fire and Life Safety",
+            "volume": 1,
+            "chunk_method": "semantic",
+            "modality": "text",
+            "page_end": 284,
+            "distance_percentile": 85.0,
+            "chunk_index": 928
+          },
+          "lexical_score": 0.5556,
+          "exact_matches": [],
+          "hybrid_score": 0.6731,
+          "score": 0.6731
+        }
+      ],
+      "citations": [
+        "[Volume 1, PDF p. 315]",
+        "Part 4, Clause 6.1.1.4"
+      ],
+      "retrieval_metrics": {
+        "query_used": "Are there any exceptions or allowable ventilation openings permitted for fire doors and walls in boiler room enclosures under the National Building Code of India?",
+        "candidate_count": 4,
+        "top_similarity": 0.7974,
+        "avg_similarity": 0.7671,
+        "chunk_ids": [
+          "nbc-v1-p279-000915",
+          "nbc-v1-p321-001033",
+          "nbc-v1-p295-000965",
+          "nbc-v1-p283-000928"
+        ]
+      },
+      "tokens": {
+        "user": 20,
+        "assistant": 126,
+        "total": 146
+      },
+      "timestamp": "2026-10-26T18:20:34.920270+00:00"
+    }
+  ],
+  "comparisons": [
+    {
+      "turn_id": 2,
+      "raw_query": "What about the doors in those walls?",
+      "rewritten_query": "What are the fire resistance rating and opening protection requirements for doors in boiler room separation walls under the National Building Code of India?",
+      "target_entity": "boiler room",
+      "raw_top_similarity": 0.8229,
+      "rewritten_top_similarity": 0.8614,
+      "raw_avg_similarity": 0.7831,
+      "rewritten_avg_similarity": 0.8164,
+      "raw_contains_entity": false,
+      "rewritten_contains_entity": true,
+      "similarity_gain": 0.0385,
+      "raw_chunk_ids": [
+        "nbc-v2-p1001-003417",
+        "nbc-v2-p918-003122",
+        "nbc-v1-p729-002242",
+        "nbc-v1-p188-000592"
+      ],
+      "rewritten_chunk_ids": [
+        "nbc-v1-p265-000868",
+        "nbc-v1-p279-000915",
+        "nbc-v1-p314-001012",
+        "nbc-v1-p275-000900"
+      ],
+      "explanation": "Rewriting 'What about the doors in those walls?' to 'What are the fire resistance rating and opening protection r...' yielded top cosine similarity of 0.861 vs. 0.823 (delta: +0.038). Target entity 'boiler room' was present in rewritten chunks (raw query was missing)."
+    },
+    {
+      "turn_id": 3,
+      "raw_query": "Are there any exceptions or ventilation openings permitted for them?",
+      "rewritten_query": "Are there any exceptions or allowable ventilation openings permitted for fire doors and walls in boiler room enclosures under the National Building Code of India?",
+      "target_entity": "boiler room",
+      "raw_top_similarity": 0.7736,
+      "rewritten_top_similarity": 0.7974,
+      "raw_avg_similarity": 0.7406,
+      "rewritten_avg_similarity": 0.7671,
+      "raw_contains_entity": false,
+      "rewritten_contains_entity": true,
+      "similarity_gain": 0.0237,
+      "raw_chunk_ids": [
+        "nbc-v1-p321-001032",
+        "nbc-v1-p321-001033",
+        "nbc-v1-p350-001107",
+        "nbc-v1-p318-001022"
+      ],
+      "rewritten_chunk_ids": [
+        "nbc-v1-p279-000915",
+        "nbc-v1-p321-001033",
+        "nbc-v1-p295-000965",
+        "nbc-v1-p283-000928"
+      ],
+      "explanation": "Rewriting 'Are there any exceptions or ventilation openings permitted for them?' to 'Are there any exceptions or allowable ventilation openings p...' yielded top cosine similarity of 0.797 vs. 0.774 (delta: +0.024). Target entity 'boiler room' was present in rewritten chunks (raw query was missing)."
+    }
+  ]
+}
