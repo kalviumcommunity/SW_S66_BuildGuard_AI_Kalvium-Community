@@ -1,0 +1,117 @@
+# BuildGuard AI — Chat Interface & Query UI
+
+## 1. Overview & Objectives
+
+The BuildGuard RAG pipeline answers National Building Code (NBC) compliance questions by combining dense vector retrieval, cross-encoder re-ranking, and grounded generation. This UI provides an intuitive, real-time web application built with **Streamlit** where architects, engineers, and building compliance officers can:
+- Ask natural-language compliance questions.
+- Inspect grounded answers directly verified against NBC documents.
+- Examine the exact retrieved source chunks with page numbers, section headings, chunk IDs, and relevance scores.
+- Monitor request lifecycle states including in-flight loading indicators, 422 input validation warnings, 503 live LLM configuration notices, and offline connection alerts.
+
+---
+
+## 2. Architecture & Design
+
+```
++-------------------------------------------------------------+
+|                      Streamlit Frontend                      |
+|                     (src/ui/app.py :8501)                   |
+|                                                             |
+|  - Q&A Chat Feed & Input Box                                |
+|  - Grounded Answer Renderer                                 |
+|  - Source Cards (Document, Page, Heading, Chunk ID, Scores) |
+|  - Pipeline Execution Metadata Drawer                       |
+|  - Sidebar: Status Check, Dry-Run Toggle, k-Sliders         |
++------------------------------+------------------------------+
+                               |
+                        HTTP (JSON API)
+                               |
++------------------------------v------------------------------+
+|                       FastAPI Backend                       |
+|                     (src/api/app.py :8000)                  |
+|                                                             |
+|  - POST /query (run_pipeline -> grounded JSON)              |
+|  - GET  /health (liveness & model configurations)           |
+|  - POST /documents/upload (runtime PDF/TXT ingestion)       |
++-------------------------------------------------------------+
+```
+
+---
+
+## 3. Tasks Coverage
+
+| Task | Requirement | Where Implemented |
+|:---|:---|:---|
+| **Task 1** | Build question and answer UI with user input and grounded answer area | `src/ui/app.py` (`st.chat_input`, `st.chat_message`, `st.session_state`) |
+| **Task 2** | Call backend RAG API (`/query`) and render returned answer | `src/ui/client.py` (`RAGClient.query`), `src/ui/app.py` (`run_query`) |
+| **Task 3** | Display retrieved sources with source name, chunk ID, scores, and metadata | `src/ui/components.py` (`render_source_card`, `render_sources_section`) |
+| **Task 4** | Handle loading and error states (422, 503, 500, offline connection) | `src/ui/app.py` (`st.spinner`, custom error banners, diagnostic drawer) |
+| **Task 5** | Commit UI code with sample interaction / verification | `outputs/ui/sample_interaction.json`, `src/ui/generate_sample_interaction.py` |
+
+---
+
+## 4. Key UI Features
+
+### A. Grounded Answers & Source Inspector (Tasks 1, 2, 3)
+- **Grounded Answer**: Renders formatted markdown directly answering the user's NBC query.
+- **Source Badges**:
+  - **Source File**: e.g., `nationalbuilding01.pdf` or runtime-uploaded document.
+  - **Volume & Page**: e.g., `Vol 1, Page 314-315`.
+  - **Section Heading**: e.g., `Part 4 — Fire and Life Safety`.
+  - **Chunk ID**: Monospace deterministic identifier (e.g., `nbc-v1-p314-001012`).
+  - **Relevance Scores**: Cosine similarity (vector search) and Cross-Encoder re-ranking score.
+  - **Text Snippet**: Exact excerpt quoted from the NBC document.
+
+### B. Execution Metadata Drawer
+Displays operational telemetry from the RAG pipeline:
+- **Total Pipeline Latency**: End-to-end execution time in milliseconds.
+- **Stage Breakdown**: Time spent across embedding, retrieval, re-ranking, and generation.
+- **Model Details**: Embedding model (`multi-qa-MiniLM-L6-dot-v1`) and chat model.
+- **Chunk Counts**: Candidate pool size vs. final re-ranked context count.
+
+### C. Robust Loading & Error States (Task 4)
+- **Loading State**: An active `st.spinner` indicates background embedding and vector search.
+- **Validation Errors (422)**: Alerts user when a query is blank or parameters are invalid.
+- **Service Unavailable (503)**: Informative banner explaining missing API keys for live LLM mode, with a tip to enable "Dry-Run Mode" in the sidebar.
+- **Backend Offline**: Clear alert when FastAPI is unreachable, displaying the command to launch it.
+
+---
+
+## 5. Running the Application
+
+### 1. Start the FastAPI Backend
+```bash
+uv run uvicorn src.api.app:app --host 127.0.0.1 --port 8000
+```
+
+### 2. Start the Streamlit User Interface
+```bash
+uv run streamlit run src/ui/app.py --server.port 8501
+# or
+uv run streamlit run streamlit_app.py
+```
+
+### 3. Open in Browser
+Visit `http://localhost:8501` to use the BuildGuard AI query interface.
+
+---
+
+## 6. Sample Interaction Output
+
+A verified real sample interaction generated by querying the live pipeline is stored in [`outputs/ui/sample_interaction.json`](../outputs/ui/sample_interaction.json).
+
+### Example Query
+**Prompt:**
+> *"What is the minimum fire resistance rating required for walls separating a boiler room?"*
+
+**Grounded Answer:**
+> Relevant provisions are found at PDF p. 314-315 and PDF p. 279-280 in Volume 1 (Part 4 — Fire and Life Safety).
+
+**Top Retrieved Source:**
+- **Source**: `nationalbuilding01.pdf`
+- **Page**: `314-315` (Volume 1)
+- **Heading**: `Part 4 — Fire and Life Safety`
+- **Chunk ID**: `nbc-v1-p314-001012`
+- **Cosine Similarity**: `0.825`
+- **Re-rank Score**: `4.07`
+- **Snippet**: *"120 min fire resistance rating wall. Such areas shall be provided with fire doors, to be kept closed and shall be posted with a sign on each room..."*

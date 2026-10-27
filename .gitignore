@@ -31,6 +31,8 @@ outputs/*
 !outputs/rag_evaluation/**
 !outputs/rag_api/
 !outputs/rag_api/**
+!outputs/ui/
+!outputs/ui/**
 
 
 # Python

@@ -1,0 +1,136 @@
+{
+  "title": "BuildGuard AI \u2014 UI Sample Interaction Flow",
+  "timestamp": "2026-10-27T09:10:00Z",
+  "backend": {
+    "base_url": "http://127.0.0.1:8000",
+    "health": {
+      "status": "ok",
+      "config_loaded": true,
+      "chat_configured": false,
+      "missing_chat_settings": [
+        "API_BASE_URL",
+        "API_KEY",
+        "CHAT_MODEL"
+      ],
+      "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "collection_name": "nbc_v1_multi_qa_minilm_l6_dot_v1"
+    }
+  },
+  "task_1_2_3_query_and_grounded_sources": {
+    "user_prompt": "What is the minimum fire resistance rating required for walls separating a boiler room?",
+    "retrieval_parameters": {
+      "candidate_k": 5,
+      "final_k": 2,
+      "hybrid": true,
+      "dry_run": true
+    },
+    "ui_state": "idle -> loading (st.spinner) -> success",
+    "grounded_answer": "[DRY-RUN] Based on the retrieved NBC chunks, the answer relates to: What is the minimum fire resistance rating required for walls separating a boiler room?. Relevant provisions are found at PDF p. 314-315, PDF p. 279-280. [This is a synthetic response \u2014 no LLM was called.]",
+    "status": "success",
+    "retrieved_sources": [
+      {
+        "rank": 1,
+        "id": "nbc-v1-p314-001012",
+        "source": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "314-315",
+        "heading": "Part 4 \u2014 Fire and Life Safety",
+        "cosine_similarity": 0.825289249420166,
+        "rerank_score": 4.0705,
+        "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms contai\u2026"
+      },
+      {
+        "rank": 2,
+        "id": "nbc-v1-p279-000915",
+        "source": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "279-280",
+        "heading": "Part 4 \u2014 Fire and Life Safety",
+        "cosine_similarity": 0.7499222755432129,
+        "rerank_score": 3.9689,
+        "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation \u2014_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. o\u2026"
+      }
+    ],
+    "pipeline_metadata": {
+      "model": "dry-run",
+      "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "candidate_k": 5,
+      "final_k": 2,
+      "rerank_method": "cross_encoder",
+      "hybrid": true,
+      "dry_run": true,
+      "source_count": 2,
+      "context_chars": 4524,
+      "pipeline_elapsed_ms": 196.4,
+      "stages": {
+        "embed": {
+          "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+          "vector_dim": 384,
+          "elapsed_ms": 106.6
+        },
+        "retrieve": {
+          "candidate_k": 5,
+          "retrieved_count": 5,
+          "metadata_filter": null,
+          "hybrid": true,
+          "elapsed_ms": 17.3
+        },
+        "rerank": {
+          "method": "cross_encoder",
+          "final_k": 2,
+          "returned_count": 2,
+          "elapsed_ms": 72.5
+        },
+        "assemble": {
+          "chunk_count": 2,
+          "context_chars": 4524,
+          "elapsed_ms": 0.0
+        },
+        "generate": {
+          "model": "dry-run",
+          "answer_chars": 273,
+          "elapsed_ms": 0.0
+        }
+      },
+      "generated_at": "2026-10-27T09:09:38Z"
+    }
+  },
+  "task_4_loading_and_error_handling": {
+    "loading_state": {
+      "indicator": "st.spinner",
+      "message": "\ud83d\udd0d Querying National Building Code knowledge base & verifying grounding...",
+      "behavior": "Visual loading spinner remains active while HTTP request is in-flight, preventing duplicate submissions."
+    },
+    "error_state_validation_422": {
+      "trigger_input": "   ",
+      "http_status": 422,
+      "error_message": "Validation Error (422): Request body failed validation. (Fields: question)",
+      "error_details": {
+        "status": "error",
+        "error": "invalid_request",
+        "detail": "Request body failed validation.",
+        "fields": [
+          "question"
+        ]
+      },
+      "ui_behavior": "Displays warning banner prompting the user to provide a non-empty question; 422 error mapped cleanly without crashing."
+    },
+    "error_state_unconfigured_503": {
+      "trigger_input": "What is the minimum fire resistance rating required for walls separating a boiler room?",
+      "dry_run": false,
+      "http_status": 503,
+      "error_message": "Service Unavailable (503): Live generation is not configured. Missing environment variable(s): API_BASE_URL, API_KEY, CHAT_MODEL",
+      "error_details": {
+        "status": "error",
+        "error": "service_unavailable",
+        "detail": "Live generation is not configured. Missing environment variable(s): API_BASE_URL, API_KEY, CHAT_MODEL",
+        "fields": null
+      },
+      "ui_behavior": "Displays friendly 503 error banner explaining missing LLM keys, with a tip to enable 'Dry-Run Mode' in the sidebar."
+    },
+    "error_state_connection_offline": {
+      "trigger_condition": "FastAPI backend unreachable or stopped",
+      "ui_behavior": "Displays red alert banner with exact target URL and CLI command to start backend (`uv run uvicorn src.api.app:app`)."
+    }
+  }
+}
