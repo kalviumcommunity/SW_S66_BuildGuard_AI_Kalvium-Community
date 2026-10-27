@@ -61,25 +61,25 @@
       "dry_run": true,
       "source_count": 2,
       "context_chars": 4524,
-      "pipeline_elapsed_ms": 196.4,
+      "pipeline_elapsed_ms": 155.1,
       "stages": {
         "embed": {
           "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
           "vector_dim": 384,
-          "elapsed_ms": 106.6
+          "elapsed_ms": 56.1
         },
         "retrieve": {
           "candidate_k": 5,
           "retrieved_count": 5,
           "metadata_filter": null,
           "hybrid": true,
-          "elapsed_ms": 17.3
+          "elapsed_ms": 13.2
         },
         "rerank": {
           "method": "cross_encoder",
           "final_k": 2,
           "returned_count": 2,
-          "elapsed_ms": 72.5
+          "elapsed_ms": 85.8
         },
         "assemble": {
           "chunk_count": 2,
@@ -92,7 +92,7 @@
           "elapsed_ms": 0.0
         }
       },
-      "generated_at": "2026-10-27T09:09:38Z"
+      "generated_at": "2026-10-27T09:37:14Z"
     }
   },
   "task_4_loading_and_error_handling": {

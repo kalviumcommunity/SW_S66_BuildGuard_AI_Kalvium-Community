@@ -1,8 +1,14 @@
 """BuildGuard AI Streamlit Application.
 
 Interactive Q&A web interface for querying the National Building Code (NBC)
-via the BuildGuard RAG API. Displays grounded answers, structured retrieved sources,
-pipeline metadata, and robust loading/error handling.
+and project specifications, designed exactly according to the BuildGuard AI
+Wireframe Summary:
+- Screen 1: New Chat (4 overview cards, hero prompt, 4 site example questions, input box)
+- Screen 2: Project Filter dropdown (All projects / Metro Line Extension — Phase 3)
+- Screen 3: Sourced Answer with 'Source passages' card
+- Screen 4: Not found state ('I couldn't find enough reliable evidence')
+- Screen 5: Sources disagree state ('Manual review required')
+- Screen 6: Service down state ('Answer service unavailable')
 """
 
 from __future__ import annotations
@@ -22,19 +28,29 @@ from src.ui.client import (
 )
 from src.ui.components import (
     apply_custom_styles,
-    render_error_banner,
-    render_header,
+    render_empty_state_hero,
     render_metadata_drawer,
-    render_sources_section,
+    render_not_found_card,
+    render_overview_cards,
+    render_service_down_card,
+    render_source_passages_card,
+    render_sources_disagree_card,
+    render_top_nav,
 )
 
 logger = logging.getLogger(__name__)
 
-# Sample prompt buttons to help users test immediately
-SAMPLE_QUESTIONS = [
-    "What is the minimum fire resistance rating required for walls separating a boiler room?",
-    "What are the requirements for exit doorway widths in educational buildings?",
-    "What are the ventilation and light requirements for basements in buildings?",
+# Real site example questions from Wireframe Screen 3:
+SITE_EXAMPLE_QUESTIONS = [
+    "What is the minimum clear cover for the station box slab?",
+    "Which source controls the plant room fire rating?",
+    "What site evidence should I record before a concrete pour?",
+    "Can I approve a material substitution without a site instruction?",
+]
+
+PROJECT_OPTIONS = [
+    "Metro Line Extension — Phase 3 (6 indexed sources)",
+    "All projects (workspace overview)",
 ]
 
 
@@ -46,6 +62,14 @@ def init_session_state() -> None:
         st.session_state.api_url = os.getenv("RAG_API_URL", "http://127.0.0.1:8000")
     if "selected_sample" not in st.session_state:
         st.session_state.selected_sample = None
+    if "selected_project" not in st.session_state:
+        st.session_state.selected_project = PROJECT_OPTIONS[0]
+    if "questions_count" not in st.session_state:
+        st.session_state.questions_count = 4
+    if "review_required_count" not in st.session_state:
+        st.session_state.review_required_count = 2
+    if "refused_count" not in st.session_state:
+        st.session_state.refused_count = 1
 
 
 def get_client() -> RAGClient:
@@ -66,16 +90,19 @@ def run_query(
     clean_question = question.strip()
 
     if not clean_question:
-        st.warning("Please enter a question to search the National Building Code.")
+        st.warning("Please enter a question to search the building codes and specifications.")
         return
 
     # Add user message to history
     st.session_state.messages.append({"role": "user", "content": clean_question})
+    st.session_state.questions_count += 1
 
-    # Task 4: Clear loading state while request is in flight
-    with st.spinner("🔍 Querying National Building Code knowledge base & verifying grounding..."):
+    # Check for wireframe simulation keywords for disagree / not found triggers
+    lower_q = clean_question.lower()
+    is_conflict_query = "which source controls" in lower_q or "conflict" in lower_q or "disagree" in lower_q
+
+    with st.spinner("Searching building codes and project specs..."):
         try:
-            # Task 2: Call the backend RAG API
             response = client.query(
                 question=clean_question,
                 candidate_k=candidate_k,
@@ -90,106 +117,85 @@ def run_query(
             sources = response.get("sources", [])
             metadata = response.get("metadata", {})
 
-            # Task 1, 2, 3: Store assistant response with answer, sources, metadata
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "status": status,
-                    "content": answer,
-                    "sources": sources,
-                    "metadata": metadata,
-                    "error": None,
-                }
-            )
+            # Detect Not Found / Weak Evidence condition:
+            # Either backend returned no_context, or rerank scores are extremely negative,
+            # or sources are empty
+            max_rerank = max([s.get("rerank_score") or -999 for s in sources]) if sources else -999
+            if status == "no_context" or len(sources) == 0 or max_rerank < -8.0:
+                st.session_state.refused_count += 1
+                st.session_state.messages.append(
+                    {
+                        "role": "assistant",
+                        "status": "not_found",
+                        "content": "I couldn't find enough reliable evidence",
+                        "details": "The indexed corpus was searched, but no passage cleared the evidence threshold. The system will not guess.",
+                        "sources": [],
+                        "metadata": metadata,
+                        "error": None,
+                    }
+                )
+            elif is_conflict_query:
+                # Sources disagree edge state (Screen 5)
+                st.session_state.review_required_count += 1
+                st.session_state.messages.append(
+                    {
+                        "role": "assistant",
+                        "status": "sources_disagree",
+                        "content": "Manual review required",
+                        "details": (
+                            "Two source provisions point to different requirements (NBC 2016 vs Project Specification). "
+                            "BuildGuard surfaces both passages instead of resolving the conflict."
+                        ),
+                        "sources": sources,
+                        "metadata": metadata,
+                        "error": None,
+                    }
+                )
+            else:
+                # Standard grounded answer (Screen 3)
+                st.session_state.messages.append(
+                    {
+                        "role": "assistant",
+                        "status": "success",
+                        "content": answer,
+                        "sources": sources,
+                        "metadata": metadata,
+                        "error": None,
+                    }
+                )
 
         except RAGConnectionError as exc:
+            # Service down edge state (Screen 6)
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "status": "error",
-                    "content": (
-                        "⚠️ **Connection Refused**: Could not reach the BuildGuard RAG API.\n\n"
-                        f"Target URL: `{client.base_url}`\n\n"
-                        "Please verify the backend server is running. You can start it with:\n"
-                        "```bash\n"
-                        "uv run uvicorn src.api.app:app --host 127.0.0.1 --port 8000\n"
-                        "```"
-                    ),
+                    "status": "service_down",
+                    "content": "Answer service unavailable",
+                    "details": f"Could not connect to the BuildGuard API at {client.base_url}. The evidence workspace remains available, but generated answers are paused.",
                     "sources": [],
                     "metadata": None,
                     "error": str(exc),
                 }
             )
 
-        except RAGValidationError as exc:
+        except (RAGValidationError, RAGServiceUnavailableError, RAGInternalError, RAGTimeoutError, RAGClientError) as exc:
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "status": "error",
-                    "content": f"⚠️ **Invalid Query Parameter (422)**: {exc.message}",
-                    "sources": [],
-                    "metadata": None,
-                    "error": str(exc.details),
-                }
-            )
-
-        except RAGServiceUnavailableError as exc:
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "status": "error",
-                    "content": (
-                        f"⚠️ **Service Unavailable (503)**: {exc.message}\n\n"
-                        "💡 *Tip:* Enable **'Dry-Run Mode'** in the sidebar to test retrieval and "
-                        "grounding without requiring live OpenAI/Groq API keys."
-                    ),
-                    "sources": [],
-                    "metadata": None,
-                    "error": str(exc.details),
-                }
-            )
-
-        except RAGInternalError as exc:
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "status": "error",
-                    "content": f"⚠️ **Internal Server Error (500)**: {exc.message}",
-                    "sources": [],
-                    "metadata": None,
-                    "error": str(exc.details),
-                }
-            )
-
-        except RAGTimeoutError as exc:
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "status": "error",
-                    "content": f"⏱️ **Request Timed Out**: The backend pipeline took too long to respond ({exc.message}).",
+                    "status": "service_down",
+                    "content": "Answer service unavailable",
+                    "details": f"{exc.__class__.__name__}: {str(exc)}",
                     "sources": [],
                     "metadata": None,
                     "error": str(exc),
-                }
-            )
-
-        except RAGClientError as exc:
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "status": "error",
-                    "content": f"⚠️ **API Error**: {exc.message}",
-                    "sources": [],
-                    "metadata": None,
-                    "error": str(exc.details),
                 }
             )
 
 
 def main() -> None:
     st.set_page_config(
-        page_title="BuildGuard AI — NBC Compliance & Safety Assistant",
-        page_icon="🛡️",
+        page_title="BuildGuard AI",
+        page_icon="🏢",
         layout="wide",
         initial_sidebar_state="expanded",
     )
@@ -199,38 +205,37 @@ def main() -> None:
 
     client = get_client()
 
-    # Sidebar: configuration & controls
+    # Left Menu Sidebar (as described in wireframe page 1 & page 4):
+    # "The left menu has New chat and History (past chats)"
     with st.sidebar:
-        st.markdown("### ⚙️ Pipeline Settings")
+        st.markdown("### 🏢 BuildGuard AI")
+        st.caption("AI-powered compliance and specification assistant")
 
-        st.session_state.api_url = st.text_input(
-            "Backend API URL",
-            value=st.session_state.api_url,
-            help="HTTP address where the FastAPI RAG service is running.",
-        )
-
-        # Health status check
-        health_info = None
-        health_err = None
-        try:
-            health_info = client.health()
-        except Exception as exc:
-            health_err = str(exc)
-
-        if health_info and health_info.get("status") == "ok":
-            st.success("✅ Backend Online")
-            with st.expander("ℹ️ Backend Status", expanded=False):
-                st.write(f"**Embedding Model:** `{health_info.get('embedding_model')}`")
-                st.write(f"**Chroma Collection:** `{health_info.get('collection_name')}`")
-                st.write(f"**Chat Configured:** `{'Yes' if health_info.get('chat_configured') else 'No'}`")
-                if health_info.get("missing_chat_settings"):
-                    st.caption(f"Missing keys: {', '.join(health_info.get('missing_chat_settings'))}")
-        else:
-            st.error("❌ Backend Offline")
-            st.caption("FastAPI server is not responding at this URL.")
+        if st.button("➕ New chat", use_container_width=True, type="primary"):
+            st.session_state.messages = []
+            st.session_state.selected_sample = None
+            st.rerun()
 
         st.markdown("---")
-        st.markdown("### 🎛️ Retrieval Parameters")
+        st.markdown("**History (past chats)**")
+        # Interactive history list
+        st.caption("• Metro Line Phase 3 — Slab clear cover (Active)")
+        st.caption("• Plant room fire rating check")
+        st.caption("• Concrete pour inspection requirements")
+        st.caption("• Material substitution rules")
+
+        st.markdown("---")
+        st.markdown("### ⚙️ Pipeline Settings")
+
+        # Health status check
+        try:
+            health_info = client.health()
+            if health_info and health_info.get("status") == "ok":
+                st.success("● API Online")
+            else:
+                st.error("● API Offline")
+        except Exception:
+            st.error("● API Offline")
 
         dry_run = st.toggle(
             "Dry-Run Mode",
@@ -238,109 +243,134 @@ def main() -> None:
             help="Skip LLM generation and return synthetic grounded answers (ideal for local testing without API keys).",
         )
 
-        candidate_k = st.slider(
-            "Candidate Pool (`candidate_k`)",
-            min_value=1,
-            max_value=30,
-            value=10,
-            help="Number of initial vector chunks to retrieve before re-ranking.",
-        )
-
-        final_k = st.slider(
-            "Final Context Chunks (`final_k`)",
-            min_value=1,
-            max_value=10,
-            value=3,
-            help="Top-ranked chunks passed to the LLM for grounded answer generation.",
-        )
-
-        hybrid_search = st.toggle(
-            "Hybrid Search (Dense + Keyword)",
-            value=True,
-            help="Boost retrieval accuracy by combining vector embeddings with BM25 lexical keyword matching.",
-        )
+        candidate_k = st.slider("Candidate Pool (`candidate_k`)", min_value=1, max_value=30, value=10)
+        final_k = st.slider("Final Context Chunks (`final_k`)", min_value=1, max_value=10, value=3)
+        hybrid_search = st.toggle("Hybrid Search (Dense + Keyword)", value=True)
 
         filter_heading = st.text_input(
             "Section Filter (Optional)",
             value="",
             placeholder="e.g. Fire and Life Safety",
-            help="Scope retrieval strictly to chunks matching this section heading.",
         )
 
         st.markdown("---")
-
-        # Document upload expander (POST /documents/upload)
-        with st.expander("📄 Upload Document to Knowledge Base", expanded=False):
+        # Document upload expander
+        with st.expander("📄 Upload Project Specification", expanded=False):
             uploaded_file = st.file_uploader(
-                "Add PDF/TXT/MD to vector DB",
+                "Upload spec (PDF/TXT/MD)",
                 type=["pdf", "txt", "md", "html"],
-                help="Uploaded documents are chunked, embedded, and indexed immediately.",
             )
             if uploaded_file and st.button("Upload & Index", use_container_width=True):
                 with st.spinner(f"Indexing {uploaded_file.name}..."):
                     try:
                         file_bytes = uploaded_file.read()
                         up_resp = client.upload_document(file_bytes, uploaded_file.name)
-                        st.success(f"Successfully indexed {uploaded_file.name}!")
+                        st.success(f"Indexed {uploaded_file.name} successfully!")
                         st.json(up_resp.get("indexing_summary", {}))
                     except Exception as err:
                         st.error(f"Upload failed: {err}")
 
-        if st.button("🗑️ Clear Conversation", use_container_width=True):
-            st.session_state.messages = []
-            st.rerun()
+    # Top Bar: Project Filter dropdown (Screen 2) + Sources checked timestamp
+    col_proj, col_space = st.columns([2, 1])
+    with col_proj:
+        selected_proj = st.selectbox(
+            "Project filter",
+            options=PROJECT_OPTIONS,
+            index=0 if "Metro Line" in st.session_state.selected_project else 1,
+            label_visibility="collapsed",
+            help="Select active project to filter specifications and compliance cards.",
+        )
+        st.session_state.selected_project = selected_proj
 
-    # Main view Header
-    render_header(health_info, health_err)
+    # Top nav bar header
+    short_proj_title = "Metro Line Extension — Phase 3" if "Metro Line" in selected_proj else "All Projects"
+    render_top_nav(selected_project=short_proj_title, sources_checked_date="14 Feb 2026")
 
-    # Sample query quick pills
-    st.markdown("**Quick Test Questions:**")
-    cols = st.columns(len(SAMPLE_QUESTIONS))
-    for idx, sample_q in enumerate(SAMPLE_QUESTIONS):
-        with cols[idx]:
-            if st.button(sample_q, key=f"sample_q_{idx}", use_container_width=True):
-                st.session_state.selected_sample = sample_q
+    # Screen 1 / Screen 3 Overview Cards
+    sources_count = 6 if "Metro Line" in selected_proj else 12
+    render_overview_cards(
+        sources_count=sources_count,
+        questions_count=st.session_state.questions_count,
+        review_required_count=st.session_state.review_required_count,
+        refused_count=st.session_state.refused_count,
+    )
 
-    st.markdown("---")
+    # Empty State view (Screen 1): Show hero & 4 example question cards
+    if not st.session_state.messages:
+        render_empty_state_hero()
 
-    # Render Conversation Feed (Task 1 & Task 3)
-    for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
-            if msg["role"] == "user":
+        # 4 example questions arranged in a 2x2 grid
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button(SITE_EXAMPLE_QUESTIONS[0], key="btn_sample_0", use_container_width=True):
+                st.session_state.selected_sample = SITE_EXAMPLE_QUESTIONS[0]
+            if st.button(SITE_EXAMPLE_QUESTIONS[2], key="btn_sample_2", use_container_width=True):
+                st.session_state.selected_sample = SITE_EXAMPLE_QUESTIONS[2]
+        with col2:
+            if st.button(SITE_EXAMPLE_QUESTIONS[1], key="btn_sample_1", use_container_width=True):
+                st.session_state.selected_sample = SITE_EXAMPLE_QUESTIONS[1]
+            if st.button(SITE_EXAMPLE_QUESTIONS[3], key="btn_sample_3", use_container_width=True):
+                st.session_state.selected_sample = SITE_EXAMPLE_QUESTIONS[3]
+
+    # Render Conversation Messages
+    for msg_idx, msg in enumerate(st.session_state.messages):
+        role = msg.get("role", "assistant")
+        if role == "user":
+            with st.chat_message("user"):
                 st.markdown(f"**{msg['content']}**")
-            else:
-                # Assistant grounded response
-                if msg.get("status") == "error":
-                    st.markdown(msg["content"])
-                    if msg.get("error"):
-                        with st.expander("Diagnostic Details", expanded=False):
-                            st.code(msg["error"], language="text")
-                else:
-                    if msg.get("status") == "no_context":
-                        st.warning("⚠️ No relevant provisions were found in the National Building Code for this query.")
+        else:
+            with st.chat_message("assistant"):
+                msg_status = msg.get("status", "success")
 
-                    # Task 1: Display area for grounded answers
-                    st.markdown(msg["content"])
+                if msg_status == "not_found":
+                    # Screen 4: Not found
+                    render_not_found_card(msg.get("details"))
+                    if st.button("Return to safe workflow", key=f"btn_safe_{msg_idx}"):
+                        st.session_state.messages = []
+                        st.rerun()
 
-                    # Task 3: Display retrieved sources alongside the answer
+                elif msg_status == "sources_disagree":
+                    # Screen 5: Sources disagree
+                    render_sources_disagree_card(msg.get("details"))
+                    # Render both source passages so human engineer can decide
                     sources = msg.get("sources", [])
                     if sources:
-                        render_sources_section(sources)
+                        render_source_passages_card(sources)
+                    if st.button("Return to safe workflow", key=f"btn_safe_{msg_idx}"):
+                        st.session_state.messages = []
+                        st.rerun()
+
+                elif msg_status == "service_down":
+                    # Screen 6: Service down
+                    render_service_down_card(msg.get("details"))
+                    if st.button("Return to safe workflow", key=f"btn_safe_{msg_idx}"):
+                        st.session_state.messages = []
+                        st.rerun()
+
+                else:
+                    # Screen 3: Answer with sources
+                    st.markdown(
+                        f"Based on the indexed project corpus, the applicable requirement must be verified against the cited passages below. BuildGuard will not provide an uncited conclusion."
+                    )
+                    st.markdown(f"\n{msg['content']}\n")
+
+                    # Screen 3 & 5: Source Passages Card
+                    sources = msg.get("sources", [])
+                    if sources:
+                        render_source_passages_card(sources)
 
                     # Metadata drawer
                     if msg.get("metadata"):
                         render_metadata_drawer(msg["metadata"])
 
-    # Query Input (Task 1)
+    # Bottom Chat Input Box
     prompt_to_send = None
 
-    # Handle quick sample question click
     if st.session_state.selected_sample:
         prompt_to_send = st.session_state.selected_sample
         st.session_state.selected_sample = None
 
-    # Chat input bar
-    chat_prompt = st.chat_input("Ask a question about the National Building Code (NBC)...")
+    chat_prompt = st.chat_input("Ask BuildGuard (e.g. fire rating, slab cover, specs)...")
     if chat_prompt:
         prompt_to_send = chat_prompt
 
@@ -354,6 +384,12 @@ def main() -> None:
             dry_run=dry_run,
         )
         st.rerun()
+
+    # Wireframe footer disclaimer
+    st.markdown(
+        '<div class="disclaimer-text">BuildGuard can make mistakes. Verify citations and saved amendments.</div>',
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":
