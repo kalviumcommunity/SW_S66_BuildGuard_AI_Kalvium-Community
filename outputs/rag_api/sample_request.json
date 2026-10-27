@@ -1,0 +1,12 @@
+{
+  "endpoint": "POST /query",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "question": "What is the minimum fire resistance rating required for walls separating a boiler room from other parts of a building?",
+    "candidate_k": 10,
+    "final_k": 3,
+    "dry_run": true
+  }
+}

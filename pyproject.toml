@@ -16,4 +16,6 @@ dependencies = [
     "pymupdf>=1.28.2",
     "pillow>=12.3.0",
     "torchvision>=0.29.1",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
 ]

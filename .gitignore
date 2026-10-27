@@ -29,6 +29,8 @@ outputs/*
 !outputs/conversational_rag/**
 !outputs/rag_evaluation/
 !outputs/rag_evaluation/**
+!outputs/rag_api/
+!outputs/rag_api/**
 
 
 # Python
