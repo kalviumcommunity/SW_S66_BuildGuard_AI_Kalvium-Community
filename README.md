@@ -51,6 +51,7 @@ Processing and application modules are grouped by purpose:
 - `src/images/` — image extraction, grouping, cleanup, and validation.
 - `src/embeddings/` — text vector indexing and similarity ranking.
 - `src/assistant/` — staff assistant, prompt handling, and chat support.
+- `src/api/` — FastAPI backend service exposing the RAG pipeline over HTTP.
 - `src/utils/` — shared utilities such as token counting.
 
 ## Embed volume 1 text chunks
@@ -120,3 +121,21 @@ Outputs are stored under `outputs/images/`:
 An image with either side under 16 px is marked tiny. Images with a shorter side under 64 px or effective placed resolution at or below 150 DPI are marked low resolution. Exact images used at least 8 times and objects with no visible page placement are excluded as PDF components. The gallery shows one low-resolution preview per PDF page, instead of repeating the same page for each image object. Previews render the source PDF at 300 DPI; they cannot restore detail missing from a blurry raster embedded in the PDF. The accepted image chunks are in the volume-specific `image_chunks_volume_N.jsonl` file.
 
 Run both image commands again after changing the source PDF or extraction logic. Validation reads and updates `image_chunks.jsonl` after checking it; the rewrite uses a temporary file so a failed validation does not replace the extracted data.
+
+## RAG backend API
+
+The end-to-end RAG pipeline is exposed as a FastAPI service so a frontend or another backend can request a grounded answer over HTTP. Copy `.env.example` to `.env` and set the chat credentials, then start the server (host/port come from `API_HOST`/`API_PORT`):
+
+```bash
+uv run uvicorn src.api.app:app --reload
+```
+
+Send a question to `POST /query` and receive structured JSON with `answer`, `sources`, `status`, and `metadata`:
+
+```bash
+curl -X POST http://127.0.0.1:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the fire resistance rating for boiler room walls?", "dry_run": true}'
+```
+
+`dry_run: true` runs real retrieval, re-ranking, and context assembly but skips the LLM call, so no API key is required. The endpoint returns `422` for missing/invalid input, `503` when a live request is made without chat credentials configured, and `500` for unexpected pipeline errors. See `docs/BACKEND_API.md` for the full contract, and `outputs/rag_api/sample_request.json` / `sample_response.json` for a worked example. Regenerate the sample with `uv run python -m src.api.generate_sample`.

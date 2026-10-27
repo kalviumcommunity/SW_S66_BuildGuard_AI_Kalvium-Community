@@ -1,0 +1,86 @@
+{
+  "http_status": 200,
+  "body": {
+    "status": "success",
+    "answer": "[DRY-RUN] Based on the retrieved NBC chunks, the answer relates to: What is the minimum fire resistance rating required for walls separating a boiler room from other pa. Relevant provisions are found at PDF p. 314-315, PDF p. 279-280, PDF p. 320-321. [This is a synthetic response — no LLM was called.]",
+    "query": "What is the minimum fire resistance rating required for walls separating a boiler room from other parts of a building?",
+    "sources": [
+      {
+        "rank": 1,
+        "id": "nbc-v1-p314-001012",
+        "source": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "314-315",
+        "heading": "Part 4 — Fire and Life Safety",
+        "cosine_similarity": 0.8264462351799011,
+        "rerank_score": 4.0295,
+        "text_preview": "120 min fire resistance rating wall. Such areas . shall be provided with fire doors, to be kept b) All exterior openings in a boiler room or closed and shall be posted with a sign on each rooms contai…"
+      },
+      {
+        "rank": 2,
+        "id": "nbc-v1-p279-000915",
+        "source": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "279-280",
+        "heading": "Part 4 — Fire and Life Safety",
+        "cosine_similarity": 0.7682436108589172,
+        "rerank_score": 3.7279,
+        "text_preview": "3.4.8.1 Air conditioning and mechanical ventilation —_3.4.8.2.4 The air handling unit room shall not be used requirements of different rooms or areas in any for storage of any combustible materials. o…"
+      },
+      {
+        "rank": 3,
+        "id": "nbc-v1-p320-001031",
+        "source": "nationalbuilding01.pdf",
+        "volume": 1,
+        "page": "320-321",
+        "heading": "Part 4 — Fire and Life Safety",
+        "cosine_similarity": 0.7316129207611084,
+        "rerank_score": 3.2248,
+        "text_preview": "The areas having storage, 600 mm above the ridge of the north light. If, manufacturing, hazardous activities such as paint store, however, the separating wall Isat right angles . to the axis ofthe nor…"
+      }
+    ],
+    "metadata": {
+      "model": "dry-run",
+      "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "candidate_k": 10,
+      "final_k": 3,
+      "rerank_method": "cross_encoder",
+      "hybrid": true,
+      "dry_run": true,
+      "source_count": 3,
+      "context_chars": 6938,
+      "pipeline_elapsed_ms": 183982.0,
+      "stages": {
+        "embed": {
+          "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+          "vector_dim": 384,
+          "elapsed_ms": 78282.4
+        },
+        "retrieve": {
+          "candidate_k": 10,
+          "retrieved_count": 10,
+          "metadata_filter": null,
+          "hybrid": true,
+          "elapsed_ms": 2788.0
+        },
+        "rerank": {
+          "method": "cross_encoder",
+          "final_k": 3,
+          "returned_count": 3,
+          "elapsed_ms": 102911.3
+        },
+        "assemble": {
+          "chunk_count": 3,
+          "context_chars": 6938,
+          "elapsed_ms": 0.1
+        },
+        "generate": {
+          "model": "dry-run",
+          "answer_chars": 302,
+          "elapsed_ms": 0.0
+        }
+      },
+      "generated_at": "2026-10-27T06:20:13Z"
+    }
+  }
+}
