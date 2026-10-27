@@ -149,3 +149,26 @@ curl -X POST http://127.0.0.1:8000/documents/upload -F "file=@./my_addendum.txt"
 ```
 
 Uploads are size- and type-checked (`MAX_UPLOAD_BYTES`, `ALLOWED_EXTENSIONS` from the environment) and stored under `UPLOAD_DIR` with a content-hash-prefixed name. The endpoint returns `201` with an indexing summary, or `400`/`413`/`415`/`422`/`500` for empty, oversized, unsupported, malformed, or failed uploads. See `docs/DOCUMENT_UPLOAD.md`, and regenerate the upload-and-query sample with `uv run python -m src.api.generate_upload_sample`.
+
+## Chat Interface & Query UI
+
+BuildGuard provides an interactive web interface built with Streamlit for querying the National Building Code:
+
+```bash
+# 1. Start the backend API (if not already running)
+uv run uvicorn src.api.app:app --port 8000
+
+# 2. Launch the Streamlit Query UI
+uv run streamlit run src/ui/app.py --server.port 8501
+# or: uv run streamlit run streamlit_app.py
+```
+
+Open `http://localhost:8501` to:
+- Submit natural-language compliance questions and receive grounded answers.
+- Inspect retrieved sources with document filenames, chunk IDs, page/volume references, headings, and relevance scores.
+- Test in dry-run mode (no API key required) or live LLM mode.
+- Upload additional documents directly to the knowledge base at runtime.
+- See detailed error states and pipeline execution metadata.
+
+See `docs/QUERY_UI.md` and `outputs/ui/sample_interaction.json` for details and sample interaction flows.
+
