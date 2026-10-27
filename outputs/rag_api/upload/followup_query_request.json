@@ -1,0 +1,7 @@
+{
+  "endpoint": "POST /query",
+  "body": {
+    "question": "What is the minimum static load a rooftop helipad must support on a Type-2 residential building?",
+    "dry_run": true
+  }
+}

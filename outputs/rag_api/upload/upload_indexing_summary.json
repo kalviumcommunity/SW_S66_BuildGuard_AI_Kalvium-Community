@@ -1,0 +1,24 @@
+{
+  "http_status": 201,
+  "body": {
+    "status": "indexed",
+    "document": "buildguard_addendum_2026.txt",
+    "stored_path": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\bg_upload_demo_deh9xt9l\\uploads\\45d2654352-buildguard_addendum_2026.txt",
+    "indexing": {
+      "document": "buildguard_addendum_2026.txt",
+      "media_type": ".txt",
+      "bytes": 356,
+      "pages": 1,
+      "chunks_created": 1,
+      "chunks_indexed": 1,
+      "collection": "buildguard_upload_demo",
+      "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "total_records_after": 1,
+      "doc_hash": "45d2654352f2944a",
+      "elapsed_ms": 22387.8
+    },
+    "chunk_ids": [
+      "upload-45d2654352f2944a-000000"
+    ]
+  }
+}

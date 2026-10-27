@@ -139,3 +139,13 @@ curl -X POST http://127.0.0.1:8000/query \
 ```
 
 `dry_run: true` runs real retrieval, re-ranking, and context assembly but skips the LLM call, so no API key is required. The endpoint returns `422` for missing/invalid input, `503` when a live request is made without chat credentials configured, and `500` for unexpected pipeline errors. See `docs/BACKEND_API.md` for the full contract, and `outputs/rag_api/sample_request.json` / `sample_response.json` for a worked example. Regenerate the sample with `uv run python -m src.api.generate_sample`.
+
+### Grow the knowledge base at runtime
+
+`POST /documents/upload` accepts a document (`multipart/form-data`, field `file`), then ingests, cleans, chunks, embeds, and indexes it into the same Chroma collection `/query` reads — so new content is searchable immediately, without restarting the app.
+
+```bash
+curl -X POST http://127.0.0.1:8000/documents/upload -F "file=@./my_addendum.txt"
+```
+
+Uploads are size- and type-checked (`MAX_UPLOAD_BYTES`, `ALLOWED_EXTENSIONS` from the environment) and stored under `UPLOAD_DIR` with a content-hash-prefixed name. The endpoint returns `201` with an indexing summary, or `400`/`413`/`415`/`422`/`500` for empty, oversized, unsupported, malformed, or failed uploads. See `docs/DOCUMENT_UPLOAD.md`, and regenerate the upload-and-query sample with `uv run python -m src.api.generate_upload_sample`.

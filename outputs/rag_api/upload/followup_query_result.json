@@ -1,0 +1,64 @@
+{
+  "http_status": 200,
+  "body": {
+    "status": "success",
+    "answer": "[DRY-RUN] Based on the retrieved NBC chunks, the answer relates to: What is the minimum static load a rooftop helipad must support on a Type-2 residential building?. Relevant provisions are found at PDF p. 1. [This is a synthetic response — no LLM was called.]",
+    "query": "What is the minimum static load a rooftop helipad must support on a Type-2 residential building?",
+    "sources": [
+      {
+        "rank": 1,
+        "id": "upload-45d2654352f2944a-000000",
+        "source": "buildguard_addendum_2026.txt",
+        "volume": "",
+        "page": 1,
+        "heading": "",
+        "cosine_similarity": 0.7595046758651733,
+        "rerank_score": 10.6706,
+        "text_preview": "BuildGuard Internal Addendum 2026. Section A12 - Rooftop Helipads. On Type-2 residential buildings, a rooftop helipad must support a minimum static load of 1500 kilograms per square meter and include …"
+      }
+    ],
+    "metadata": {
+      "model": "dry-run",
+      "embedding_model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+      "candidate_k": 10,
+      "final_k": 3,
+      "rerank_method": "cross_encoder",
+      "hybrid": true,
+      "dry_run": true,
+      "source_count": 1,
+      "context_chars": 625,
+      "pipeline_elapsed_ms": 71152.0,
+      "stages": {
+        "embed": {
+          "model": "sentence-transformers/multi-qa-MiniLM-L6-dot-v1",
+          "vector_dim": 384,
+          "elapsed_ms": 7233.6
+        },
+        "retrieve": {
+          "candidate_k": 10,
+          "retrieved_count": 1,
+          "metadata_filter": null,
+          "hybrid": true,
+          "elapsed_ms": 24.5
+        },
+        "rerank": {
+          "method": "cross_encoder",
+          "final_k": 3,
+          "returned_count": 1,
+          "elapsed_ms": 63893.6
+        },
+        "assemble": {
+          "chunk_count": 1,
+          "context_chars": 625,
+          "elapsed_ms": 0.1
+        },
+        "generate": {
+          "model": "dry-run",
+          "answer_chars": 260,
+          "elapsed_ms": 0.0
+        }
+      },
+      "generated_at": "2026-10-27T07:25:33Z"
+    }
+  }
+}

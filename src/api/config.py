@@ -34,6 +34,11 @@ from src.rag_pipeline import (  # noqa: E402
 # Chat / LLM settings that must be present for a live (non-dry-run) call.
 _REQUIRED_CHAT_SETTINGS = ("API_BASE_URL", "API_KEY", "CHAT_MODEL")
 
+# Defaults for runtime document uploads.
+DEFAULT_UPLOAD_DIR = ROOT / "outputs" / "uploads"
+DEFAULT_MAX_UPLOAD_BYTES = 10_000_000  # 10 MB
+DEFAULT_ALLOWED_EXTENSIONS = ".pdf,.txt,.md,.markdown,.html,.htm"
+
 
 def _get(name: str, default: str = "") -> str:
     """Return a stripped env value or *default* when unset/blank."""
@@ -63,6 +68,13 @@ def _get_bool(name: str, default: bool) -> bool:
     return raw in {"1", "true", "yes", "on"}
 
 
+def _get_extensions(name: str, default: str) -> frozenset[str]:
+    """Parse a comma-separated list of file extensions into a normalized set."""
+    raw = _get(name, default)
+    parts = [p.strip().lower() for p in raw.split(",") if p.strip()]
+    return frozenset(p if p.startswith(".") else f".{p}" for p in parts)
+
+
 @dataclass
 class APIConfig:
     """Resolved runtime configuration for the RAG service."""
@@ -85,6 +97,13 @@ class APIConfig:
     # --- Server binding ---
     host: str
     port: int
+
+    # --- Runtime document uploads ---
+    upload_dir: Path = DEFAULT_UPLOAD_DIR
+    max_upload_bytes: int = DEFAULT_MAX_UPLOAD_BYTES
+    allowed_extensions: frozenset[str] = frozenset(
+        ext.strip().lower() for ext in DEFAULT_ALLOWED_EXTENSIONS.split(",")
+    )
 
     # --- Behaviour ---
     default_dry_run: bool = False
@@ -114,6 +133,9 @@ class APIConfig:
             rerank_method=_get("RAG_RERANK_METHOD", DEFAULT_RERANK_METHOD),
             host=_get("API_HOST", "127.0.0.1"),
             port=_get_int("API_PORT", 8000),
+            upload_dir=Path(_get("UPLOAD_DIR", str(DEFAULT_UPLOAD_DIR))),
+            max_upload_bytes=_get_int("MAX_UPLOAD_BYTES", DEFAULT_MAX_UPLOAD_BYTES),
+            allowed_extensions=_get_extensions("ALLOWED_EXTENSIONS", DEFAULT_ALLOWED_EXTENSIONS),
             default_dry_run=_get_bool("RAG_DRY_RUN", False),
         )
 
