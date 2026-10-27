@@ -30,7 +30,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
@@ -41,11 +41,14 @@ from .config import APIConfig, get_config
 from .models import (
     ErrorResponse,
     HealthResponse,
+    IndexingSummary,
     QueryMetadata,
     QueryRequest,
     QueryResponse,
     Source,
+    UploadResponse,
 )
+from .upload import UploadError, index_document
 
 logger = logging.getLogger(__name__)
 
@@ -97,6 +100,20 @@ async def _unhandled_error_handler(request: Request, exc: Exception) -> JSONResp
         detail="The RAG pipeline failed to process this request.",
     )
     return JSONResponse(status_code=500, content=body.model_dump())
+
+
+@app.exception_handler(HTTPException)
+async def _http_error_handler(request: Request, exc: HTTPException) -> JSONResponse:
+    """Render HTTPException raised by handlers as the uniform error envelope."""
+    label = {
+        400: "bad_request",
+        413: "file_too_large",
+        415: "unsupported_format",
+        422: "invalid_request",
+        503: "service_unavailable",
+    }.get(exc.status_code, "error")
+    body = ErrorResponse(error=label, detail=str(exc.detail))
+    return JSONResponse(status_code=exc.status_code, content=body.model_dump())
 
 
 # ---------------------------------------------------------------------------
@@ -218,6 +235,44 @@ def query(request: QueryRequest) -> QueryResponse:
         query=result.query,
         sources=sources,
         metadata=_build_metadata(result, config=config, dry_run=dry_run),
+    )
+
+
+@app.post("/documents/upload", response_model=UploadResponse, status_code=201)
+async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
+    """Accept a document, ingest/embed/index it, and return an indexing summary.
+
+    New content is written to the same Chroma collection the ``/query`` endpoint
+    searches, so it becomes answerable immediately — no restart required.
+    """
+    config = get_config()
+    content = await file.read()
+    logger.info("POST /documents/upload  filename=%r  bytes=%d", file.filename, len(content))
+
+    try:
+        result = index_document(content=content, filename=file.filename or "", config=config)
+    except UploadError as exc:
+        # Map ingestion errors to their declared HTTP status + message.
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    return UploadResponse(
+        status=result.status,
+        document=result.document,
+        stored_path=result.stored_path,
+        indexing=IndexingSummary(
+            document=result.document,
+            media_type=result.media_type,
+            bytes=result.bytes,
+            pages=result.pages,
+            chunks_created=result.chunks_created,
+            chunks_indexed=result.chunks_indexed,
+            collection=result.collection,
+            embedding_model=result.embedding_model,
+            total_records_after=result.total_records_after,
+            doc_hash=result.doc_hash,
+            elapsed_ms=result.elapsed_ms,
+        ),
+        chunk_ids=result.chunk_ids,
     )
 
 

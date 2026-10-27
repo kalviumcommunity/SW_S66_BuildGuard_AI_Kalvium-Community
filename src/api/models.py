@@ -111,3 +111,29 @@ class ErrorResponse(BaseModel):
     error: str
     detail: str | None = None
     fields: list[str] | None = None
+
+
+class IndexingSummary(BaseModel):
+    """Outcome of ingesting, embedding, and indexing one uploaded document."""
+
+    document: str
+    media_type: str
+    bytes: int
+    pages: int
+    chunks_created: int
+    chunks_indexed: int
+    collection: str
+    embedding_model: str
+    total_records_after: int
+    doc_hash: str
+    elapsed_ms: float
+
+
+class UploadResponse(BaseModel):
+    """Response for a successful document upload + indexing (Task 2/3)."""
+
+    status: str = "indexed"
+    document: str
+    stored_path: str
+    indexing: IndexingSummary
+    chunk_ids: list[str] = Field(default_factory=list)
