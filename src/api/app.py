@@ -223,6 +223,7 @@ def query(request: QueryRequest) -> QueryResponse:
         model_name=config.embedding_model,
         persist_dir=config.persist_dir,
         collection_name=config.collection_name,
+        device="cpu",
         dry_run=dry_run,
     )
 
